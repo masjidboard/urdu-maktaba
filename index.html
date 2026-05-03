@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a3a2a">
+<title>مکتبہ دار العلوم اسلامیہ عربیہ تلوجہ</title>
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-dark:  #0f2318;
+    --green-mid:   #1a3a2a;
+    --green-light: #2d5a3d;
+    --green-accent:#4a9060;
+    --gold:        #c9a84c;
+    --gold-light:  #e8c97a;
+    --cream:       #f5f0e8;
+    --cream-dark:  #ede5d4;
+    --text-main:   #1a1a0f;
+    --text-muted:  #5a5a40;
+    --white:       #ffffff;
+    --shadow:      0 2px 12px rgba(0,0,0,0.12);
+    --radius:      10px;
+    --font-ur: 'Noto Nastaliq Urdu', serif;
+    --font-ar: 'Noto Naskh Arabic', serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-ur);
+    background: var(--cream);
+    color: var(--text-main);
+    direction: rtl;
+    min-height: 100vh;
+    font-size: 17px;
+    line-height: 1.9;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: var(--green-dark);
+    color: var(--cream);
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 58px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .header-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .header-search {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 24px;
+    padding: 0 14px;
+    gap: 8px;
+    flex: 1;
+    max-width: 340px;
+  }
+
+  .header-search input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--white);
+    font-family: var(--font-ur);
+    font-size: 0.95rem;
+    width: 100%;
+    direction: rtl;
+  }
+
+  .header-search input::placeholder { color: rgba(255,255,255,0.5); }
+
+  .search-icon {
+    color: rgba(255,255,255,0.6);
+    font-size: 1rem;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  /* ===== BOTTOM NAV ===== */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0; right: 0;
+    background: var(--green-dark);
+    display: flex;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    z-index: 100;
+  }
+
+  .nav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 8px 4px;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: var(--font-ur);
+    font-size: 0.72rem;
+    transition: color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-btn.active { color: var(--gold-light); }
+  .nav-btn svg { width: 22px; height: 22px; }
+
+  /* ===== MAIN LAYOUT ===== */
+  .main {
+    padding-bottom: 70px;
+    min-height: calc(100vh - 58px);
+  }
+
+  /* ===== VIEWS ===== */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ===== HOME ===== */
+  .home-banner {
+    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 60%, var(--green-light) 100%);
+    padding: 28px 20px 24px;
+    text-align: center;
+    color: var(--cream);
+  }
+
+  .home-banner h1 {
+    font-size: 1.35rem;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+  }
+
+  .home-banner p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 16px;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.65);
+    margin-top: 3px;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    padding: 18px 16px 10px;
+    border-bottom: 2px solid var(--gold);
+    margin: 0 16px;
+  }
+
+  /* ===== FANOON GRID ===== */
+  .fanoon-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .fan-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 16px 14px;
+    cursor: pointer;
+    border: 1px solid var(--cream-dark);
+    box-shadow: var(--shadow);
+    transition: transform 0.15s, box-shadow 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .fan-card:active { transform: scale(0.97); }
+
+  .fan-card-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--green-dark);
+  }
+
+  .fan-card-count {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 5px;
+    font-family: var(--font-ur);
+  }
+
+  .fan-card-bar {
+    height: 3px;
+    background: var(--cream-dark);
+    border-radius: 2px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+
+  .fan-card-bar-fill {
+    height: 100%;
+    background: var(--green-accent);
+    border-radius: 2px;
+  }
+
+  /* ===== BOOKS LIST ===== */
+  .books-header {
+    background: var(--green-mid);
+    color: var(--cream);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .back-btn {
+    background: none;
+    border: none;
+    color: var(--gold-light);
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 4px;
+    font-family: var(--font-ur);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .books-header-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold-light);
+  }
+
+  .sub-filter {
+    display: flex;
+    gap: 8px;
+    padding: 10px 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: var(--cream-dark);
+    border-bottom: 1px solid var(--cream-dark);
+  }
+
+  .sub-filter::-webkit-scrollbar { display: none; }
+
+  .sub-pill {
+    white-space: nowrap;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    border: 1px solid var(--green-accent);
+    background: transparent;
+    color: var(--green-dark);
+    cursor: pointer;
+    font-family: var(--font-ur);
+    transition: all 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .sub-pill.active {
+    background: var(--green-dark);
+    color: var(--gold-light);
+    border-color: var(--green-dark);
+  }
+
+  .book-list { padding: 10px 0; }
+
+  .book-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--cream-dark);
+    cursor: pointer;
+    transition: background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .book-item:active { background: var(--cream-dark); }
+
+  .book-icon {
+    width: 42px;
+    height: 54px;
+    background: var(--green-mid);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    color: var(--gold-light);
+  }
+
+  .book-info { flex: 1; min-width: 0; }
+
+  .book-title-text {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.4;
+  }
+
+  .book-author {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+
+  .book-badge {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--cream-dark);
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* ===== READER ===== */
+  .reader-header {
+    background: var(--green-dark);
+    color: var(--cream);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .reader-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .reader-controls {
+    display: flex;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--cream-dark);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    align-items: center;
+  }
+
+  .font-btn {
+    padding: 4px 12px;
+    border: 1px solid var(--green-accent);
+    border-radius: 6px;
+    background: none;
+    cursor: pointer;
+    font-family: var(--font-ur);
+    color: var(--green-dark);
+    font-size: 0.85rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .reader-body {
+    padding: 20px 18px 40px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .reader-body h1, .reader-body h2 {
+    font-family: var(--font-ur);
+    color: var(--green-dark);
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 6px;
+    margin: 24px 0 14px;
+    font-size: 1.15rem;
+  }
+
+  .reader-body p {
+    margin-bottom: 14px;
+    text-align: justify;
+  }
+
+  .arabic-text {
+    font-family: var(--font-ar);
+    font-size: 1.25rem;
+    line-height: 2.2;
+    text-align: center;
+    background: var(--cream-dark);
+    border-right: 4px solid var(--gold);
+    padding: 14px 16px;
+    margin: 16px 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    direction: rtl;
+  }
+
+  /* ===== SEARCH RESULTS ===== */
+  .search-view { padding: 0; }
+
+  .search-bar-main {
+    padding: 12px 16px;
+    background: var(--green-mid);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .search-input-main {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 24px;
+    border: none;
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+    font-family: var(--font-ur);
+    font-size: 1rem;
+    direction: rtl;
+    outline: none;
+  }
+
+  .search-input-main::placeholder { color: rgba(255,255,255,0.5); }
+
+  .result-count {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    padding: 10px 16px 4px;
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  /* ===== AUTHORS ===== */
+  .authors-list { padding: 10px 0; }
+
+  .author-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--cream-dark);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .author-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--green-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-light);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+
+  .author-status {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-top: 3px;
+    display: inline-block;
+  }
+
+  .status-hayat {
+    background: #e6f4ea;
+    color: #2d6a35;
+  }
+
+  .status-wafat {
+    background: var(--cream-dark);
+    color: var(--text-muted);
+  }
+
+  /* ===== HIGHLIGHT ===== */
+  mark {
+    background: var(--gold-light);
+    color: var(--text-main);
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+
+  /* ===== LOADING ===== */
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  @media (min-width: 640px) {
+    .fanoon-grid { grid-template-columns: 1fr 1fr 1fr; }
+    .main { max-width: 720px; margin: 0 auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-title">مکتبہ دار العلوم تلوجہ</div>
+  <div class="header-search" onclick="showView('search'); document.getElementById('searchInputMain').focus()">
+    <span class="search-icon">🔍</span>
+    <input type="text" placeholder="تلاش کریں..." readonly>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- HOME VIEW -->
+  <div class="view active" id="view-home">
+    <div class="home-banner">
+      <h1>مکتبہ دار العلوم اسلامیہ عربیہ تلوجہ</h1>
+      <p>شعبۂ تحقیق</p>
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-num" id="statBooks">0</div>
+          <div class="stat-label">کتابیں</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="statAuthors">0</div>
+          <div class="stat-label">مصنفین</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="statFanoon">0</div>
+          <div class="stat-label">فنون</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">فنون</div>
+    <div class="fanoon-grid" id="fanoonGrid">
+      <div class="loading">لوڈ ہو رہا ہے...</div>
+    </div>
+  </div>
+
+  <!-- BOOKS VIEW -->
+  <div class="view" id="view-books">
+    <div class="books-header">
+      <button class="back-btn" onclick="showView('home')">←</button>
+      <div class="books-header-title" id="booksHeaderTitle">کتابیں</div>
+    </div>
+    <div class="sub-filter" id="subFilter"></div>
+    <div class="book-list" id="bookList"></div>
+  </div>
+
+  <!-- READER VIEW -->
+  <div class="view" id="view-reader">
+    <div class="reader-header">
+      <button class="back-btn" id="readerBackBtn" onclick="readerGoBack()">←</button>
+      <div class="reader-title" id="readerTitle">کتاب</div>
+    </div>
+    <div class="reader-controls">
+      <button class="font-btn" onclick="changeFontSize(-1)">ا−</button>
+      <button class="font-btn" onclick="changeFontSize(1)">ا+</button>
+      <span style="flex:1"></span>
+      <span id="readerMeta" style="font-size:0.78rem;color:var(--text-muted)"></span>
+    </div>
+    <div class="reader-body" id="readerBody" style="font-size:17px"></div>
+  </div>
+
+  <!-- SEARCH VIEW -->
+  <div class="view search-view" id="view-search">
+    <div class="search-bar-main">
+      <button class="back-btn" onclick="showView('home')" style="color:var(--gold-light)">←</button>
+      <input class="search-input-main" id="searchInputMain" type="text"
+             placeholder="عنوان، مصنف، یا متن تلاش کریں..." oninput="doSearch(this.value)" autofocus>
+    </div>
+    <div class="result-count" id="resultCount"></div>
+    <div id="searchResults"></div>
+  </div>
+
+  <!-- AUTHORS VIEW -->
+  <div class="view" id="view-authors">
+    <div style="background:var(--green-mid);padding:14px 16px;">
+      <span style="color:var(--gold-light);font-size:1rem;font-weight:700">مصنفین</span>
+    </div>
+    <div class="authors-list" id="authorsList"></div>
+  </div>
+
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-home" onclick="showView('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+    ہوم
+  </button>
+  <button class="nav-btn" id="nav-search" onclick="showView('search'); setTimeout(()=>document.getElementById('searchInputMain').focus(),100)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    تلاش
+  </button>
+  <button class="nav-btn" id="nav-authors" onclick="showView('authors')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+    </svg>
+    مصنفین
+  </button>
+</nav>
+
+<script>
+// ===== STATE =====
+let allBooks = [], allAuthors = [], allCategories = [];
+let searchIndex = [];
+let currentFanId = null, currentSubId = null;
+let readerFromView = 'home';
+let fontSizeBase = 17;
+
+// ===== LOAD DATA =====
+async function loadData() {
+  try {
+    const [cats, auths, books] = await Promise.all([
+      fetch('data/categories.json').then(r => r.json()),
+      fetch('data/authors.json').then(r => r.json()),
+      fetch('data/books.json').then(r => r.json())
+    ]);
+    allCategories = cats;
+    allAuthors = auths;
+    allBooks = books;
+    buildSearchIndex();
+    renderHome();
+    renderAuthors();
+  } catch(e) {
+    document.getElementById('fanoonGrid').innerHTML =
+      '<div class="loading">ڈیٹا لوڈ نہیں ہو سکا۔ انٹرنیٹ چیک کریں۔</div>';
+  }
+}
+
+// ===== SEARCH INDEX =====
+function buildSearchIndex() {
+  searchIndex = allBooks.map(b => {
+    const author = allAuthors.find(a => a.id === b.author_id);
+    const cat = allCategories.find(c => c.id === b.category);
+    const sub = cat?.subcategories?.find(s => s.id === b.subcategory);
+    return {
+      ...b,
+      authorName: author?.name || '',
+      catName: cat?.name || '',
+      subName: sub?.name || '',
+      searchText: [b.title, author?.name, cat?.name, sub?.name, b.description || ''].join(' ')
+    };
+  });
+}
+
+// ===== RENDER HOME =====
+function renderHome() {
+  document.getElementById('statBooks').textContent = allBooks.length;
+  document.getElementById('statAuthors').textContent = allAuthors.length;
+  document.getElementById('statFanoon').textContent = allCategories.length;
+
+  const grid = document.getElementById('fanoonGrid');
+  const maxCount = Math.max(...allCategories.map(c =>
+    allBooks.filter(b => b.category === c.id).length), 1);
+
+  grid.innerHTML = allCategories.map(cat => {
+    const count = allBooks.filter(b => b.category === cat.id).length;
+    const pct = Math.round((count / maxCount) * 100);
+    return `<div class="fan-card" onclick="openFan('${cat.id}')">
+      <div class="fan-card-name">${cat.name}</div>
+      <div class="fan-card-count">${count} کتاب</div>
+      <div class="fan-card-bar"><div class="fan-card-bar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ===== OPEN FAN =====
+function openFan(fanId) {
+  currentFanId = fanId;
+  currentSubId = null;
+  const cat = allCategories.find(c => c.id === fanId);
+  document.getElementById('booksHeaderTitle').textContent = cat.name;
+
+  const sf = document.getElementById('subFilter');
+  if (cat.subcategories && cat.subcategories.length > 0) {
+    sf.innerHTML = `<button class="sub-pill active" onclick="filterSub(null, this)">سب</button>` +
+      cat.subcategories.map(s =>
+        `<button class="sub-pill" onclick="filterSub('${s.id}', this)">${s.name}</button>`
+      ).join('');
+    sf.style.display = 'flex';
+  } else {
+    sf.innerHTML = '';
+    sf.style.display = 'none';
+  }
+
+  renderBookList(fanId, null);
+  showView('books');
+}
+
+function filterSub(subId, btn) {
+  currentSubId = subId;
+  document.querySelectorAll('.sub-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  renderBookList(currentFanId, subId);
+}
+
+function renderBookList(fanId, subId) {
+  let filtered = allBooks.filter(b => b.category === fanId);
+  if (subId) filtered = filtered.filter(b => b.subcategory === subId);
+
+  const list = document.getElementById('bookList');
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="no-results">اس فن میں ابھی کوئی کتاب نہیں</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(b => bookItemHTML(b)).join('');
+}
+
+function bookItemHTML(b) {
+  const author = allAuthors.find(a => a.id === b.author_id);
+  const authorInfo = author
+    ? `${author.name} ${author.status === 'وفات' ? '(م '+author.death_year+')' : '(حیات)'}`
+    : '';
+  return `<div class="book-item" onclick="openBook('${b.id}')">
+    <div class="book-icon">📖</div>
+    <div class="book-info">
+      <div class="book-title-text">${b.title}</div>
+      <div class="book-author">${authorInfo}</div>
+    </div>
+    ${b.has_arabic ? '<span class="book-badge">عربی+اردو</span>' : ''}
+  </div>`;
+}
+
+// ===== OPEN BOOK =====
+async function openBook(bookId) {
+  const book = allBooks.find(b => b.id === bookId);
+  if (!book) return;
+
+  const author = allAuthors.find(a => a.id === book.author_id);
+  document.getElementById('readerTitle').textContent = book.title;
+  document.getElementById('readerMeta').textContent =
+    author ? author.name : '';
+  document.getElementById('readerBody').innerHTML =
+    '<div class="loading">لوڈ ہو رہا ہے...</div>';
+
+  readerFromView = document.querySelector('.view.active')?.id?.replace('view-','') || 'home';
+  showView('reader');
+
+  try {
+    const resp = await fetch('content/' + book.content_file);
+    const html = await resp.text();
+    document.getElementById('readerBody').innerHTML = html;
+    document.getElementById('readerBody').style.fontSize = fontSizeBase + 'px';
+  } catch(e) {
+    document.getElementById('readerBody').innerHTML =
+      '<div class="no-results">متن لوڈ نہیں ہو سکا۔</div>';
+  }
+}
+
+function readerGoBack() {
+  showView(readerFromView || 'home');
+}
+
+function changeFontSize(delta) {
+  fontSizeBase = Math.min(26, Math.max(13, fontSizeBase + delta));
+  document.getElementById('readerBody').style.fontSize = fontSizeBase + 'px';
+}
+
+// ===== SEARCH =====
+function doSearch(query) {
+  query = query.trim();
+  const res = document.getElementById('searchResults');
+  const cnt = document.getElementById('resultCount');
+
+  if (!query) {
+    res.innerHTML = '';
+    cnt.textContent = '';
+    return;
+  }
+
+  const terms = query.toLowerCase().split(' ').filter(Boolean);
+  const results = searchIndex.filter(b =>
+    terms.every(t => b.searchText.includes(t))
+  );
+
+  cnt.textContent = results.length + ' نتیجہ';
+
+  if (results.length === 0) {
+    res.innerHTML = '<div class="no-results">کوئی نتیجہ نہیں ملا</div>';
+    return;
+  }
+
+  res.innerHTML = results.map(b => {
+    let highlighted = b.title;
+    terms.forEach(t => {
+      highlighted = highlighted.replace(new RegExp(t, 'gi'),
+        m => `<mark>${m}</mark>`);
+    });
+    const author = allAuthors.find(a => a.id === b.author_id);
+    return `<div class="book-item" onclick="openBook('${b.id}')">
+      <div class="book-icon">📖</div>
+      <div class="book-info">
+        <div class="book-title-text">${highlighted}</div>
+        <div class="book-author">${author?.name || ''} — ${b.catName}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== AUTHORS =====
+function renderAuthors() {
+  const list = document.getElementById('authorsList');
+  list.innerHTML = allAuthors.map(a => {
+    const count = allBooks.filter(b => b.author_id === a.id).length;
+    const statusClass = a.status === 'حیات' ? 'status-hayat' : 'status-wafat';
+    const statusText = a.status === 'حیات'
+      ? 'حیات'
+      : `وفات: ${a.death_year || ''}`;
+    return `<div class="author-item" onclick="openAuthorBooks('${a.id}')">
+      <div class="author-avatar">👤</div>
+      <div>
+        <div class="author-name">${a.name}</div>
+        <span class="author-status ${statusClass}">${statusText}</span>
+        <div class="book-author">${count} کتاب</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openAuthorBooks(authorId) {
+  const author = allAuthors.find(a => a.id === authorId);
+  document.getElementById('booksHeaderTitle').textContent = author.name;
+  document.getElementById('subFilter').innerHTML = '';
+  document.getElementById('subFilter').style.display = 'none';
+
+  const filtered = allBooks.filter(b => b.author_id === authorId);
+  const list = document.getElementById('bookList');
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="no-results">اس مصنف کی ابھی کوئی کتاب نہیں</div>';
+  } else {
+    list.innerHTML = filtered.map(b => bookItemHTML(b)).join('');
+  }
+  readerFromView = 'books';
+  showView('books');
+}
+
+// ===== NAVIGATION =====
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name)?.classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const nb = document.getElementById('nav-' + name);
+  if (nb) nb.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ===== INIT =====
+loadData();
+</script>
+</body>
+</html>
