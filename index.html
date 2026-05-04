@@ -2,65 +2,76 @@
 <html lang="ur" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ایڈمن پینل - مکتبہ شافعیہ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f2318">
+<title>ایڈمن پینل — مکتبہ شافعیہ</title>
 <style>
+/* ── FONTS ── */
 @font-face{font-family:'JameelNastaleeq';src:url('fonts/JameelNooriNastaleeq.ttf') format('truetype');font-display:swap}
 :root{
-  --gd:#0f2318;--gm:#1a3a2a;--ga:#4a9060;--gold:#c9a84c;--glo:#e8c97a;
-  --bg:#f5f0e8;--bg2:#ede5d4;--bg3:#ffffff;--tx:#1a1a0f;--tx2:#5a5a40;
-  --sh:0 2px 14px rgba(0,0,0,0.12);--r:10px;--fur:'JameelNastaleeq',serif;
+  --gd:#0f2318;--gm:#1a3a2a;--gl:#2d5a3d;--ga:#4a9060;
+  --gold:#c9a84c;--glo:#e8c97a;
+  --bg:#f5f0e8;--bg2:#ede5d4;--bg3:#ffffff;
+  --tx:#1a1a0f;--tx2:#5a5a40;
+  --sh:0 2px 14px rgba(0,0,0,0.12);
+  --r:10px;
+  --fur:'JameelNastaleeq',serif;
 }
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:var(--fur);background:var(--bg);color:var(--tx);direction:rtl;min-height:100vh;font-size:17px;line-height:2}
 
-/* LOCK SCREEN */
-.lock-screen{position:fixed;inset:0;background:var(--gd);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;padding:24px}
-.lock-logo{font-size:2.5rem;margin-bottom:10px}
-.lock-title{font-size:1.1rem;font-weight:700;color:var(--glo);margin-bottom:4px}
-.lock-sub{font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:24px}
-.lock-input{width:100%;max-width:300px;padding:12px 16px;border-radius:10px;border:2px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-family:var(--fur);font-size:1rem;text-align:center;outline:none;letter-spacing:3px;margin-bottom:12px}
-.lock-input:focus{border-color:var(--gold)}
-.lock-btn{width:100%;max-width:300px;padding:12px;border:none;border-radius:10px;background:var(--gold);color:var(--gd);font-family:var(--fur);font-size:1rem;font-weight:700;cursor:pointer}
-.lock-err{font-size:0.8rem;color:#e74c3c;margin-top:8px;opacity:0;transition:opacity .3s}
-.lock-err.show{opacity:1}
-
-/* ADMIN PANEL */
-.admin-container{display:none;max-width:800px;margin:0 auto;padding-bottom:40px}
-.shead{background:var(--gm);color:#f5f0e8;padding:15px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--sh)}
+/* ── HEADER ── */
+.shead{background:var(--gm);color:#f5f0e8;padding:15px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--sh)}
 .shead-title{font-size:1.1rem;font-weight:700;color:var(--glo)}
-.admin-s{margin:20px}
-.admin-st{font-size:0.9rem;font-weight:700;color:var(--gd);margin-bottom:8px;padding-bottom:4px;border-bottom:2px solid var(--gold)}
-.aform{background:var(--bg3);border-radius:var(--r);padding:18px;box-shadow:var(--sh)}
-.aform label{display:block;font-size:0.8rem;color:var(--tx2);margin-bottom:3px;margin-top:10px}
+.back-link{color:#fff;text-decoration:none;font-size:0.9rem;border:1px solid rgba(255,255,255,0.3);padding:4px 10px;border-radius:6px}
+
+/* ── LAYOUT ── */
+.main-content{max-width:800px;margin:0 auto;padding:20px 0 60px}
+.admin-s{margin:15px 20px 30px}
+.admin-st{font-size:1rem;font-weight:700;color:var(--gd);margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--gold)}
+.aform{background:var(--bg3);border-radius:var(--r);padding:20px;box-shadow:var(--sh)}
+.aform label{display:block;font-size:0.85rem;color:var(--tx2);margin-bottom:4px;margin-top:12px;font-weight:bold}
 .aform label:first-child{margin-top:0}
-.aform input,.aform select,.aform textarea{width:100%;padding:10px 12px;border:1px solid var(--bg2);border-radius:7px;font-family:var(--fur);font-size:0.9rem;color:var(--tx);direction:rtl;background:var(--bg);outline:none;transition:border .2s}
+.aform input,.aform select,.aform textarea{width:100%;padding:10px 12px;border:1px solid var(--bg2);border-radius:7px;font-family:var(--fur);font-size:0.95rem;color:var(--tx);direction:rtl;background:var(--bg);outline:none;transition:border .2s}
 .aform input:focus,.aform select:focus,.aform textarea:focus{border-color:var(--ga)}
-.aform textarea{min-height:90px;resize:vertical}
-.arow{display:flex;gap:10px}
+.aform textarea{min-height:100px;resize:vertical;line-height:1.8}
+.arow{display:flex;gap:12px}
 .arow>*{flex:1}
-.abtn{display:block;width:100%;margin-top:15px;padding:12px;border:none;border-radius:8px;background:var(--gm);color:var(--glo);font-family:var(--fur);font-size:0.95rem;font-weight:700;cursor:pointer}
+.abtn{display:block;width:100%;margin-top:16px;padding:12px;border:none;border-radius:8px;background:var(--gm);color:var(--glo);font-family:var(--fur);font-size:1rem;font-weight:700;cursor:pointer}
 .abtn:active{background:var(--gd)}
 .abtn-sec{background:transparent;border:1px solid var(--ga);color:var(--ga)}
-.abtn-del{background:none;border:1px solid #c0392b;color:#c0392b;width:auto;padding:6px 12px;font-size:0.8rem;margin-top:0}
-.aitm{display:flex;align-items:center;justify-content:space-between;padding:12px 15px;background:var(--bg3);border-radius:7px;margin-bottom:8px;box-shadow:0 1px 4px rgba(0,0,0,0.07);gap:10px}
-.aitm-name{font-size:0.9rem;font-weight:700;color:var(--tx);flex:1}
+.abtn-del{background:none;border:1px solid #c0392b;color:#c0392b;width:auto;padding:5px 12px;font-size:0.8rem;margin-top:0}
+.aitm{display:flex;align-items:center;justify-content:space-between;padding:12px 15px;background:var(--bg3);border-radius:7px;margin-bottom:8px;box-shadow:0 2px 6px rgba(0,0,0,0.06);gap:10px}
+.aitm-name{font-size:0.95rem;font-weight:700;color:var(--tx);flex:1}
 .aitm-sub{font-size:0.75rem;color:var(--tx2);margin-top:2px}
 .aitm-actions{display:flex;gap:6px;flex-shrink:0}
-.abtn-edit{background:none;border:1px solid var(--ga);color:var(--ga);width:auto;padding:6px 12px;font-size:0.8rem;margin-top:0;border-radius:6px;font-family:var(--fur);cursor:pointer}
+.abtn-edit{background:none;border:1px solid var(--ga);color:var(--ga);width:auto;padding:5px 12px;font-size:0.8rem;margin-top:0;border-radius:6px;font-family:var(--fur);cursor:pointer}
 
-/* MODAL & TOAST */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:500;align-items:center;justify-content:center;padding:20px}
+/* ── ADMIN LOCK ── */
+.lock-screen{position:fixed;inset:0;background:var(--gd);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;padding:24px}
+.lock-logo{font-size:3rem;margin-bottom:15px}
+.lock-title{font-size:1.3rem;font-weight:700;color:var(--glo);margin-bottom:6px}
+.lock-sub{font-size:0.9rem;color:rgba(255,255,255,0.6);margin-bottom:30px}
+.lock-input{width:100%;max-width:320px;padding:14px 18px;border-radius:10px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);color:#fff;font-family:var(--fur);font-size:1.1rem;text-align:center;outline:none;letter-spacing:4px;margin-bottom:15px;transition:border .2s}
+.lock-input:focus{border-color:var(--gold)}
+.lock-btn{width:100%;max-width:320px;padding:14px;border:none;border-radius:10px;background:var(--gold);color:var(--gd);font-family:var(--fur);font-size:1.1rem;font-weight:700;cursor:pointer}
+.lock-err{font-size:0.85rem;color:#ff6b6b;margin-top:10px;opacity:0;transition:opacity .3s}
+.lock-err.show{opacity:1}
+
+/* ── EDIT MODAL ── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:500;align-items:center;justify-content:center;padding:20px}
 .modal-bg.open{display:flex}
-.modal{background:var(--bg3);border-radius:var(--r);padding:20px;width:100%;max-width:450px;box-shadow:0 4px 24px rgba(0,0,0,0.3)}
-.modal h3{font-size:1rem;color:var(--tx);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bg2)}
-.modal label{display:block;font-size:0.8rem;color:var(--tx2);margin-bottom:3px;margin-top:10px}
-.modal input,.modal select{width:100%;padding:10px;border:1px solid var(--bg2);border-radius:7px;font-family:var(--fur);font-size:0.9rem;color:var(--tx);direction:rtl;background:var(--bg);outline:none}
-.modal-btns{display:flex;gap:10px;margin-top:15px}
-.modal-btns button{flex:1;padding:10px;border-radius:7px;border:none;font-family:var(--fur);font-size:0.9rem;cursor:pointer}
+.modal{background:var(--bg3);border-radius:var(--r);padding:22px;width:100%;max-width:450px;box-shadow:0 10px 30px rgba(0,0,0,0.4)}
+.modal h3{font-size:1.1rem;color:var(--tx);margin-bottom:15px;padding-bottom:10px;border-bottom:2px solid var(--bg2)}
+.modal label{display:block;font-size:0.85rem;color:var(--tx2);margin-bottom:4px;margin-top:12px;font-weight:bold}
+.modal input,.modal select{width:100%;padding:10px 12px;border:1px solid var(--bg2);border-radius:7px;font-family:var(--fur);font-size:0.95rem;color:var(--tx);direction:rtl;background:var(--bg);outline:none}
+.modal-btns{display:flex;gap:10px;margin-top:20px}
+.modal-btns button{flex:1;padding:12px;border-radius:7px;border:none;font-family:var(--fur);font-size:1rem;cursor:pointer;font-weight:bold}
 .mbtn-save{background:var(--gm);color:var(--glo)}
 .mbtn-cancel{background:var(--bg2);color:var(--tx)}
-.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--gd);color:var(--glo);padding:10px 20px;border-radius:20px;font-size:0.85rem;font-family:var(--fur);z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;box-shadow:var(--sh)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--gd);color:var(--glo);padding:12px 24px;border-radius:30px;font-size:0.9rem;font-family:var(--fur);z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;box-shadow:var(--sh)}
 .toast.show{opacity:1}
 </style>
 </head>
@@ -70,66 +81,82 @@ body{font-family:var(--fur);background:var(--bg);color:var(--tx);direction:rtl;m
   <div class="lock-logo">🔐</div>
   <div class="lock-title">ایڈمن پینل</div>
   <div class="lock-sub">مکتبہ شافعیہ — شعبۂ تحقیق</div>
-  <input class="lock-input" id="lockPass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPass()">
+  <input class="lock-input" id="lockPass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPass()" autocomplete="off">
   <button class="lock-btn" onclick="checkPass()">داخل ہوں</button>
   <div class="lock-err" id="lockErr">پاس ورڈ غلط ہے — دوبارہ کوشش کریں</div>
 </div>
 
-<div class="admin-container" id="adminMain">
+<div id="adminPanel" style="display:none">
   <div class="shead">
-    <div class="shead-title">ایڈمن پینل — ڈیٹا مینیجمنٹ</div>
-    <a href="index.html" style="color:var(--glo);text-decoration:none;font-size:0.9rem">← مین ایپ میں جائیں</a>
+    <div class="shead-title">ایڈمن ڈیش بورڈ</div>
+    <a href="index.html" class="back-link">← مین ایپ</a>
   </div>
 
-  <div class="admin-s">
-    <div class="admin-st">فن شامل کریں</div>
-    <div class="aform">
-      <label>نیا فن کا نام</label><input id="nCatName" placeholder="مثال: شافعی فقہی کتب" dir="rtl">
-      <label>ID (انگریزی، بغیر space)</label><input id="nCatId" placeholder="shafi-fiqh" dir="ltr">
-      <button class="abtn" onclick="addCat()">فن شامل کریں</button>
-    </div>
-    <div id="catList" style="margin-top:15px"></div>
-  </div>
-
-  <div class="admin-s">
-    <div class="admin-st">مصنف شامل کریں</div>
-    <div class="aform">
-      <label>نام</label><input id="nAName" placeholder="مولانا..." dir="rtl">
-      <div class="arow">
-        <div><label>حیات/وفات</label><select id="nASt"><option value="حیات">حیات</option><option value="وفات">وفات</option></select></div>
-        <div><label>سن وفات</label><input id="nADy" type="number" placeholder="1943" dir="ltr"></div>
+  <div class="main-content">
+    <div class="admin-s">
+      <div class="admin-st">فنون (شامل / ترمیم / حذف)</div>
+      <div class="aform">
+        <label>نیا فن کا نام</label>
+        <input id="nCatName" placeholder="مثال: شافعی فقہی کتب" dir="rtl">
+        <label>ID (انگریزی، بغیر space)</label>
+        <input id="nCatId" placeholder="shafi-fiqh" dir="ltr">
+        <button class="abtn" onclick="addCat()">فن شامل کریں</button>
       </div>
-      <label>ادارہ</label><input id="nAIns" placeholder="دار العلوم..." dir="rtl">
-      <button class="abtn" onclick="addAuth()">مصنف شامل کریں</button>
+      <div id="catList" style="margin-top:15px"></div>
     </div>
-    <div id="authList" style="margin-top:15px"></div>
-  </div>
 
-  <div class="admin-s">
-    <div class="admin-st">کتاب شامل کریں</div>
-    <div class="aform">
-      <label>عنوان</label><input id="nBTitle" placeholder="کتاب کا نام..." dir="rtl">
-      <label>مصنف</label><select id="nBAuth" dir="rtl"></select>
-      <label>فن</label><select id="nBCat" dir="rtl" onchange="fillSub()"></select>
-      <label>ذیلی فن</label><select id="nBSub" dir="rtl"></select>
-      <label>زبان</label>
-      <select id="nBLang"><option value="ur">اردو</option><option value="ar">عربی</option><option value="ur-ar">اردو + عربی</option></select>
-      <label>متن فائل (content/ فولڈر میں)</label><input id="nBFile" placeholder="b001.html" dir="ltr">
-      <label>تعارف</label><textarea id="nBDesc" placeholder="مختصر تعارف..." dir="rtl"></textarea>
-      <button class="abtn" onclick="addBook()">کتاب شامل کریں</button>
-    </div>
-    <div id="bookList2" style="margin-top:15px"></div>
-  </div>
-
-  <div class="admin-s">
-    <div class="admin-st">GitHub پر اپلوڈ کرنے کے لیے JSON ڈاؤن لوڈ کریں</div>
-    <div class="aform">
-      <p style="font-size:0.85rem;color:var(--tx2);margin-bottom:10px">یہاں سے فائلیں ڈاؤن لوڈ کر کے GitHub کے <b>data/</b> فولڈر میں اپلوڈ کریں۔</p>
-      <div class="arow">
-        <button class="abtn abtn-sec" onclick="dlJSON('categories')">categories.json</button>
-        <button class="abtn abtn-sec" onclick="dlJSON('authors')">authors.json</button>
+    <div class="admin-s">
+      <div class="admin-st">مصنفین (شامل / ترمیم / حذف)</div>
+      <div class="aform">
+        <label>نام</label>
+        <input id="nAName" placeholder="مولانا..." dir="rtl">
+        <div class="arow">
+          <div><label>حیات/وفات</label>
+            <select id="nASt"><option value="حیات">حیات</option><option value="وفات">وفات</option></select>
+          </div>
+          <div><label>سن وفات</label>
+            <input id="nADy" type="number" placeholder="1943" dir="ltr">
+          </div>
+        </div>
+        <label>ادارہ</label>
+        <input id="nAIns" placeholder="دار العلوم..." dir="rtl">
+        <button class="abtn" onclick="addAuth()">مصنف شامل کریں</button>
       </div>
-      <button class="abtn" onclick="dlJSON('books')">books.json ڈاؤن لوڈ</button>
+      <div id="authList" style="margin-top:15px"></div>
+    </div>
+
+    <div class="admin-s">
+      <div class="admin-st">کتابیں (شامل / ترمیم / حذف)</div>
+      <div class="aform">
+        <label>عنوان</label>
+        <input id="nBTitle" placeholder="کتاب کا نام..." dir="rtl">
+        <label>مصنف</label>
+        <select id="nBAuth" dir="rtl"></select>
+        <label>فن</label>
+        <select id="nBCat" dir="rtl" onchange="fillSub()"></select>
+        <label>ذیلی فن</label>
+        <select id="nBSub" dir="rtl"></select>
+        <label>زبان</label>
+        <select id="nBLang"><option value="ur">اردو</option><option value="ar">عربی</option><option value="ur-ar">اردو + عربی</option></select>
+        <label>متن فائل (content/ فولڈر میں)</label>
+        <input id="nBFile" placeholder="b001.html" dir="ltr">
+        <label>تعارف</label>
+        <textarea id="nBDesc" placeholder="مختصر تعارف..." dir="rtl"></textarea>
+        <button class="abtn" onclick="addBook()">کتاب شامل کریں</button>
+      </div>
+      <div id="bookList2" style="margin-top:15px"></div>
+    </div>
+
+    <div class="admin-s">
+      <div class="admin-st">JSON فائلیں ڈاؤن لوڈ کریں (GitHub پر اپلوڈ کریں)</div>
+      <div class="aform">
+        <p style="font-size:0.85rem;color:var(--tx2);margin-bottom:12px;line-height:1.7">کوئی بھی چیز شامل کرنے یا حذف کرنے کے بعد نیچے دیے گئے بٹنوں سے فائلیں ڈاؤن لوڈ کریں، اور پھر انہیں GitHub repository کے <b>data/</b> فولڈر میں اپلوڈ (Replace) کر دیں۔</p>
+        <div class="arow">
+          <button class="abtn abtn-sec" onclick="dlJSON('categories')">categories.json</button>
+          <button class="abtn abtn-sec" onclick="dlJSON('authors')">authors.json</button>
+        </div>
+        <button class="abtn" onclick="dlJSON('books')">books.json ڈاؤن لوڈ</button>
+      </div>
     </div>
   </div>
 </div>
@@ -144,36 +171,56 @@ body{font-family:var(--fur);background:var(--bg);color:var(--tx);direction:rtl;m
     </div>
   </div>
 </div>
+
 <div class="toast" id="toast"></div>
 
 <script>
+// ── ADMIN LOGIN ──
 const ADMIN_PASS = 'taloja2024';
-let cats=[],auths=[],books=[];
-let editType=null,editId=null;
+const SECRET_KEY = 'open';
+
+function checkAdminAccess() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('admin') === SECRET_KEY) {
+    unlockAdmin();
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+}
 
 function checkPass() {
   const val = document.getElementById('lockPass').value;
-  if (val === ADMIN_PASS || new URLSearchParams(window.location.search).get('admin') === 'open') {
-    document.getElementById('adminLock').style.display = 'none';
-    document.getElementById('adminMain').style.display = 'block';
-    loadData();
+  if (val === ADMIN_PASS) {
+    unlockAdmin();
   } else {
     document.getElementById('lockErr').classList.add('show');
+    document.getElementById('lockPass').value = '';
+    document.getElementById('lockPass').focus();
     setTimeout(() => document.getElementById('lockErr').classList.remove('show'), 3000);
   }
 }
-window.onload = () => { if(new URLSearchParams(window.location.search).get('admin') === 'open') checkPass(); }
 
-async function loadData(){
+function unlockAdmin() {
+  document.getElementById('adminLock').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  loadAdminData();
+}
+
+// ── ADMIN DATA LOGIC ──
+let cats=[], auths=[], books=[];
+let editType=null, editId=null;
+
+async function loadAdminData(){
   try{
     const[c,a,b]=await Promise.all([
       fetch('data/categories.json').then(r=>r.json()),
       fetch('data/authors.json').then(r=>r.json()),
       fetch('data/books.json').then(r=>r.json())
     ]);
-    cats=c;auths=a;books=b;
-    renderAdminLists();fillAdminSelects();
-  }catch(e){ toast('ڈیٹا لوڈ کرنے میں مسئلہ آیا'); }
+    cats=c; auths=a; books=b;
+    renderAdminLists(); fillAdminSelects();
+  }catch(e){
+    toast('ڈیٹا لوڈ نہیں ہو سکا۔');
+  }
 }
 
 function fillAdminSelects(){
@@ -181,76 +228,127 @@ function fillAdminSelects(){
   document.getElementById('nBCat').innerHTML=cats.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
   fillSub();
 }
+
 function fillSub(){
   const cid=document.getElementById('nBCat').value;
   const c=cats.find(x=>x.id===cid);
-  document.getElementById('nBSub').innerHTML=c?.subcategories?.length?c.subcategories.map(s=>`<option value="${s.id}">${s.name}</option>`).join(''):'<option value="">— نہیں —</option>';
+  const ss=document.getElementById('nBSub');
+  ss.innerHTML=c?.subcategories?.length?c.subcategories.map(s=>`<option value="${s.id}">${s.name}</option>`).join(''):'<option value="">— نہیں —</option>';
 }
 
 function renderAdminLists(){
-  document.getElementById('catList').innerHTML=cats.map(c=>`<div class="aitm"><div><div class="aitm-name">${c.name}</div><div class="aitm-sub">${c.id}</div></div><div class="aitm-actions"><button class="abtn-edit" onclick="openEdit('cat','${c.id}')">ترمیم</button><button class="abtn abtn-del" onclick="delCat('${c.id}')">حذف</button></div></div>`).join('');
-  document.getElementById('authList').innerHTML=auths.map(a=>`<div class="aitm"><div><div class="aitm-name">${a.name}</div><div class="aitm-sub">${a.status==='وفات'?'م: '+a.death_year:'حیات'}</div></div><div class="aitm-actions"><button class="abtn-edit" onclick="openEdit('auth','${a.id}')">ترمیم</button><button class="abtn abtn-del" onclick="delAuth('${a.id}')">حذف</button></div></div>`).join('');
-  document.getElementById('bookList2').innerHTML=books.map(b=>`<div class="aitm"><div><div class="aitm-name">${b.title}</div><div class="aitm-sub">${auths.find(a=>a.id===b.author_id)?.name||''}</div></div><div class="aitm-actions"><button class="abtn-edit" onclick="openEdit('book','${b.id}')">ترمیم</button><button class="abtn abtn-del" onclick="delBook('${b.id}')">حذف</button></div></div>`).join('');
+  document.getElementById('catList').innerHTML=cats.map(c=>`
+    <div class="aitm">
+      <div><div class="aitm-name">${c.name}</div><div class="aitm-sub">${c.id} — ${books.filter(b=>b.category===c.id).length} کتاب</div></div>
+      <div class="aitm-actions">
+        <button class="abtn-edit" onclick="openEdit('cat','${c.id}')">ترمیم</button>
+        <button class="abtn abtn-del" onclick="delCat('${c.id}')">حذف</button>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('authList').innerHTML=auths.map(a=>`
+    <div class="aitm">
+      <div><div class="aitm-name">${a.name}</div><div class="aitm-sub">${a.status==='وفات'?'م: '+a.death_year:'حیات'}</div></div>
+      <div class="aitm-actions">
+        <button class="abtn-edit" onclick="openEdit('auth','${a.id}')">ترمیم</button>
+        <button class="abtn abtn-del" onclick="delAuth('${a.id}')">حذف</button>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('bookList2').innerHTML=books.map(b=>`
+    <div class="aitm">
+      <div><div class="aitm-name">${b.title}</div><div class="aitm-sub">${auths.find(a=>a.id===b.author_id)?.name||''}</div></div>
+      <div class="aitm-actions">
+        <button class="abtn-edit" onclick="openEdit('book','${b.id}')">ترمیم</button>
+        <button class="abtn abtn-del" onclick="delBook('${b.id}')">حذف</button>
+      </div>
+    </div>`).join('');
 }
 
 function openEdit(type,id){
   editType=type;editId=id;
+  const m=document.getElementById('editModal');
   const mb=document.getElementById('modalBody');
   if(type==='cat'){
-    const c=cats.find(x=>x.id===id);document.getElementById('modalTitle').textContent='فن کا نام تبدیل کریں';
+    const c=cats.find(x=>x.id===id);
+    document.getElementById('modalTitle').textContent='فن کا نام تبدیل کریں';
     mb.innerHTML=`<label>نام</label><input id="eVal" value="${c.name}" dir="rtl">`;
   }else if(type==='auth'){
-    const a=auths.find(x=>x.id===id);document.getElementById('modalTitle').textContent='مصنف تبدیل کریں';
-    mb.innerHTML=`<label>نام</label><input id="eVal" value="${a.name}" dir="rtl"><label>حیات/وفات</label><select id="eSt"><option ${a.status==='حیات'?'selected':''}>حیات</option><option ${a.status==='وفات'?'selected':''}>وفات</option></select><label>سن وفات</label><input id="eDy" type="number" value="${a.death_year||''}" dir="ltr">`;
+    const a=auths.find(x=>x.id===id);
+    document.getElementById('modalTitle').textContent='مصنف کی معلومات تبدیل کریں';
+    mb.innerHTML=`
+      <label>نام</label><input id="eVal" value="${a.name}" dir="rtl">
+      <label>حیات/وفات</label>
+      <select id="eSt"><option ${a.status==='حیات'?'selected':''}>حیات</option><option ${a.status==='وفات'?'selected':''}>وفات</option></select>
+      <label>سن وفات</label><input id="eDy" type="number" value="${a.death_year||''}" dir="ltr">`;
   }else{
-    const b=books.find(x=>x.id===id);document.getElementById('modalTitle').textContent='کتاب کا عنوان تبدیل کریں';
+    const b=books.find(x=>x.id===id);
+    document.getElementById('modalTitle').textContent='کتاب کا عنوان تبدیل کریں';
     mb.innerHTML=`<label>عنوان</label><input id="eVal" value="${b.title}" dir="rtl">`;
   }
-  document.getElementById('editModal').classList.add('open');
+  m.classList.add('open');
 }
 
 function saveEdit(){
-  if(editType==='cat') cats.find(x=>x.id===editId).name=document.getElementById('eVal').value.trim();
-  else if(editType==='auth'){
+  if(editType==='cat'){
+    cats.find(x=>x.id===editId).name=document.getElementById('eVal').value.trim();
+  }else if(editType==='auth'){
     const a=auths.find(x=>x.id===editId);
-    a.name=document.getElementById('eVal').value.trim();a.status=document.getElementById('eSt').value;a.death_year=parseInt(document.getElementById('eDy').value)||null;
-  }else books.find(x=>x.id===editId).title=document.getElementById('eVal').value.trim();
-  renderAdminLists();fillAdminSelects();closeModal();toast('تبدیلی محفوظ ہوگئی (JSON ڈاؤن لوڈ کریں)');
+    a.name=document.getElementById('eVal').value.trim();
+    a.status=document.getElementById('eSt').value;
+    a.death_year=parseInt(document.getElementById('eDy').value)||null;
+  }else{
+    books.find(x=>x.id===editId).title=document.getElementById('eVal').value.trim();
+  }
+  renderAdminLists(); fillAdminSelects(); closeModal(); toast('تبدیلی محفوظ ہوگئی');
 }
+
 function closeModal(){document.getElementById('editModal').classList.remove('open')}
 
 function addCat(){
-  const n=document.getElementById('nCatName').value.trim(),id=document.getElementById('nCatId').value.trim();
+  const n=document.getElementById('nCatName').value.trim(), id=document.getElementById('nCatId').value.trim();
   if(!n||!id){toast('نام اور ID ضروری ہیں');return;}
-  if(cats.find(c=>c.id===id)){toast('یہ ID موجود ہے');return;}
+  if(cats.find(c=>c.id===id)){toast('یہ ID پہلے سے موجود ہے');return;}
   cats.push({id,name:n,subcategories:[]});
   document.getElementById('nCatName').value='';document.getElementById('nCatId').value='';
   renderAdminLists();fillAdminSelects();toast('فن شامل ہوگیا ✓');
 }
+
 function addAuth(){
-  const n=document.getElementById('nAName').value.trim();if(!n){toast('نام ضروری ہے');return;}
+  const n=document.getElementById('nAName').value.trim();
+  if(!n){toast('نام ضروری ہے');return;}
   auths.push({id:'a'+Date.now(),name:n,status:document.getElementById('nASt').value,death_year:parseInt(document.getElementById('nADy').value)||null,institution:document.getElementById('nAIns').value.trim(),lang:'ur'});
-  document.getElementById('nAName').value='';document.getElementById('nADy').value='';
+  document.getElementById('nAName').value='';document.getElementById('nADy').value='';document.getElementById('nAIns').value='';
   renderAdminLists();fillAdminSelects();toast('مصنف شامل ہوگیا ✓');
 }
+
 function addBook(){
-  const t=document.getElementById('nBTitle').value.trim(),f=document.getElementById('nBFile').value.trim();
-  if(!t||!f){toast('عنوان اور فائل ضروری ہیں');return;}
+  const t=document.getElementById('nBTitle').value.trim(), f=document.getElementById('nBFile').value.trim();
+  if(!t||!f){toast('عنوان اور فائل نام ضروری ہیں');return;}
   books.push({id:'b'+Date.now(),title:t,author_id:document.getElementById('nBAuth').value,category:document.getElementById('nBCat').value,subcategory:document.getElementById('nBSub').value||'',lang:document.getElementById('nBLang').value,has_arabic:document.getElementById('nBLang').value==='ur-ar',content_file:f,description:document.getElementById('nBDesc').value.trim(),added:new Date().toISOString().split('T')[0]});
-  document.getElementById('nBTitle').value='';document.getElementById('nBFile').value='';
+  document.getElementById('nBTitle').value='';document.getElementById('nBFile').value='';document.getElementById('nBDesc').value='';
   renderAdminLists();fillAdminSelects();toast('کتاب شامل ہوگئی ✓');
 }
 
-function delCat(id){if(confirm('حذف کریں؟')){cats=cats.filter(c=>c.id!==id);renderAdminLists();fillAdminSelects();toast('حذف ہوگیا');}}
-function delAuth(id){if(confirm('حذف کریں؟')){auths=auths.filter(a=>a.id!==id);renderAdminLists();fillAdminSelects();toast('حذف ہوگیا');}}
-function delBook(id){if(confirm('حذف کریں؟')){books=books.filter(b=>b.id!==id);renderAdminLists();toast('حذف ہوگئی');}}
+function delCat(id){if(confirm('فن حذف کریں؟')){cats=cats.filter(c=>c.id!==id);renderAdminLists();fillAdminSelects();toast('فن حذف ہوگیا')}}
+function delAuth(id){if(confirm('مصنف حذف کریں؟')){auths=auths.filter(a=>a.id!==id);renderAdminLists();fillAdminSelects();toast('مصنف حذف ہوگیا')}}
+function delBook(id){if(confirm('کتاب حذف کریں؟')){books=books.filter(b=>b.id!==id);renderAdminLists();fillAdminSelects();toast('کتاب حذف ہوگئی')}}
 
 function dlJSON(type){
   const data=type==='categories'?cats:type==='authors'?auths:books;
   const fname=type==='categories'?'categories.json':type==='authors'?'authors.json':'books.json';
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download=fname;a.click();toast(fname+' ڈاؤن لوڈ ہوگئی');
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fname;a.click();
+  toast(fname+' ڈاؤن لوڈ ہوگئی');
 }
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+checkAdminAccess();
 </script>
 </body>
 </html>
