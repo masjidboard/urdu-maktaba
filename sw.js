@@ -1,40 +1,43 @@
-const CACHE = 'maktaba-v1';
-const CORE = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/data/categories.json',
-  '/data/authors.json',
-  '/data/books.json'
-];
+const CACHE_NAME = 'maktaba-cache-v2';
 
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(CORE))
-  );
-  self.skipWaiting();
+// 1. Install Event: نیا سروس ورکر فوراً لاگو کرنے کے لیے
+self.addEventListener('install', (event) => {
+    self.skipWaiting();
 });
 
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    )
-  );
-  self.clients.claim();
+// 2. Activate Event: پرانی کیشے (Cache) کو صاف کرنے کے لیے
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cacheName) => {
+                    if (cacheName !== CACHE_NAME) {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
+    self.clients.claim();
 });
 
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(resp => {
-        if (resp.ok) {
-          const clone = resp.clone();
-          caches.open(CACHE).then(c => c.put(e.request, clone));
-        }
-        return resp;
-      }).catch(() => cached);
-    })
-  );
+// 3. Fetch Event (Network First Strategy)
+self.addEventListener('fetch', (event) => {
+    // براؤزر کے ایکسٹینشنز وغیرہ کو نظر انداز کریں
+    if (!(event.request.url.indexOf('http') === 0)) return;
+
+    event.respondWith(
+        fetch(event.request)
+            .then((networkResponse) => {
+                // اگر انٹرنیٹ چل رہا ہے تو تازہ ڈیٹا لائیں اور اسے کیشے میں بھی محفوظ کر لیں
+                return caches.open(CACHE_NAME).then((cache) => {
+                    cache.put(event.request, networkResponse.clone());
+                    return networkResponse;
+                });
+            })
+            .catch(() => {
+                // اگر انٹرنیٹ بند ہے (آف لائن)، تو محفوظ شدہ کیشے سے ڈیٹا دکھائیں
+                return caches.match(event.request);
+            })
+    );
 });
