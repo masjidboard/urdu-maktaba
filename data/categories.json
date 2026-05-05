@@ -1,7 +1,7 @@
 [
   {
     "id": "shafi-fiqh",
-    "name": "شافعی فقہی کتب",
+    "name": "فقہ",
     "subcategories": [
       {
         "id": "fiqh-kutub",
@@ -24,6 +24,11 @@
   {
     "id": "maqalat",
     "name": "مقالات",
+    "subcategories": []
+  },
+  {
+    "id": "usoolefiqh",
+    "name": "اصول فقہ",
     "subcategories": []
   }
 ]
