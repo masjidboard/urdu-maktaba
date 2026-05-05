@@ -3,10 +3,22 @@
     "id": "shafi-fiqh",
     "name": "شافعی فقہی کتب",
     "subcategories": [
-      { "id": "fiqh-kutub", "name": "فقہی کتب" },
-      { "id": "fatawa-husayniyya", "name": "فتاوی حسینیہ" },
-      { "id": "fatawa-jamia", "name": "فتاوی جامعہ" },
-      { "id": "fatawa-other", "name": "دیگر فتاوی" }
+      {
+        "id": "fiqh-kutub",
+        "name": "فقہی کتب"
+      },
+      {
+        "id": "fatawa-husayniyya",
+        "name": "فتاوی حسینیہ"
+      },
+      {
+        "id": "fatawa-jamia",
+        "name": "فتاوی جامعہ"
+      },
+      {
+        "id": "fatawa-other",
+        "name": "دیگر فتاوی"
+      }
     ]
   },
   {
