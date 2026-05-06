@@ -12,9 +12,12 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
-/* ── FONTS ── */
+/* ── FONTS (آسان ناموں کے ساتھ) ── */
 @font-face{font-family:'JameelNastaleeq';src:url('jameel.ttf') format('truetype');font-display:swap}
 @font-face{font-family:'AlQalam';src:url('alqalam.ttf') format('truetype');font-display:swap}
+/* نئے فونٹس کا اضافہ */
+@font-face{font-family:'Lotus';src:url('lotus.ttf') format('truetype');font-display:swap}
+@font-face{font-family:'TradArab';src:url('tradarab.ttf') format('truetype');font-display:swap}
 
 /* ── THEMES ── */
 :root{
@@ -25,7 +28,8 @@
   --sh:0 2px 14px rgba(0,0,0,0.12);
   --r:10px;
   --fur:'JameelNastaleeq',serif;
-  --far:'AlQalam',serif;
+  --far:'Lotus',serif; /* اب عربی کا ڈیفالٹ فونٹ Lotus ہے */
+  --fhd:'TradArab',serif; /* عنوانات کے لیے مخصوص فونٹ */
 }
 [data-theme="dark"]{
   --bg:#0e0e12;--bg2:#1a1a22;--bg3:#23232e;
@@ -156,6 +160,8 @@ header{
 .rctrl{display:flex;gap:6px;padding:7px 14px;background:var(--bg2);border-bottom:1px solid rgba(0,0,0,0.08);align-items:center;}
 .fbtn{padding:4px 12px;border:1px solid var(--ga);border-radius:6px;background:none;cursor:pointer;font-family:var(--fur);color:var(--tx);font-size:1rem;font-weight:bold;}
 .rbody{padding:17px 16px 40px;max-width:720px;margin:0 auto;background:var(--bg3)}
+
+/* عام ہیڈنگز (جمیل فونٹ کے ساتھ) */
 .rbody h1{font-family:var(--fur);color:var(--gd);border-bottom:2px solid var(--gold);padding-bottom:5px;margin:20px 0 11px;font-size:1.1rem}
 .rbody h2{font-family:var(--fur);color:var(--gm);border-right:3px solid var(--gold);padding-right:8px;margin:16px 0 9px;font-size:1rem}
 .rbody h3{font-family:var(--fur);color:var(--tx2);margin:13px 0 7px;font-size:0.93rem}
@@ -163,6 +169,14 @@ header{
 [data-theme="dark"] .rbody h1,[data-theme="night"] .rbody h1{color:var(--tx)}
 [data-theme="dark"] .rbody h2,[data-theme="night"] .rbody h2{color:var(--tx)}
 
+/* 🔴 نیا اضافہ: خاص عربی ہیڈنگز والا موڈ 🔴 */
+.arab-headings h1, .arab-headings h2, .arab-headings h3 {
+    font-family: var(--fhd) !important;
+    font-size: 1.45rem !important; /* ٹریڈیشنل عربک تھوڑا بڑا ہونا چاہیے */
+    font-weight: bold;
+}
+
+/* عربی متن کی درست سیٹنگ (Lotus فونٹ کے ساتھ) */
 .ar, [lang="ar"] {
   font-family: var(--far) !important; font-size: 1.25em; line-height: 2.3;
   text-align: center; background: var(--bg2); border-right: 4px solid var(--gold);
@@ -307,7 +321,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <button class="back" onclick="history.back()">←</button>
     <div class="shead-title" id="bkTitle">کتابیں</div>
   </div>
-  <!-- لوکل کتابوں کی تلاش -->
   <div class="local-search-box">
     <input type="text" id="localBookSearch" class="local-si" placeholder="اس فہرست میں کتاب تلاش کریں..." oninput="renderBList(curFan, curSid, this.value)">
   </div>
@@ -359,13 +372,11 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <button class="scope-chip" data-scope="book" onclick="setScope(this,'book')">ایک کتاب</button>
   </div>
 
-  <!-- سرچیبل فن سلیکشن (ٹک مارک والا) -->
   <div id="fanSelect" style="display:none;padding:10px 13px;background:var(--bg2)">
     <input type="text" class="local-si" placeholder="فن کا نام لکھیں..." oninput="filterAdvFans(this.value)">
     <div id="advFanList" class="rad-list"></div>
   </div>
   
-  <!-- سرچیبل کتاب سلیکشن (ٹک مارک والا) -->
   <div id="bookSelect" style="display:none;padding:10px 13px;background:var(--bg2)">
     <input type="text" class="local-si" placeholder="کتاب کا نام لکھیں..." oninput="filterAdvBooks(this.value)">
     <div id="advBookList" class="rad-list"></div>
@@ -378,7 +389,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 <!-- AUTHORS LIST VIEW -->
 <div class="view" id="view-authors">
   <div class="shead"><div class="shead-title">مصنفین</div></div>
-  <!-- لوکل مصنفین کی تلاش -->
   <div class="local-search-box">
     <input type="text" id="localAuthorSearch" class="local-si" placeholder="مصنف کا نام تلاش کریں..." oninput="renderAuthors(this.value)">
   </div>
@@ -407,7 +417,11 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <div class="sets-title">عربی متن کا فونٹ</div>
     <div class="sets-card">
       <div class="font-opts" id="arFontOpts">
-        <div class="font-opt active" onclick="setArFont('AlQalam',this)">
+        <div class="font-opt active" onclick="setArFont('Lotus',this)">
+          <span class="font-opt-name">Lotus (لوٹس)</span>
+          <span class="font-opt-preview" style="font-family:'Lotus'">بِسْمِ اللهِ</span>
+        </div>
+        <div class="font-opt" onclick="setArFont('AlQalam',this)">
           <span class="font-opt-name">القلم قرآن مجید</span>
           <span class="font-opt-preview" style="font-family:'AlQalam'">بِسْمِ اللهِ</span>
         </div>
@@ -488,6 +502,13 @@ input[type=range]{flex:1;accent-color:var(--ga)}
       <input id="nBFile" placeholder="b001.html" dir="ltr">
       <label>تعارف</label>
       <textarea id="nBDesc" placeholder="مختصر تعارف..." dir="rtl"></textarea>
+      
+      <!-- نیا اضافہ: ٹریڈیشنل عربک ہیڈنگز کے لیے چیک باکس -->
+      <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:bold;cursor:pointer;background:var(--bg2);padding:8px;border-radius:6px;">
+        <input type="checkbox" id="nBArbHead" style="width:18px;height:18px;margin:0;">
+        عنوانات (Headings) کے لیے 'Traditional Arabic' استعمال کریں
+      </label>
+      
       <button class="abtn" onclick="addBook()">کتاب شامل کریں</button>
     </div>
     <div id="bookList2" style="margin-top:9px"></div>
@@ -614,7 +635,7 @@ function renderHome(){
 
 function openFan(fid){
   curFan=fid; curSid=null;
-  document.getElementById('localBookSearch').value = ''; // سرچ باکس صاف کریں
+  document.getElementById('localBookSearch').value = ''; 
   const c=cats.find(x=>x.id===fid);
   document.getElementById('bkTitle').textContent=c.name;
   const sf=document.getElementById('subf');
@@ -633,7 +654,6 @@ function fSub(sid,btn){
   renderBList(curFan, curSid, document.getElementById('localBookSearch').value);
 }
 
-// کتابوں کی لوکل تلاش
 function renderBList(fid, sid, query = ''){
   let f=books.filter(b=>b.category===fid);
   if(sid) f=f.filter(b=>b.subcategory===sid);
@@ -656,9 +676,7 @@ function bHTML(b){
   </div>`;
 }
 
-// ── فونٹ سائز کا نیا کنٹرول (تیز اور بڑا) ──
 function adjFont(d){
-  // 2 پکسل کی رفتار سے تبدیل ہوگا اور زیادہ سے زیادہ 36 تک جائے گا
   fsize=Math.min(36,Math.max(14,fsize+(d*2))); 
   document.getElementById('rbody').style.fontSize=fsize+'px';
   document.getElementById('fsizeRange').value=fsize;
@@ -685,6 +703,13 @@ async function openBook(bid, searchPayload = null){
     
     document.getElementById('rbody').innerHTML = htmlContent;
     document.getElementById('rbody').style.fontSize=fsize+'px';
+
+    // 🔴 نیا اضافہ: عنوانات کے لیے عربی فونٹ 🔴
+    if(b.has_arab_headings || b.lang === 'ar') {
+        document.getElementById('rbody').classList.add('arab-headings');
+    } else {
+        document.getElementById('rbody').classList.remove('arab-headings');
+    }
 
     if(searchPayload) {
        let parts = searchPayload.split('|');
@@ -747,7 +772,6 @@ function setScope(btn,scope){
   doSearch();
 }
 
-// ── سرچیبل ڈراپ ڈاؤن لسٹ (ٹک مارک والی) ──
 function fillSearchSelects(){
   renderAdvFanList();
   renderAdvBookList();
@@ -782,15 +806,12 @@ function renderAdvBookList(query = '') {
 function filterAdvFans(val) { renderAdvFanList(val); }
 function filterAdvBooks(val) { renderAdvBookList(val); }
 
-// ── ملٹیپل رزلٹ سرچ (شاملہ اسٹائل) ──
 async function doSearch(){
   const q=document.getElementById('si').value.trim();
   const sr=document.getElementById('sr'),rc=document.getElementById('rc');
   if(!q){sr.innerHTML='';rc.textContent='';return;}
   
   const ts=q.toLowerCase().split(' ').filter(Boolean);
-  
-  // نئے ریڈیو بٹن سے ویلیو نکالنا
   const fanId = document.querySelector('input[name="advFanRadio"]:checked')?.value || "";
   const bookId = document.querySelector('input[name="advBookRadio"]:checked')?.value || "";
   const matchMode = document.querySelector('input[name="searchMode"]:checked').value;
@@ -839,7 +860,7 @@ async function doSearch(){
           let occurrenceCount = 0;
 
           while ((match = regex.exec(text)) !== null) {
-              if (occurrenceCount >= 40) break; // لمٹ تاکہ براؤزر ہینگ نہ ہو
+              if (occurrenceCount >= 40) break; 
               
               let snippetText = getSnippetByIndex(text, match[0], match.index);
               searched.push({
@@ -866,9 +887,7 @@ async function doSearch(){
         else ts.forEach(t=>hl=hl.replace(new RegExp(t,'gi'),m=>`<mark class="highlight">${m}</mark>`));
     }
     const a=auths.find(x=>x.id===b.author_id);
-    
     const snippet=b.snippet?`<div style="font-size:0.85rem;color:var(--tx);margin-top:10px;line-height:1.8;background:var(--bg2);padding:10px 12px;border-radius:6px;border-right:3px solid var(--gold);">${b.snippet}</div>`:'';
-    
     let searchPayload = encodeURIComponent(q) + '|' + matchMode + '|' + (b.occurrenceIndex || 0);
     
     return`<div class="bitem" onclick="openBook('${b.id}', '${searchPayload}')" style="flex-direction:column;align-items:stretch;padding-bottom:15px;">
@@ -892,7 +911,6 @@ function getSnippetByIndex(text, term, index){
   return '...' + snip + '...';
 }
 
-// ── مصنفین کی لوکل تلاش ──
 function renderAuthors(query = ''){
   let filtered = auths;
   if(query) {
@@ -917,7 +935,7 @@ function renderAuthors(query = ''){
 
 function openAuthor(aid){
   const a=auths.find(x=>x.id===aid);
-  document.getElementById('localBookSearch').value = ''; // سرچ باکس صاف کریں
+  document.getElementById('localBookSearch').value = ''; 
   document.getElementById('bkTitle').textContent=a.name;
   document.getElementById('subf').innerHTML='';document.getElementById('subf').style.display='none';
   const f=books.filter(b=>b.author_id===aid);
@@ -927,7 +945,7 @@ function openAuthor(aid){
 
 function loadSettings(){
   const th=localStorage.getItem('theme')||'light';
-  const af=localStorage.getItem('arFont')||'AlQalam';
+  const af=localStorage.getItem('arFont')||'Lotus'; /* ڈیفالٹ لوٹس */
   const fs2=parseInt(localStorage.getItem('fsize')||'17');
   setThemeQuiet(th); setArFontQuiet(af);
   fsize=fs2;document.getElementById('fsizeRange').value=fs2;
@@ -1033,7 +1051,12 @@ function openEdit(type,id){
   }else{
     const b=books.find(x=>x.id===id);
     document.getElementById('modalTitle').textContent='کتاب کا عنوان تبدیل کریں';
-    mb.innerHTML=`<label>عنوان</label><input id="eVal" value="${b.title}" dir="rtl">`;
+    // نیا اضافہ: ترمیم والے فارم میں بھی عربی ہیڈنگ کا آپشن
+    mb.innerHTML=`<label>عنوان</label><input id="eVal" value="${b.title}" dir="rtl">
+    <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:bold;cursor:pointer;background:var(--bg2);padding:8px;border-radius:6px;">
+        <input type="checkbox" id="eArbHead" ${b.has_arab_headings ? 'checked' : ''} style="width:18px;height:18px;margin:0;">
+        عنوانات کے لیے 'Traditional Arabic' استعمال کریں
+    </label>`;
   }
   m.classList.add('open');
 }
@@ -1047,7 +1070,9 @@ function saveEdit(){
     a.status=document.getElementById('eSt').value;
     a.death_year=parseInt(document.getElementById('eDy').value)||null;
   }else{
-    books.find(x=>x.id===editId).title=document.getElementById('eVal').value.trim();
+    let b = books.find(x=>x.id===editId);
+    b.title=document.getElementById('eVal').value.trim();
+    b.has_arab_headings = document.getElementById('eArbHead').checked;
   }
   buildIdx();renderHome();renderAuthors();renderAdminLists();fillSearchSelects();
   closeModal();toast('تبدیلی محفوظ ہوگئی');
@@ -1086,9 +1111,12 @@ function addBook(){
     subcategory:document.getElementById('nBSub').value||'',
     lang:document.getElementById('nBLang').value,
     has_arabic:document.getElementById('nBLang').value==='ur-ar',
+    has_arab_headings: document.getElementById('nBArbHead').checked, /* نیا اضافہ */
     content_file:f,description:document.getElementById('nBDesc').value.trim(),
     added:new Date().toISOString().split('T')[0]});
-  document.getElementById('nBTitle').value='';document.getElementById('nBFile').value='';document.getElementById('nBDesc').value='';
+  
+  document.getElementById('nBTitle').value='';document.getElementById('nBFile').value='';
+  document.getElementById('nBDesc').value=''; document.getElementById('nBArbHead').checked = false;
   buildIdx();renderHome();renderAdminLists();fillSearchSelects();toast('کتاب شامل ہوگئی ✓');
 }
 
