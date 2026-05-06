@@ -12,11 +12,9 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
-/* ── FONTS ── */
-@font-face{font-family:'JameelNastaleeq';src:url('fonts/JameelNooriNastaleeq.ttf') format('truetype');font-display:swap}
-@font-face{font-family:'NafeesWeb';src:url('fonts/NafeesWebNaskh.ttf') format('truetype');font-display:swap}
-@font-face{font-family:'AlQalam';src:url('fonts/AlQalamQuranMajeed.ttf') format('truetype');font-display:swap}
-@font-face{font-family:'Scheherazade';src:url('fonts/ScheherazadeNew.ttf') format('truetype');font-display:swap}
+/* ── FONTS (آسان ناموں کے ساتھ) ── */
+@font-face{font-family:'JameelNastaleeq';src:url('jameel.ttf') format('truetype');font-display:swap}
+@font-face{font-family:'AlQalam';src:url('alqalam.ttf') format('truetype');font-display:swap}
 
 /* ── THEMES ── */
 :root{
@@ -27,7 +25,7 @@
   --sh:0 2px 14px rgba(0,0,0,0.12);
   --r:10px;
   --fur:'JameelNastaleeq',serif;
-  --far:'AlQalam',serif; /* یہ ڈیفالٹ عربی فونٹ ہے جسے ہم JS سے کنٹرول کریں گے */
+  --far:'AlQalam',serif;
 }
 [data-theme="dark"]{
   --bg:#0e0e12;--bg2:#1a1a22;--bg3:#23232e;
@@ -128,7 +126,6 @@ header{
 .binfo{flex:1;min-width:0}
 .btitle{font-size:0.9rem;font-weight:700;color:var(--tx);line-height:1.4}
 .bauthor{font-size:0.73rem;color:var(--tx2);margin-top:2px}
-.bbadge{font-size:0.66rem;padding:2px 6px;border-radius:8px;background:var(--bg2);color:var(--tx2);white-space:nowrap;flex-shrink:0;}
 
 /* ── READER ── */
 .rhead{background:var(--gd);padding:11px 14px;display:flex;align-items:center;gap:8px}
@@ -139,11 +136,11 @@ header{
 .rbody h1{font-family:var(--fur);color:var(--gd);border-bottom:2px solid var(--gold);padding-bottom:5px;margin:20px 0 11px;font-size:1.1rem}
 .rbody h2{font-family:var(--fur);color:var(--gm);border-right:3px solid var(--gold);padding-right:8px;margin:16px 0 9px;font-size:1rem}
 .rbody h3{font-family:var(--fur);color:var(--tx2);margin:13px 0 7px;font-size:0.93rem}
-.rbody p{font-family:var(--fur); margin-bottom:12px;text-align:justify} /* اردو فونٹ کی یقینی دہانی */
+.rbody p{font-family:var(--fur); margin-bottom:12px;text-align:justify}
 [data-theme="dark"] .rbody h1,[data-theme="night"] .rbody h1{color:var(--tx)}
 [data-theme="dark"] .rbody h2,[data-theme="night"] .rbody h2{color:var(--tx)}
 
-/* عربی متن کی درست سیٹنگ (اب یہ آٹو اپلائی ہوگا) */
+/* عربی متن کی درست سیٹنگ */
 .ar, [lang="ar"] {
   font-family: var(--far) !important;
   font-size: 1.25em; 
@@ -158,7 +155,6 @@ header{
   color: var(--tx);
   display: block;
 }
-/* ان لائن عربی کے لیے */
 span.ar { display: inline; background: transparent; padding: 0; border: none; margin: 0; }
 
 /* ── SEARCH ── */
@@ -172,7 +168,7 @@ span.ar { display: inline; background: transparent; padding: 0; border: none; ma
 .sfchip{padding:4px 11px;border-radius:15px;font-size:0.76rem;border:1px solid var(--ga);background:transparent;color:var(--tx);cursor:pointer;font-family:var(--fur);transition:all .14s;}
 .sfchip.active{background:var(--gd);color:var(--glo);border-color:var(--gd)}
 
-/* سرچ کے نئے آپشنز (Radio Buttons) */
+/* سرچ کے نئے آپشنز */
 .search-mode-row {
   display: flex; gap: 15px; padding: 8px 13px; background: var(--bg2); 
   border-bottom: 1px solid rgba(0,0,0,0.07); align-items: center;
@@ -189,7 +185,6 @@ span.ar { display: inline; background: transparent; padding: 0; border: none; ma
 .rcount{font-size:0.78rem;color:var(--tx2);padding:8px 14px 3px}
 .nores{text-align:center;padding:36px 17px;color:var(--tx2);font-size:0.9rem}
 
-/* سرچ ہائی لائٹ کا ڈیزائن */
 mark.highlight, mark {
   background-color: #ffeb3b !important;
   color: #000 !important;
@@ -285,7 +280,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 </head>
 <body data-theme="light">
 
-<!-- PWA Install Banner -->
 <div class="install-banner" id="installBanner">
   <p>مکتبہ شافعیہ کو انسٹال کریں — آف لائن بھی کام کرے گا</p>
   <button class="install-btn" onclick="installPWA()">انسٹال کریں</button>
@@ -306,7 +300,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 
 <main class="main">
 
-<!-- HOME -->
 <div class="view active" id="view-home">
   <div class="banner">
     <h1>مکتبہ شافعیہ</h1>
@@ -321,20 +314,18 @@ input[type=range]{flex:1;accent-color:var(--ga)}
   <div class="fgrid" id="fgrid"><div class="loading">لوڈ ہو رہا ہے...</div></div>
 </div>
 
-<!-- BOOKS -->
 <div class="view" id="view-books">
   <div class="shead">
-    <button class="back" id="bkBack">←</button>
+    <button class="back" onclick="history.back()">←</button>
     <div class="shead-title" id="bkTitle">کتابیں</div>
   </div>
   <div class="subf" id="subf"></div>
   <div class="blist" id="blist"></div>
 </div>
 
-<!-- READER -->
 <div class="view" id="view-reader">
   <div class="rhead">
-    <button class="back" onclick="readerBack()">←</button>
+    <button class="back" onclick="history.back()">←</button>
     <div class="rtitle" id="rtitle">کتاب</div>
   </div>
   <div class="rctrl">
@@ -346,14 +337,12 @@ input[type=range]{flex:1;accent-color:var(--ga)}
   <div class="rbody" id="rbody" style="font-size:17px"></div>
 </div>
 
-<!-- SEARCH -->
 <div class="view search-view" id="view-search">
   <div class="search-top">
-    <button class="back" onclick="showView('home')" style="color:var(--glo)">←</button>
+    <button class="back" onclick="history.back()" style="color:var(--glo)">←</button>
     <input class="si" id="si" type="text" placeholder="یہاں تلاش کریں..." oninput="doSearch()">
   </div>
 
-  <!-- نوع تلاش (عنوان، مصنف، متن) -->
   <div class="sfilt">
     <span class="sfilt-label">کیا تلاش کریں:</span>
     <button class="sfchip active" data-type="title" onclick="setType(this,'title')">عنوان</button>
@@ -362,7 +351,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <button class="sfchip" data-type="all" onclick="setType(this,'all')">سب میں</button>
   </div>
 
-  <!-- سرچ کا طریقہ (نیا اضافہ) -->
   <div class="search-mode-row">
     <span class="sfilt-label" style="margin-left: 5px;">طریقہ:</span>
     <label><input type="radio" name="searchMode" value="exact" onchange="doSearch()"> عین مطابق</label>
@@ -370,7 +358,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <label><input type="radio" name="searchMode" value="any" onchange="doSearch()"> کوئی لفظ</label>
   </div>
 
-  <!-- دائرہ تلاش -->
   <div class="sscope">
     <span class="sfilt-label" style="font-size:0.73rem;color:var(--tx2);align-self:center;flex-shrink:0">دائرہ:</span>
     <button class="scope-chip active" data-scope="all" onclick="setScope(this,'all')">ساری کتابیں</button>
@@ -378,7 +365,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <button class="scope-chip" data-scope="book" onclick="setScope(this,'book')">ایک کتاب</button>
   </div>
 
-  <!-- فن / کتاب منتخب کریں -->
   <div id="fanSelect" style="display:none;padding:7px 13px;background:var(--bg2)">
     <select id="fanSelectBox" onchange="doSearch()" style="width:100%;padding:7px 11px;border-radius:7px;border:1px solid var(--bg2);font-family:var(--fur);font-size:0.88rem;color:var(--tx);background:var(--bg);direction:rtl">
       <option value="">— فن منتخب کریں —</option>
@@ -394,20 +380,17 @@ input[type=range]{flex:1;accent-color:var(--ga)}
   <div id="sr"></div>
 </div>
 
-<!-- AUTHORS -->
 <div class="view" id="view-authors">
   <div class="shead"><div class="shead-title">مصنفین</div></div>
   <div id="alist"></div>
 </div>
 
-<!-- SETTINGS -->
 <div class="view" id="view-settings">
   <div class="shead">
-    <button class="back" onclick="showView('home')" style="color:var(--glo)">←</button>
+    <button class="back" onclick="history.back()" style="color:var(--glo)">←</button>
     <div class="shead-title">سیٹنگ</div>
   </div>
 
-  <!-- تھیم -->
   <div class="sets-section">
     <div class="sets-title">تھیم (رنگ)</div>
     <div class="sets-card">
@@ -419,7 +402,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     </div>
   </div>
 
-  <!-- عربی فونٹ -->
   <div class="sets-section">
     <div class="sets-title">عربی متن کا فونٹ</div>
     <div class="sets-card">
@@ -428,19 +410,10 @@ input[type=range]{flex:1;accent-color:var(--ga)}
           <span class="font-opt-name">القلم قرآن مجید</span>
           <span class="font-opt-preview" style="font-family:'AlQalam'">بِسْمِ اللهِ</span>
         </div>
-        <div class="font-opt" onclick="setArFont('NafeesWeb',this)">
-          <span class="font-opt-name">نفیس ویب نسخ</span>
-          <span class="font-opt-preview" style="font-family:'NafeesWeb'">بِسْمِ اللهِ</span>
-        </div>
-        <div class="font-opt" onclick="setArFont('Scheherazade',this)">
-          <span class="font-opt-name">شہرزاد نیو</span>
-          <span class="font-opt-preview" style="font-family:'Scheherazade'">بِسْمِ اللهِ</span>
-        </div>
       </div>
     </div>
   </div>
 
-  <!-- فونٹ سائز -->
   <div class="sets-section">
     <div class="sets-title">متن کا سائز</div>
     <div class="sets-card">
@@ -454,14 +427,12 @@ input[type=range]{flex:1;accent-color:var(--ga)}
   </div>
 </div>
 
-<!-- ADMIN -->
 <div class="view admin-view" id="view-admin">
   <div class="shead">
-    <button class="back" onclick="showView('home')" style="color:var(--glo)">←</button>
+    <button class="back" onclick="history.back()" style="color:var(--glo)">←</button>
     <div class="shead-title">ایڈمن پینل — ریموٹ کنٹرول</div>
   </div>
 
-  <!-- فن -->
   <div class="admin-s">
     <div class="admin-st">فنون (شامل / ترمیم / حذف)</div>
     <div class="aform">
@@ -474,7 +445,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <div id="catList" style="margin-top:9px"></div>
   </div>
 
-  <!-- مصنف -->
   <div class="admin-s">
     <div class="admin-st">مصنفین (شامل / ترمیم / حذف)</div>
     <div class="aform">
@@ -495,7 +465,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <div id="authList" style="margin-top:9px"></div>
   </div>
 
-  <!-- کتاب -->
   <div class="admin-s">
     <div class="admin-st">کتابیں (شامل / ترمیم / حذف)</div>
     <div class="aform">
@@ -522,11 +491,9 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <div id="bookList2" style="margin-top:9px"></div>
   </div>
 
-  <!-- JSON Download -->
   <div class="admin-s">
-    <div class="admin-st">JSON فائلیں ڈاؤن لوڈ کریں (GitHub پر اپلوڈ کریں)</div>
+    <div class="admin-st">JSON فائلیں ڈاؤن لوڈ کریں</div>
     <div class="aform">
-      <p style="font-size:0.8rem;color:var(--tx2);margin-bottom:10px">تبدیلی کے بعد یہ فائلیں ڈاؤن لوڈ کریں اور GitHub repository میں data/ فولڈر میں اپلوڈ کریں۔</p>
       <div class="arow">
         <button class="abtn abtn-sec" onclick="dlJSON('categories')">categories.json</button>
         <button class="abtn abtn-sec" onclick="dlJSON('authors')">authors.json</button>
@@ -534,12 +501,10 @@ input[type=range]{flex:1;accent-color:var(--ga)}
       <button class="abtn" onclick="dlJSON('books')">books.json ڈاؤن لوڈ</button>
     </div>
   </div>
-
 </div>
 
 </main>
 
-<!-- BOTTOM NAV -->
 <nav class="bnav">
   <button class="nbtn active" id="nav-home" onclick="showView('home')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -559,7 +524,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
   </button>
 </nav>
 
-<!-- Edit Modal -->
 <div class="modal-bg" id="editModal">
   <div class="modal">
     <h3 id="modalTitle">ترمیم</h3>
@@ -574,7 +538,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 <div class="toast" id="toast"></div>
 
 <script>
-// ── ADMIN ──
 const SECRET_KEY = 'taloja786';
 let adminUnlocked = false;
 
@@ -587,17 +550,12 @@ function checkAdminAccess() {
   }
 }
 
-// ── STATE ──
-let cats=[],auths=[],books=[];
-let idx=[];
+let cats=[],auths=[],books=[],idx=[];
 let curFan=null,rdFrom='home';
-let fsize=17;
-let srchType='title',srchScope='all';
-let editType=null,editId=null;
-let contentCache={};
+let fsize=17,srchType='title',srchScope='all';
+let editType=null,editId=null,contentCache={};
 let deferredPrompt=null;
 
-// ── PWA ──
 window.addEventListener('beforeinstallprompt',e=>{
   e.preventDefault();deferredPrompt=e;
   document.getElementById('installBanner').classList.add('show');
@@ -609,7 +567,6 @@ function installPWA(){
 }
 function dismissInstall(){document.getElementById('installBanner').classList.remove('show')}
 
-// ── LOAD DATA ──
 async function load(){
   try{
     const[c,a,b]=await Promise.all([
@@ -621,6 +578,7 @@ async function load(){
     buildIdx();renderHome();renderAuthors();
     renderAdminLists();fillAdminSelects();fillSearchSelects();
     loadSettings();
+    history.replaceState({view: 'home'}, '', '#home'); // ہارڈویئر بیک بٹن کی بنیاد
   }catch(e){
     document.getElementById('fgrid').innerHTML='<div class="loading">ڈیٹا لوڈ نہیں ہوا</div>';
   }
@@ -636,7 +594,6 @@ function buildIdx(){
   });
 }
 
-// ── HOME & FAN ──
 function renderHome(){
   document.getElementById('sB').textContent=books.length;
   document.getElementById('sA').textContent=auths.length;
@@ -657,7 +614,6 @@ function openFan(fid){
   curFan=fid;
   const c=cats.find(x=>x.id===fid);
   document.getElementById('bkTitle').textContent=c.name;
-  document.getElementById('bkBack').onclick=()=>showView('home');
   const sf=document.getElementById('subf');
   if(c.subcategories?.length){
     sf.innerHTML=`<button class="pill active" onclick="fSub(null,this)">سب</button>`+
@@ -691,14 +647,13 @@ function bHTML(b){
   </div>`;
 }
 
-// ── READER (مع ہائی لائٹ اور آٹو سکرول) ──
+// ── READER (سمارٹ ہائی لائٹ کے ساتھ) ──
 async function openBook(bid, searchPayload = null){
   const b=books.find(x=>x.id===bid);if(!b)return;
   const a=auths.find(x=>x.id===b.author_id);
   document.getElementById('rtitle').textContent=b.title;
   document.getElementById('rmeta').textContent=a?.name||'';
   document.getElementById('rbody').innerHTML='<div class="loading">لوڈ ہو رہا ہے...</div>';
-  rdFrom=document.querySelector('.view.active')?.id?.replace('view-','')||'home';
   showView('reader');
   
   try{
@@ -714,14 +669,13 @@ async function openBook(bid, searchPayload = null){
     document.getElementById('rbody').innerHTML = htmlContent;
     document.getElementById('rbody').style.fontSize=fsize+'px';
 
-    // اگر سرچ سے آئے ہیں تو الفاظ کو ہائی لائٹ کریں اور وہاں چلے جائیں
     if(searchPayload) {
        let parts = searchPayload.split('|');
        let query = decodeURIComponent(parts[0]);
        let matchMode = parts[1];
        highlightAndScroll(query, matchMode);
     } else {
-       window.scrollTo(0,0); // ورنہ کتاب کے شروع میں رہیں
+       window.scrollTo(0,0);
     }
 
   }catch{
@@ -734,30 +688,41 @@ function highlightAndScroll(query, matchMode) {
   let content = rbody.innerHTML;
   
   let words = matchMode === 'exact' ? [query.trim()] : query.trim().split(/\s+/).filter(Boolean);
-  
-  // بڑے الفاظ پہلے ہائی لائٹ ہوں تاکہ چھوٹے الفاظ ان کے اندر گڑبڑ نہ کریں
-  words.sort((a,b) => b.length - a.length);
+  words.sort((a,b) => b.length - a.length); // بڑے الفاظ پہلے ہائی لائٹ کریں
   
   let pattern = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
   if (pattern) {
-      // جادوئی ریجیکس: یہ صرف ان الفاظ کو ہائی لائٹ کرے گا جو HTML ٹیگز (< >) سے باہر ہیں
       let regex = new RegExp(`(?![^<]+>)(${pattern})`, 'gi');
       rbody.innerHTML = content.replace(regex, `<mark class="highlight">$1</mark>`);
   }
   
-  // سب سے پہلے ہائی لائٹ پر آٹو سکرول کریں
   setTimeout(() => {
-      let firstMark = document.querySelector('mark.highlight');
-      if (firstMark) {
-          firstMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      let targetMark = null;
+
+      // اگر 'تمام الفاظ' کی سرچ ہے، تو ایسا پیراگراف ڈھونڈیں جس میں سارے الفاظ اکٹھے موجود ہوں
+      if (matchMode === 'all') {
+          let paragraphs = rbody.querySelectorAll('p, h1, h2, h3, div');
+          for (let p of paragraphs) {
+              let pText = p.innerText.toLowerCase();
+              if (words.every(w => pText.includes(w.toLowerCase()))) {
+                  targetMark = p.querySelector('mark.highlight');
+                  break; // مطلوبہ پیراگراف مل گیا
+              }
+          }
+      }
+
+      // بصورت دیگر (یا اگر سارے الفاظ ایک ساتھ نہ ملیں)، پہلا مارک لے لیں
+      if (!targetMark) {
+          targetMark = document.querySelector('mark.highlight');
+      }
+
+      if (targetMark) {
+          targetMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
   }, 300);
 }
 
-function readerBack(){showView(rdFrom||'home')}
-function adjFont(d){fsize=Math.min(26,Math.max(13,fsize+d));document.getElementById('rbody').style.fontSize=fsize+'px';localStorage.setItem('fsize',fsize);}
-
-// ── SEARCH (نئے 3 آپشنز کے ساتھ) ──
+// ── SEARCH ──
 function setType(btn,type){
   srchType=type;
   document.querySelectorAll('.sfchip').forEach(b=>b.classList.remove('active'));
@@ -789,15 +754,12 @@ async function doSearch(){
   const ts=q.toLowerCase().split(' ').filter(Boolean);
   const fanId=document.getElementById('fanSelectBox').value;
   const bookId=document.getElementById('bookSelectBox').value;
-  
-  // نیا آپشن (عین مطابق، تمام الفاظ، کوئی لفظ)
   const matchMode = document.querySelector('input[name="searchMode"]:checked').value;
 
   let pool=[...idx];
   if(srchScope==='fan'&&fanId) pool=pool.filter(b=>b.category===fanId);
   if(srchScope==='book'&&bookId) pool=pool.filter(b=>b.id===bookId);
 
-  // سرچ کی لاجک (Logic)
   function isMatch(text) {
       text = text.toLowerCase();
       if(matchMode === 'exact') return text.includes(q.toLowerCase());
@@ -847,8 +809,6 @@ async function doSearch(){
     }
     const a=auths.find(x=>x.id===b.author_id);
     const snippet=b.snippet?`<div style="font-size:0.73rem;color:var(--tx2);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px">${b.snippet}</div>`:'';
-    
-    // سرچ کے الفاظ کو کتاب تک بھیجنے کے لیے انکوڈ کریں
     let searchPayload = encodeURIComponent(q) + '|' + matchMode;
     
     return`<div class="bitem" onclick="openBook('${b.id}', '${searchPayload}')">
@@ -869,7 +829,6 @@ function getSnippet(text,term){
   return'...'+text.slice(s,s+80).replace(new RegExp(term,'gi'),m=>`<mark class="highlight">${m}</mark>`)+'...';
 }
 
-// ── AUTHORS ──
 function renderAuthors(){
   document.getElementById('alist').innerHTML=auths.map(a=>{
     const n=books.filter(b=>b.author_id===a.id).length;
@@ -889,14 +848,12 @@ function renderAuthors(){
 function openAuthor(aid){
   const a=auths.find(x=>x.id===aid);
   document.getElementById('bkTitle').textContent=a.name;
-  document.getElementById('bkBack').onclick=()=>showView('authors');
   document.getElementById('subf').innerHTML='';document.getElementById('subf').style.display='none';
   const f=books.filter(b=>b.author_id===aid);
   document.getElementById('blist').innerHTML=f.length?f.map(bHTML).join(''):'<div class="nores">اس مصنف کی ابھی کوئی کتاب نہیں</div>';
-  rdFrom='books';showView('books');
+  showView('books');
 }
 
-// ── SETTINGS ──
 function loadSettings(){
   const th=localStorage.getItem('theme')||'light';
   const af=localStorage.getItem('arFont')||'AlQalam';
@@ -919,12 +876,11 @@ function setThemeQuiet(t){
   document.getElementById(m[t])?.classList.add('active');
 }
 
-/* عربی فونٹ کو CSS Variables کے ذریعے اپلائی کرنے کا نیا اور تیز طریقہ */
 function setArFont(f,el){
   document.querySelectorAll('.font-opt').forEach(x=>x.classList.remove('active'));
   if(el) el.classList.add('active');
   localStorage.setItem('arFont',f);
-  document.body.style.setProperty('--far', `"${f}", serif`); // تمام عربی ٹیگز پر خود بخود لاگو ہوگا
+  document.body.style.setProperty('--far', `"${f}", serif`);
 }
 function setArFontQuiet(f){
   document.querySelectorAll('.font-opt').forEach(el=>{
@@ -942,7 +898,6 @@ function setFontSize(v){
   localStorage.setItem('fsize',v);
 }
 
-// ── ADMIN ──
 function fillAdminSelects(){
   document.getElementById('nBAuth').innerHTML=auths.map(a=>`<option value="${a.id}">${a.name}</option>`).join('');
   document.getElementById('nBCat').innerHTML=cats.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
@@ -1078,16 +1033,28 @@ function dlJSON(type){
   toast(fname+' ڈاؤن لوڈ ہوگئی');
 }
 
-// ── NAVIGATION ──
-function showView(n){
+// ── NAVIGATION WITH HARDWARE BACK BUTTON ──
+function showView(n, pushState = true){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+n)?.classList.add('active');
   document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
   document.getElementById('nav-'+n)?.classList.add('active');
   window.scrollTo(0,0);
+  
+  if(pushState) {
+    history.pushState({view: n}, '', '#' + n);
+  }
 }
 
-// ── TOAST ──
+// جب موبائل کا ہارڈویئر بیک بٹن دبایا جائے
+window.addEventListener('popstate', (e) => {
+  if(e.state && e.state.view) {
+    showView(e.state.view, false);
+  } else {
+    showView('home', false);
+  }
+});
+
 function toast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('show');
