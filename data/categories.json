@@ -30,5 +30,10 @@
     "id": "usoolefiqh",
     "name": "اصول فقہ",
     "subcategories": []
+  },
+  {
+    "id": "Seminar",
+    "name": "فقہی سیمینار",
+    "subcategories": []
   }
 ]
