@@ -1,7 +1,7 @@
 [
   {
     "id": "b1778114289356",
-    "title": "الکواکب النیرات علی شرح الورقات",
+    "title": "الكواكب النيرات علی شرح الورقات",
     "author_id": "a1777995389546",
     "category": "usoolefiqh",
     "subcategory": "",
@@ -9,6 +9,35 @@
     "has_arabic": true,
     "has_arab_headings": true,
     "content_file": "b001.html",
+    "description": "",
+    "added": "2026-05-07",
+    "title_font": "ar"
+  },
+  {
+    "id": "b1778129583694",
+    "title": "توشۂ حجاج",
+    "author_id": "a1778129524966",
+    "category": "shafi-fiqh",
+    "subcategory": "fiqh-kutub",
+    "lang": "ur",
+    "title_font": "ur",
+    "has_arabic": false,
+    "has_arab_headings": false,
+    "content_file": "b003.html",
+    "description": "",
+    "added": "2026-05-07"
+  },
+  {
+    "id": "b1778129769098",
+    "title": "إعانة الطالب في أحكام الوراث",
+    "author_id": "a1777995389546",
+    "category": "shafi-fiqh",
+    "subcategory": "fiqh-kutub",
+    "lang": "ar",
+    "title_font": "ar",
+    "has_arabic": false,
+    "has_arab_headings": true,
+    "content_file": "b002.html",
     "description": "",
     "added": "2026-05-07"
   }
