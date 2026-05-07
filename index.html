@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
-/* ── FONTS (آسان ناموں کے ساتھ) ── */
+/* ── FONTS (یقینی بنائیں کہ GitHub پر ان کے نام بالکل یہی ہوں) ── */
 @font-face{font-family:'JameelNastaleeq';src:url('jameel.ttf') format('truetype');font-display:swap}
 @font-face{font-family:'AlQalam';src:url('alqalam.ttf') format('truetype');font-display:swap}
 @font-face{font-family:'Lotus';src:url('lotus.ttf') format('truetype');font-display:swap}
@@ -27,8 +27,9 @@
   --sh:0 2px 14px rgba(0,0,0,0.12);
   --r:10px;
   --fur:'JameelNastaleeq',serif;
-  --far:'Lotus',serif; 
+  --far:'Lotus', 'Traditional Arabic', serif; /* لوٹس کے ساتھ بیک اپ فونٹ */
   --fhd:'TradArab',serif;
+  --ar-fs: 1.25em; /* 🔴 نیا: عربی فونٹ کا سائز کنٹرول کرنے والا ویری ایبل */
 }
 [data-theme="dark"]{
   --bg:#0e0e12;--bg2:#1a1a22;--bg3:#23232e;
@@ -125,7 +126,11 @@ header{
 .bitem:active{background:var(--bg2)}
 .bicon{width:38px;height:50px;background:var(--gm);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--glo);font-size:1.05rem;}
 .binfo{flex:1;min-width:0}
-.btitle{font-size:0.9rem;font-weight:700;color:var(--tx);line-height:1.4}
+
+.btitle{font-size:0.95rem;font-weight:700;color:var(--tx);line-height:1.4;}
+.btitle.font-ur { font-family: var(--fur); }
+.btitle.font-ar { font-family: var(--far) !important; font-size: 1.15rem; font-weight: normal; }
+
 .bauthor{font-size:0.73rem;color:var(--tx2);margin-top:2px}
 
 .aitem{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--bg2);cursor:pointer;background:var(--bg3);}
@@ -136,14 +141,8 @@ header{
 .ast-w{background:var(--bg2);color:var(--tx2)}
 
 /* ── LOCAL SEARCH INPUTS ── */
-.local-search-box {
-  background: var(--bg2); padding: 8px 14px; border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-.local-si {
-  width: 100%; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--gold);
-  background: var(--bg3); color: var(--tx); font-family: var(--fur); font-size: 0.9rem;
-  outline: none;
-}
+.local-search-box { background: var(--bg2); padding: 8px 14px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.local-si { width: 100%; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--gold); background: var(--bg3); color: var(--tx); font-family: var(--fur); font-size: 0.9rem; outline: none; }
 
 /* ── ADVANCED SEARCH MULTI-SELECT LIST ── */
 .rad-list { max-height: 180px; overflow-y: auto; background: var(--bg3); border-radius: 6px; margin-top: 8px; border: 1px solid var(--bg2); }
@@ -154,11 +153,13 @@ header{
 /* ── READER ── */
 .rhead{background:var(--gd);padding:11px 14px;display:flex;align-items:center;gap:8px}
 .rtitle{font-size:0.92rem;font-weight:700;color:var(--glo);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rtitle.font-ur { font-family: var(--fur); }
+.rtitle.font-ar { font-family: var(--far) !important; font-size: 1.15rem; font-weight: normal; padding-top: 5px; }
+
 .rctrl{display:flex;gap:6px;padding:7px 14px;background:var(--bg2);border-bottom:1px solid rgba(0,0,0,0.08);align-items:center;}
 .fbtn{padding:4px 12px;border:1px solid var(--ga);border-radius:6px;background:none;cursor:pointer;font-family:var(--fur);color:var(--tx);font-size:1rem;font-weight:bold;}
 .rbody{padding:17px 16px 40px;max-width:720px;margin:0 auto;background:var(--bg3)}
 
-/* عام ہیڈنگز */
 .rbody h1{font-family:var(--fur);color:var(--gd);border-bottom:2px solid var(--gold);padding-bottom:5px;margin:20px 0 11px;font-size:1.1rem}
 .rbody h2{font-family:var(--fur);color:var(--gm);border-right:3px solid var(--gold);padding-right:8px;margin:16px 0 9px;font-size:1rem}
 .rbody h3{font-family:var(--fur);color:var(--tx2);margin:13px 0 7px;font-size:0.93rem}
@@ -166,19 +167,21 @@ header{
 [data-theme="dark"] .rbody h1,[data-theme="night"] .rbody h1{color:var(--tx)}
 [data-theme="dark"] .rbody h2,[data-theme="night"] .rbody h2{color:var(--tx)}
 
-/* خاص عربی ہیڈنگز والا موڈ */
-.arab-headings h1, .arab-headings h2, .arab-headings h3 {
-    font-family: var(--fhd) !important; font-size: 1.45rem !important; font-weight: bold;
-}
+.arab-headings h1, .arab-headings h2, .arab-headings h3 { font-family: var(--fhd) !important; font-size: 1.45rem !important; font-weight: bold; }
 
-/* عربی متن کی سیٹنگ */
+/* 🔴 عربی سائز کے نئے ویری ایبل کا استعمال 🔴 */
 .ar, [lang="ar"] {
-  font-family: var(--far) !important; font-size: 1.25em; line-height: 2.3;
+  font-family: var(--far) !important; 
+  font-size: var(--ar-fs) !important; /* یہ سیٹنگز والے سلائیڈر سے کنٹرول ہوگا */
+  line-height: 2.3;
   text-align: center; background: var(--bg2); border-right: 4px solid var(--gold);
   padding: 12px 14px; margin: 13px 0; border-radius: 0 var(--r) var(--r) 0;
   direction: rtl; color: var(--tx); display: block;
 }
-span.ar { display: inline; background: transparent; padding: 0; border: none; margin: 0; }
+span.ar { 
+    display: inline; background: transparent; padding: 0; border: none; margin: 0; 
+    font-size: var(--ar-fs) !important; /* درمیان والی عربی کا سائز بھی اسی سے کنٹرول ہوگا */
+}
 
 /* ── MAIN SEARCH ── */
 .search-top{background:var(--gm);padding:10px 13px;display:flex;gap:8px;align-items:center}
@@ -319,7 +322,7 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 <div class="view" id="view-reader">
   <div class="rhead">
     <button class="back" onclick="history.back()">←</button>
-    <div class="rtitle" id="rtitle">کتاب</div>
+    <div class="rtitle font-ur" id="rtitle">کتاب</div>
   </div>
   <div class="rctrl">
     <button class="fbtn" onclick="adjFont(-1)">− ا</button>
@@ -406,16 +409,31 @@ input[type=range]{flex:1;accent-color:var(--ga)}
   </div>
 
   <div class="sets-section">
-    <div class="sets-title">متن کا سائز</div>
+    <div class="sets-title">پوری کتاب کا سائز (اردو)</div>
     <div class="sets-card">
       <div class="fsize-row">
         <span style="font-size:0.8rem">چھوٹا</span>
         <input type="range" min="13" max="36" value="17" id="fsizeRange" oninput="setFontSize(this.value)">
         <span style="font-size:0.8rem">بڑا</span>
       </div>
-      <p style="text-align:center;margin-top:8px;font-size:0.8rem;color:var(--tx2)">نمونہ: <span id="fsPreview" style="font-family:var(--fur)">یہ ایک نمونہ متن ہے</span></p>
+      <p style="text-align:center;margin-top:8px;font-size:0.8rem;color:var(--tx2)">نمونہ: <span id="fsPreview" style="font-family:var(--fur)">یہ اردو کا نمونہ ہے</span></p>
     </div>
   </div>
+
+  <div class="sets-section">
+    <div class="sets-title">صرف عربی متن کا سائز</div>
+    <div class="sets-card">
+      <div class="fsize-row">
+        <span style="font-size:0.8rem">چھوٹا</span>
+        <input type="range" min="8" max="25" value="13" id="arFsizeRange" oninput="setArFontSize(this.value)">
+        <span style="font-size:0.8rem">بڑا</span>
+      </div>
+      <p style="text-align:center;margin-top:8px;font-size:0.8rem;color:var(--tx2)">
+        نمونہ: <span id="arFsPreview" class="ar" style="display:inline; background:none; padding:0; border:none; margin:0;">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</span>
+      </p>
+    </div>
+  </div>
+
 </div>
 
 <div class="view admin-view" id="view-admin">
@@ -461,6 +479,13 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <div class="aform">
       <label>عنوان</label>
       <input id="nBTitle" placeholder="کتاب کا نام..." dir="rtl">
+      
+      <label>عنوان کا فونٹ (کتاب کی فہرست کے لیے)</label>
+      <select id="nBTitleFont" dir="rtl">
+        <option value="ur">اردو (جمیل نوری)</option>
+        <option value="ar">عربی (لوٹس)</option>
+      </select>
+
       <label>مصنف</label>
       <select id="nBAuth" dir="rtl"></select>
       <label>فن</label>
@@ -480,7 +505,7 @@ input[type=range]{flex:1;accent-color:var(--ga)}
       
       <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:bold;cursor:pointer;background:var(--bg2);padding:8px;border-radius:6px;">
         <input type="checkbox" id="nBArbHead" style="width:18px;height:18px;margin:0;">
-        عنوانات کے لیے 'Traditional Arabic' استعمال کریں
+        کتاب کے اندر کی ہیڈنگز کے لیے 'Traditional Arabic' استعمال کریں
       </label>
       
       <button class="abtn" onclick="addBook()">کتاب شامل کریں</button>
@@ -516,7 +541,7 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     مصنفین
   </button>
   <button class="nbtn" id="nav-settings" onclick="showView('settings')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
     سیٹنگ
   </button>
 </nav>
@@ -550,10 +575,10 @@ function checkAdminAccess() {
 let cats=[],auths=[],books=[],idx=[];
 let curFan=null, curSid=null, rdFrom='home';
 let fsize=17,srchScope='all';
+let arFsize=12.5; // عربی سائز کے لیے ویری ایبل
 let editType=null,editId=null,contentCache={};
 let deferredPrompt=null;
 
-/* نئے ویری ایبلز (ٹک لگائے گئے فنون اور کتابیں یاد رکھنے کے لیے) */
 let selectedAdvFans = new Set();
 let selectedAdvBooks = new Set();
 
@@ -633,10 +658,11 @@ function renderBList(fid, sid, query = ''){
 function bHTML(b){
   const a=auths.find(x=>x.id===b.author_id);
   const ai=a?`${a.name}${a.status==='وفات'?' (م '+a.death_year+')':' (حیات)'}`:' ';
+  const titleClass = b.title_font === 'ar' ? 'font-ar' : 'font-ur';
   return`<div class="bitem" onclick="openBook('${b.id}')">
     <div class="bicon">📖</div>
     <div class="binfo">
-      <div class="btitle">${b.title}</div>
+      <div class="btitle ${titleClass}">${b.title}</div>
       <div class="bauthor">${ai}</div>
     </div>
   </div>`;
@@ -649,10 +675,22 @@ function adjFont(d){
   localStorage.setItem('fsize',fsize);
 }
 
+// 🔴 نیا فیچر: عربی سائز سیٹ کرنے کا فنکشن 🔴
+function setArFontSize(v){
+  arFsize = v;
+  let emValue = (v / 10) + 'em'; // 13 کا مطلب 1.3em
+  document.body.style.setProperty('--ar-fs', emValue);
+  localStorage.setItem('arFsize', v);
+}
+
 async function openBook(bid, searchPayload = null){
   const b=books.find(x=>x.id===bid);if(!b)return;
   const a=auths.find(x=>x.id===b.author_id);
-  document.getElementById('rtitle').textContent=b.title;
+  
+  const rtitleEl = document.getElementById('rtitle');
+  rtitleEl.textContent = b.title;
+  rtitleEl.className = 'rtitle ' + (b.title_font === 'ar' ? 'font-ar' : 'font-ur');
+  
   document.getElementById('rmeta').textContent=a?.name||'';
   document.getElementById('rbody').innerHTML='<div class="loading">لوڈ ہو رہا ہے...</div>';
   showView('reader');
@@ -720,7 +758,6 @@ function highlightAndScroll(query, matchMode, occurrenceIndex) {
   }, 400);
 }
 
-// ── ADVANCED SEARCH ──
 function setScope(btn,scope){
   srchScope=scope;
   document.querySelectorAll('.scope-chip').forEach(b=>b.classList.remove('active'));
@@ -730,7 +767,6 @@ function setScope(btn,scope){
   doSearch();
 }
 
-// سرچ باکس پر کلک کرنے پر ڈراپ ڈاؤن چھپائیں
 function hideSearchDropdowns() {
     document.getElementById('fanSelect').style.display = 'none';
     document.getElementById('bookSelect').style.display = 'none';
@@ -851,11 +887,13 @@ async function doSearch(){
     const snippet=b.snippet?`<div style="font-size:0.85rem;color:var(--tx);margin-top:10px;line-height:1.8;background:var(--bg2);padding:10px 12px;border-radius:6px;border-right:3px solid var(--gold);">${b.snippet}</div>`:'';
     let searchPayload = encodeURIComponent(q) + '|' + matchMode + '|' + (b.occurrenceIndex || 0);
     
+    const titleClass = b.title_font === 'ar' ? 'font-ar' : 'font-ur';
+
     return`<div class="bitem" onclick="openBook('${b.id}', '${searchPayload}')" style="flex-direction:column;align-items:stretch;padding-bottom:15px;">
       <div style="display:flex;align-items:center;gap:10px;">
           <div class="bicon">📖</div>
           <div class="binfo">
-            <div class="btitle">${hl}</div>
+            <div class="btitle ${titleClass}">${hl}</div>
             <div class="bauthor">${a?.name||''} — ${b.cn}</div>
           </div>
       </div>
@@ -903,13 +941,19 @@ function openAuthor(aid){
   showView('books');
 }
 
+// 🔴 سیٹنگز لوڈ کرنے میں نئے عربی سائز کی شمولیت 🔴
 function loadSettings(){
   const th=localStorage.getItem('theme')||'light';
   const af=localStorage.getItem('arFont')||'Lotus';
   const fs2=parseInt(localStorage.getItem('fsize')||'17');
+  const arFs2=parseInt(localStorage.getItem('arFsize')||'13'); // ڈیفالٹ 1.3em
+  
   setThemeQuiet(th); setArFontQuiet(af);
   fsize=fs2;document.getElementById('fsizeRange').value=fs2;
   document.getElementById('fsPreview').style.fontSize=fs2+'px';
+  
+  setArFontSize(arFs2);
+  if(document.getElementById('arFsizeRange')) document.getElementById('arFsizeRange').value = arFs2;
 }
 
 function setTheme(t,btn){
@@ -929,7 +973,7 @@ function setArFont(f,el){
   document.querySelectorAll('.font-opt').forEach(x=>x.classList.remove('active'));
   if(el) el.classList.add('active');
   localStorage.setItem('arFont',f);
-  document.body.style.setProperty('--far', `"${f}", serif`);
+  document.body.style.setProperty('--far', `"${f}", 'Traditional Arabic', serif`);
 }
 function setArFontQuiet(f){
   document.querySelectorAll('.font-opt').forEach(el=>{
@@ -937,7 +981,7 @@ function setArFontQuiet(f){
       el.classList.add('active');
     else el.classList.remove('active');
   });
-  document.body.style.setProperty('--far', `"${f}", serif`);
+  document.body.style.setProperty('--far', `"${f}", 'Traditional Arabic', serif`);
 }
 
 function setFontSize(v){
@@ -1011,7 +1055,15 @@ function openEdit(type,id){
   }else{
     const b=books.find(x=>x.id===id);
     document.getElementById('modalTitle').textContent='کتاب کا عنوان تبدیل کریں';
+    
     mb.innerHTML=`<label>عنوان</label><input id="eVal" value="${b.title}" dir="rtl">
+    
+    <label style="margin-top:10px;">عنوان کا فونٹ (کتاب کی فہرست کے لیے)</label>
+    <select id="eTitleFont" dir="rtl">
+      <option value="ur" ${b.title_font !== 'ar' ? 'selected' : ''}>اردو (جمیل نوری)</option>
+      <option value="ar" ${b.title_font === 'ar' ? 'selected' : ''}>عربی (لوٹس)</option>
+    </select>
+
     <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:bold;cursor:pointer;background:var(--bg2);padding:8px;border-radius:6px;">
         <input type="checkbox" id="eArbHead" ${b.has_arab_headings ? 'checked' : ''} style="width:18px;height:18px;margin:0;">
         عنوانات کے لیے 'Traditional Arabic' استعمال کریں
@@ -1031,6 +1083,7 @@ function saveEdit(){
   }else{
     let b = books.find(x=>x.id===editId);
     b.title=document.getElementById('eVal').value.trim();
+    b.title_font = document.getElementById('eTitleFont').value; 
     b.has_arab_headings = document.getElementById('eArbHead').checked;
   }
   buildIdx();renderHome();renderAuthors();renderAdminLists();fillSearchSelects();
@@ -1069,6 +1122,7 @@ function addBook(){
     category:document.getElementById('nBCat').value,
     subcategory:document.getElementById('nBSub').value||'',
     lang:document.getElementById('nBLang').value,
+    title_font:document.getElementById('nBTitleFont').value, 
     has_arabic:document.getElementById('nBLang').value==='ur-ar',
     has_arab_headings: document.getElementById('nBArbHead').checked,
     content_file:f,description:document.getElementById('nBDesc').value.trim(),
