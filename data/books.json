@@ -1,14 +1,15 @@
 [
   {
-    "id": "b1778042654905",
+    "id": "b1778114289356",
     "title": "الکواکب النیرات علی شرح الورقات",
     "author_id": "a1777995389546",
     "category": "usoolefiqh",
     "subcategory": "",
-    "lang": "ur",
-    "has_arabic": false,
+    "lang": "ur-ar",
+    "has_arabic": true,
+    "has_arab_headings": true,
     "content_file": "b001.html",
     "description": "",
-    "added": "2026-05-06"
+    "added": "2026-05-07"
   }
 ]
