@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
-/* ── FONTS (یقینی بنائیں کہ GitHub پر ان کے نام بالکل یہی ہوں) ── */
+/* ── FONTS ── */
 @font-face{font-family:'JameelNastaleeq';src:url('jameel.ttf') format('truetype');font-display:swap}
 @font-face{font-family:'AlQalam';src:url('alqalam.ttf') format('truetype');font-display:swap}
 @font-face{font-family:'Lotus';src:url('lotus.ttf') format('truetype');font-display:swap}
@@ -27,9 +27,9 @@
   --sh:0 2px 14px rgba(0,0,0,0.12);
   --r:10px;
   --fur:'JameelNastaleeq',serif;
-  --far:'Lotus', 'Traditional Arabic', serif; /* لوٹس کے ساتھ بیک اپ فونٹ */
+  --far:'Lotus', 'Traditional Arabic', serif; 
   --fhd:'TradArab',serif;
-  --ar-fs: 1.25em; /* 🔴 نیا: عربی فونٹ کا سائز کنٹرول کرنے والا ویری ایبل */
+  --ar-fs: 1.25em; 
 }
 [data-theme="dark"]{
   --bg:#0e0e12;--bg2:#1a1a22;--bg3:#23232e;
@@ -119,6 +119,8 @@ header{
 /* ── SUB FILTER ── */
 .subf{display:flex;gap:7px;padding:8px 13px;overflow-x:auto;scrollbar-width:none;background:var(--bg2);border-bottom:1px solid rgba(0,0,0,0.08);}
 .subf::-webkit-scrollbar{display:none}
+.pill{white-space:nowrap;padding:4px 12px;border-radius:17px;font-size:0.78rem;border:1px solid var(--ga);background:transparent;color:var(--tx);cursor:pointer;font-family:var(--fur);transition:all .14s;}
+.pill.active{background:var(--gd);color:var(--glo);border-color:var(--gd)}
 
 /* ── BOOK & AUTHOR LIST ── */
 .blist{padding:6px 0}
@@ -169,18 +171,27 @@ header{
 
 .arab-headings h1, .arab-headings h2, .arab-headings h3 { font-family: var(--fhd) !important; font-size: 1.45rem !important; font-weight: bold; }
 
-/* 🔴 عربی سائز کے نئے ویری ایبل کا استعمال 🔴 */
+/* 🔴 عربی کی ڈیفالٹ سیٹنگ (مکس کتابوں کے لیے) 🔴 */
 .ar, [lang="ar"] {
   font-family: var(--far) !important; 
-  font-size: var(--ar-fs) !important; /* یہ سیٹنگز والے سلائیڈر سے کنٹرول ہوگا */
-  line-height: 2.3;
-  text-align: center; background: var(--bg2); border-right: 4px solid var(--gold);
-  padding: 12px 14px; margin: 13px 0; border-radius: 0 var(--r) var(--r) 0;
+  font-size: var(--ar-fs) !important;
+  line-height: 2.3; text-align: center; background: var(--bg2); 
+  border-right: 4px solid var(--gold); padding: 12px 14px; 
+  margin: 13px 0; border-radius: 0 var(--r) var(--r) 0;
   direction: rtl; color: var(--tx); display: block;
 }
 span.ar { 
     display: inline; background: transparent; padding: 0; border: none; margin: 0; 
-    font-size: var(--ar-fs) !important; /* درمیان والی عربی کا سائز بھی اسی سے کنٹرول ہوگا */
+    font-size: var(--ar-fs) !important; 
+}
+
+/* 🔴 نیا فیچر: خالص عربی کتابوں کی سیٹنگ (کوئی بارڈر اور کلر نہیں) 🔴 */
+.pure-arabic .ar, .pure-arabic [lang="ar"] {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 0 12px 0 !important;
+    text-align: justify !important;
 }
 
 /* ── MAIN SEARCH ── */
@@ -575,7 +586,7 @@ function checkAdminAccess() {
 let cats=[],auths=[],books=[],idx=[];
 let curFan=null, curSid=null, rdFrom='home';
 let fsize=17,srchScope='all';
-let arFsize=12.5; // عربی سائز کے لیے ویری ایبل
+let arFsize=12.5; 
 let editType=null,editId=null,contentCache={};
 let deferredPrompt=null;
 
@@ -675,10 +686,9 @@ function adjFont(d){
   localStorage.setItem('fsize',fsize);
 }
 
-// 🔴 نیا فیچر: عربی سائز سیٹ کرنے کا فنکشن 🔴
 function setArFontSize(v){
   arFsize = v;
-  let emValue = (v / 10) + 'em'; // 13 کا مطلب 1.3em
+  let emValue = (v / 10) + 'em'; 
   document.body.style.setProperty('--ar-fs', emValue);
   localStorage.setItem('arFsize', v);
 }
@@ -708,6 +718,13 @@ async function openBook(bid, searchPayload = null){
     document.getElementById('rbody').innerHTML = htmlContent;
     document.getElementById('rbody').style.fontSize=fsize+'px';
 
+    // 🔴 پیور عربی (خالص عربی) کتابوں کا نیا اور اسمارٹ فیچر 🔴
+    if(b.lang === 'ar') {
+        document.getElementById('rbody').classList.add('pure-arabic');
+    } else {
+        document.getElementById('rbody').classList.remove('pure-arabic');
+    }
+
     if(b.has_arab_headings || b.lang === 'ar') {
         document.getElementById('rbody').classList.add('arab-headings');
     } else {
@@ -729,6 +746,7 @@ async function openBook(bid, searchPayload = null){
   }
 }
 
+// 🔴 سرچ اور ہائی لائٹ کا جدید (Paragraph-based) فنکشن 🔴
 function highlightAndScroll(query, matchMode, occurrenceIndex) {
   let rbody = document.getElementById('rbody');
   let content = rbody.innerHTML;
@@ -743,11 +761,28 @@ function highlightAndScroll(query, matchMode, occurrenceIndex) {
   }
   
   setTimeout(() => {
-      let marks = document.querySelectorAll('mark.highlight');
-      let targetMark = marks[occurrenceIndex];
+      let targetMark = null;
 
-      if (!targetMark && marks.length > 0) {
-          targetMark = marks[0];
+      if (matchMode === 'all' || matchMode === 'exact') {
+          // پیراگراف کے حساب سے ڈھونڈیں
+          let blocks = rbody.querySelectorAll('p, h1, h2, h3, div, td, li');
+          let matchingBlocks = [];
+          for (let p of blocks) {
+              let pText = p.innerText.toLowerCase();
+              if (matchMode === 'all' && words.every(w => pText.includes(w.toLowerCase()))) {
+                  matchingBlocks.push(p);
+              } else if (matchMode === 'exact' && pText.includes(query.toLowerCase())) {
+                  matchingBlocks.push(p);
+              }
+          }
+          if(matchingBlocks[occurrenceIndex]) {
+              targetMark = matchingBlocks[occurrenceIndex].querySelector('mark.highlight');
+          }
+      }
+
+      if (!targetMark) {
+          let marks = document.querySelectorAll('mark.highlight');
+          targetMark = marks[occurrenceIndex] || marks[0];
       }
 
       if (targetMark) {
@@ -815,6 +850,28 @@ function renderAdvBookList(query = '') {
 function filterAdvFans(val) { renderAdvFanList(val); }
 function filterAdvBooks(val) { renderAdvBookList(val); }
 
+function getSnippetFromBlock(text, terms, mode, exactQuery){
+    let snip = text;
+    if(snip.length > 200) {
+        let firstTerm = mode === 'exact' ? exactQuery : terms[0];
+        let i = snip.toLowerCase().indexOf(firstTerm.toLowerCase());
+        if(i > -1) {
+            let s = Math.max(0, i - 60);
+            let e = Math.min(snip.length, i + 140);
+            snip = (s > 0 ? '...' : '') + snip.slice(s, e) + (e < snip.length ? '...' : '');
+        }
+    }
+    if(mode === 'exact') {
+        snip = snip.replace(new RegExp(exactQuery, 'gi'), m => `<mark class="highlight">${m}</mark>`);
+    } else {
+        terms.forEach(t => {
+            snip = snip.replace(new RegExp(t, 'gi'), m => `<mark class="highlight">${m}</mark>`);
+        });
+    }
+    return snip;
+}
+
+// 🔴 سرچ کا نیا پیراگراف بیسڈ فنکشن 🔴
 async function doSearch(){
   const q=document.getElementById('si').value.trim();
   const sr=document.getElementById('sr'),rc=document.getElementById('rc');
@@ -831,43 +888,44 @@ async function doSearch(){
       pool = pool.filter(b => selectedAdvBooks.has(b.id));
   }
 
-  function isMatch(text) {
-      text = text.toLowerCase();
-      if(matchMode === 'exact') return text.includes(q.toLowerCase());
-      if(matchMode === 'all') return ts.every(t=>text.includes(t));
-      if(matchMode === 'any') return ts.some(t=>text.includes(t));
-      return false;
-  }
-
   rc.textContent='متن میں تلاش جاری ہے...';
   const searched=[];
   
   for(const b of pool){
-    let text='';
+    let rawHtml='';
     if(contentCache[b.id]){
-      text=contentCache[b.id].replace(/<[^>]+>/g,' ').toLowerCase();
+      rawHtml=contentCache[b.id];
     }else{
       try{
         const r=await fetch('content/'+b.content_file);
-        const h=await r.text();
-        contentCache[b.id]=h;
-        text=h.replace(/<[^>]+>/g,' ').toLowerCase();
-      }catch{text='';}
+        rawHtml=await r.text();
+        contentCache[b.id]=rawHtml;
+      }catch{continue;}
     }
     
-    if(isMatch(text)) {
-        let pattern = "";
-        if (matchMode === 'exact') pattern = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        else pattern = ts.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+    // HTML کو پیراگراف (Blocks) میں توڑیں تاکہ سرچ بالکل درست ہو
+    let blocks = rawHtml.split(/<p[^>]*>|<h[1-6][^>]*>|<tr[^>]*>|<li[^>]*>/i);
+    let occurrenceCount = 0;
 
-        let regex = new RegExp(pattern, 'gi');
-        let match;
-        let occurrenceCount = 0;
+    for(let i=0; i<blocks.length; i++) {
+        if (occurrenceCount >= 40) break;
 
-        while ((match = regex.exec(text)) !== null) {
-            if (occurrenceCount >= 40) break; 
-            
-            let snippetText = getSnippetByIndex(text, match[0], match.index);
+        let plainText = blocks[i].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+        if(plainText.length < 3) continue;
+
+        let lowerText = plainText.toLowerCase();
+        let isMatch = false;
+
+        if(matchMode === 'exact') {
+            isMatch = lowerText.includes(q.toLowerCase());
+        } else if(matchMode === 'all') {
+            isMatch = ts.every(t => lowerText.includes(t)); // تمام الفاظ اب صرف ایک پیراگراف میں ہونے چاہئیں!
+        } else if(matchMode === 'any') {
+            isMatch = ts.some(t => lowerText.includes(t));
+        }
+
+        if(isMatch) {
+            let snippetText = getSnippetFromBlock(plainText, ts, matchMode, q);
             searched.push({
                 ...b,
                 snippet: snippetText,
@@ -902,14 +960,6 @@ async function doSearch(){
   }).join('');
 }
 
-function getSnippetByIndex(text, term, index){
-  const s=Math.max(0,index-40);
-  const e=Math.min(text.length,index+80);
-  let snip = text.slice(s,e);
-  snip = snip.replace(new RegExp(term,'gi'),m=>`<mark class="highlight">${m}</mark>`);
-  return '...' + snip + '...';
-}
-
 function renderAuthors(query = ''){
   let filtered = auths;
   if(query) {
@@ -941,12 +991,11 @@ function openAuthor(aid){
   showView('books');
 }
 
-// 🔴 سیٹنگز لوڈ کرنے میں نئے عربی سائز کی شمولیت 🔴
 function loadSettings(){
   const th=localStorage.getItem('theme')||'light';
   const af=localStorage.getItem('arFont')||'Lotus';
   const fs2=parseInt(localStorage.getItem('fsize')||'17');
-  const arFs2=parseInt(localStorage.getItem('arFsize')||'13'); // ڈیفالٹ 1.3em
+  const arFs2=parseInt(localStorage.getItem('arFsize')||'13'); 
   
   setThemeQuiet(th); setArFontQuiet(af);
   fsize=fs2;document.getElementById('fsizeRange').value=fs2;
