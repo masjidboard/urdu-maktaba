@@ -18,7 +18,7 @@
 @font-face{font-family:'Lotus';src:url('lotus.ttf') format('truetype');font-display:swap}
 @font-face{font-family:'TradArab';src:url('tradarab.ttf') format('truetype');font-display:swap}
 
-/* ── THEMES ── */
+/* ── THEMES & VARIABLES ── */
 :root{
   --gd:#0f2318;--gm:#1a3a2a;--gl:#2d5a3d;--ga:#4a9060;
   --gold:#c9a84c;--glo:#e8c97a;
@@ -29,6 +29,8 @@
   --fur:'JameelNastaleeq',serif;
   --far:'Lotus', 'Traditional Arabic', serif; 
   --fhd:'TradArab',serif;
+  /* 🔴 یونیورسل فونٹ کنٹرول 🔴 */
+  --ur-fs: 17px; 
   --ar-fs: 1.25em; 
 }
 [data-theme="dark"]{
@@ -47,7 +49,9 @@
 
 body{
   font-family:var(--fur);background:var(--bg);color:var(--tx);
-  direction:rtl;min-height:100vh;font-size:17px;line-height:2;
+  direction:rtl;min-height:100vh;
+  font-size: var(--ur-fs); /* 🔴 باڈی پر سائز لگا دیا گیا ہے */
+  line-height:2;
   overflow-x:hidden;transition:background .3s,color .3s;
 }
 
@@ -116,12 +120,6 @@ header{
 .back{background:none;border:none;color:var(--glo);font-size:1.2rem;cursor:pointer;padding:3px;font-family:var(--fur)}
 .shead-title{font-size:0.95rem;font-weight:700;color:var(--glo)}
 
-/* ── SUB FILTER ── */
-.subf{display:flex;gap:7px;padding:8px 13px;overflow-x:auto;scrollbar-width:none;background:var(--bg2);border-bottom:1px solid rgba(0,0,0,0.08);}
-.subf::-webkit-scrollbar{display:none}
-.pill{white-space:nowrap;padding:4px 12px;border-radius:17px;font-size:0.78rem;border:1px solid var(--ga);background:transparent;color:var(--tx);cursor:pointer;font-family:var(--fur);transition:all .14s;}
-.pill.active{background:var(--gd);color:var(--glo);border-color:var(--gd)}
-
 /* ── BOOK & AUTHOR LIST ── */
 .blist{padding:6px 0}
 .bitem{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--bg2);cursor:pointer;transition:background .13s;background:var(--bg3);}
@@ -162,16 +160,16 @@ header{
 .fbtn{padding:4px 12px;border:1px solid var(--ga);border-radius:6px;background:none;cursor:pointer;font-family:var(--fur);color:var(--tx);font-size:1rem;font-weight:bold;}
 .rbody{padding:17px 16px 40px;max-width:720px;margin:0 auto;background:var(--bg3)}
 
+/* 🔴 Reader Body & Paragraph Defaults */
+.rbody p { font-family:var(--fur); margin-bottom:12px; text-align:justify; line-height:2.2; }
+
 .rbody h1{font-family:var(--fur);color:var(--gd);border-bottom:2px solid var(--gold);padding-bottom:5px;margin:20px 0 11px;font-size:1.1rem}
 .rbody h2{font-family:var(--fur);color:var(--gm);border-right:3px solid var(--gold);padding-right:8px;margin:16px 0 9px;font-size:1rem}
 .rbody h3{font-family:var(--fur);color:var(--tx2);margin:13px 0 7px;font-size:0.93rem}
-.rbody p{font-family:var(--fur); margin-bottom:12px;text-align:justify}
 [data-theme="dark"] .rbody h1,[data-theme="night"] .rbody h1{color:var(--tx)}
 [data-theme="dark"] .rbody h2,[data-theme="night"] .rbody h2{color:var(--tx)}
 
-.arab-headings h1, .arab-headings h2, .arab-headings h3 { font-family: var(--fhd) !important; font-size: 1.45rem !important; font-weight: bold; }
-
-/* 🔴 عربی کی ڈیفالٹ سیٹنگ (مکس کتابوں کے لیے) 🔴 */
+/* 🔴 1. ڈیفالٹ عربی اسٹائل (مکس کتابوں کے لیے) 🔴 */
 .ar, [lang="ar"] {
   font-family: var(--far) !important; 
   font-size: var(--ar-fs) !important;
@@ -182,16 +180,41 @@ header{
 }
 span.ar { 
     display: inline; background: transparent; padding: 0; border: none; margin: 0; 
-    font-size: var(--ar-fs) !important; 
 }
 
-/* 🔴 نیا فیچر: خالص عربی کتابوں کی سیٹنگ (کوئی بارڈر اور کلر نہیں) 🔴 */
+/* 🔴 2. خالص اردو کتابوں کا نیا فارمیٹ (کوئی پیلا ڈبہ نہیں) 🔴 */
+.pure-urdu .ar, .pure-urdu [lang="ar"] {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    text-align: justify !important;
+    display: inline; /* عبارت کے بیچ میں ہی چلے گی */
+}
+.pure-urdu p.ar {
+    display: block !important;
+    margin: 0 0 12px 0 !important;
+}
+
+/* 🔴 3. خالص عربی کتابوں کی سیٹنگ 🔴 */
+.pure-arabic, .pure-arabic p, .pure-arabic div, .pure-arabic span {
+    font-family: var(--far) !important;
+    font-size: var(--ar-fs) !important;
+    text-align: justify !important;
+    line-height: 2.3;
+}
 .pure-arabic .ar, .pure-arabic [lang="ar"] {
     background: transparent !important;
     border: none !important;
     padding: 0 !important;
     margin: 0 0 12px 0 !important;
-    text-align: justify !important;
+}
+
+/* 🔴 ہیڈنگز پر Traditional Arabic 🔴 */
+.arab-headings h1, .arab-headings h2, .arab-headings h3 { 
+    font-family: var(--fhd) !important; 
+    font-size: 1.45rem !important; 
+    font-weight: bold; 
 }
 
 /* ── MAIN SEARCH ── */
@@ -341,7 +364,7 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <span style="flex:1"></span>
     <span id="rmeta" style="font-size:0.73rem;color:var(--tx2)"></span>
   </div>
-  <div class="rbody" id="rbody" style="font-size:17px"></div>
+  <div class="rbody" id="rbody"></div>
 </div>
 
 <div class="view search-view" id="view-search">
@@ -503,11 +526,11 @@ input[type=range]{flex:1;accent-color:var(--ga)}
       <select id="nBCat" dir="rtl" onchange="fillSub()"></select>
       <label>ذیلی فن</label>
       <select id="nBSub" dir="rtl"></select>
-      <label>زبان</label>
+      <label>زبان (اہم فارمیٹنگ)</label>
       <select id="nBLang">
-        <option value="ur">اردو</option>
-        <option value="ar">عربی</option>
-        <option value="ur-ar">اردو + عربی</option>
+        <option value="ur">اردو (خالص)</option>
+        <option value="ar">عربی (خالص)</option>
+        <option value="ur-ar">اردو + عربی (مکس)</option>
       </select>
       <label>متن فائل (content/ فولڈر میں)</label>
       <input id="nBFile" placeholder="b001.html" dir="ltr">
@@ -516,7 +539,7 @@ input[type=range]{flex:1;accent-color:var(--ga)}
       
       <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:bold;cursor:pointer;background:var(--bg2);padding:8px;border-radius:6px;">
         <input type="checkbox" id="nBArbHead" style="width:18px;height:18px;margin:0;">
-        کتاب کے اندر کی ہیڈنگز کے لیے 'Traditional Arabic' استعمال کریں
+        عنوانات کے لیے 'Traditional Arabic' استعمال کریں
       </label>
       
       <button class="abtn" onclick="addBook()">کتاب شامل کریں</button>
@@ -679,11 +702,19 @@ function bHTML(b){
   </div>`;
 }
 
+// 🔴 نیا اور پرفیکٹ فونٹ سائز کنٹرول (باڈی کے ذریعے) 🔴
 function adjFont(d){
   fsize=Math.min(36,Math.max(14,fsize+(d*2))); 
-  document.getElementById('rbody').style.fontSize=fsize+'px';
-  document.getElementById('fsizeRange').value=fsize;
+  document.body.style.setProperty('--ur-fs', fsize + 'px');
+  if(document.getElementById('fsizeRange')) document.getElementById('fsizeRange').value=fsize;
   localStorage.setItem('fsize',fsize);
+}
+
+function setFontSize(v){
+  fsize=parseInt(v);
+  document.body.style.setProperty('--ur-fs', v + 'px');
+  if(document.getElementById('fsPreview')) document.getElementById('fsPreview').style.fontSize=v+'px';
+  localStorage.setItem('fsize',v);
 }
 
 function setArFontSize(v){
@@ -702,7 +733,8 @@ async function openBook(bid, searchPayload = null){
   rtitleEl.className = 'rtitle ' + (b.title_font === 'ar' ? 'font-ar' : 'font-ur');
   
   document.getElementById('rmeta').textContent=a?.name||'';
-  document.getElementById('rbody').innerHTML='<div class="loading">لوڈ ہو رہا ہے...</div>';
+  let rbody = document.getElementById('rbody');
+  rbody.innerHTML='<div class="loading">لوڈ ہو رہا ہے...</div>';
   showView('reader');
   
   try{
@@ -715,20 +747,21 @@ async function openBook(bid, searchPayload = null){
       contentCache[bid]=htmlContent;
     }
     
-    document.getElementById('rbody').innerHTML = htmlContent;
-    document.getElementById('rbody').style.fontSize=fsize+'px';
-
-    // 🔴 پیور عربی (خالص عربی) کتابوں کا نیا اور اسمارٹ فیچر 🔴
-    if(b.lang === 'ar') {
-        document.getElementById('rbody').classList.add('pure-arabic');
-    } else {
-        document.getElementById('rbody').classList.remove('pure-arabic');
+    rbody.innerHTML = htmlContent;
+    
+    // 🔴 3 باقاعدہ فارمیٹس کی کلاسز 🔴
+    rbody.className = 'rbody'; // Reset all previous classes
+    
+    if (b.lang === 'ur') {
+        rbody.classList.add('pure-urdu');
+    } else if (b.lang === 'ar') {
+        rbody.classList.add('pure-arabic');
+    } else if (b.lang === 'ur-ar') {
+        rbody.classList.add('mix-urdu-arabic');
     }
 
     if(b.has_arab_headings || b.lang === 'ar') {
-        document.getElementById('rbody').classList.add('arab-headings');
-    } else {
-        document.getElementById('rbody').classList.remove('arab-headings');
+        rbody.classList.add('arab-headings');
     }
 
     if(searchPayload) {
@@ -742,11 +775,10 @@ async function openBook(bid, searchPayload = null){
     }
 
   }catch{
-    document.getElementById('rbody').innerHTML='<div class="nores">متن لوڈ نہیں ہوا۔</div>';
+    rbody.innerHTML='<div class="nores">متن لوڈ نہیں ہوا۔</div>';
   }
 }
 
-// 🔴 سرچ اور ہائی لائٹ کا جدید (Paragraph-based) فنکشن 🔴
 function highlightAndScroll(query, matchMode, occurrenceIndex) {
   let rbody = document.getElementById('rbody');
   let content = rbody.innerHTML;
@@ -764,7 +796,6 @@ function highlightAndScroll(query, matchMode, occurrenceIndex) {
       let targetMark = null;
 
       if (matchMode === 'all' || matchMode === 'exact') {
-          // پیراگراف کے حساب سے ڈھونڈیں
           let blocks = rbody.querySelectorAll('p, h1, h2, h3, div, td, li');
           let matchingBlocks = [];
           for (let p of blocks) {
@@ -871,7 +902,6 @@ function getSnippetFromBlock(text, terms, mode, exactQuery){
     return snip;
 }
 
-// 🔴 سرچ کا نیا پیراگراف بیسڈ فنکشن 🔴
 async function doSearch(){
   const q=document.getElementById('si').value.trim();
   const sr=document.getElementById('sr'),rc=document.getElementById('rc');
@@ -903,7 +933,6 @@ async function doSearch(){
       }catch{continue;}
     }
     
-    // HTML کو پیراگراف (Blocks) میں توڑیں تاکہ سرچ بالکل درست ہو
     let blocks = rawHtml.split(/<p[^>]*>|<h[1-6][^>]*>|<tr[^>]*>|<li[^>]*>/i);
     let occurrenceCount = 0;
 
@@ -919,7 +948,7 @@ async function doSearch(){
         if(matchMode === 'exact') {
             isMatch = lowerText.includes(q.toLowerCase());
         } else if(matchMode === 'all') {
-            isMatch = ts.every(t => lowerText.includes(t)); // تمام الفاظ اب صرف ایک پیراگراف میں ہونے چاہئیں!
+            isMatch = ts.every(t => lowerText.includes(t)); 
         } else if(matchMode === 'any') {
             isMatch = ts.some(t => lowerText.includes(t));
         }
@@ -991,6 +1020,7 @@ function openAuthor(aid){
   showView('books');
 }
 
+// 🔴 سیٹنگز لوڈر کو باڈی ویری ایبلز پر اپڈیٹ کر دیا 🔴
 function loadSettings(){
   const th=localStorage.getItem('theme')||'light';
   const af=localStorage.getItem('arFont')||'Lotus';
@@ -998,8 +1028,11 @@ function loadSettings(){
   const arFs2=parseInt(localStorage.getItem('arFsize')||'13'); 
   
   setThemeQuiet(th); setArFontQuiet(af);
-  fsize=fs2;document.getElementById('fsizeRange').value=fs2;
-  document.getElementById('fsPreview').style.fontSize=fs2+'px';
+  
+  fsize=fs2;
+  document.body.style.setProperty('--ur-fs', fs2 + 'px');
+  if(document.getElementById('fsizeRange')) document.getElementById('fsizeRange').value=fs2;
+  if(document.getElementById('fsPreview')) document.getElementById('fsPreview').style.fontSize=fs2+'px';
   
   setArFontSize(arFs2);
   if(document.getElementById('arFsizeRange')) document.getElementById('arFsizeRange').value = arFs2;
@@ -1031,13 +1064,6 @@ function setArFontQuiet(f){
     else el.classList.remove('active');
   });
   document.body.style.setProperty('--far', `"${f}", 'Traditional Arabic', serif`);
-}
-
-function setFontSize(v){
-  fsize=parseInt(v);
-  document.getElementById('fsPreview').style.fontSize=v+'px';
-  document.getElementById('rbody').style.fontSize=v+'px';
-  localStorage.setItem('fsize',v);
 }
 
 function fillAdminSelects(){
@@ -1219,6 +1245,7 @@ function toast(msg){
   t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
 }
+
 // Service Worker Registration for PWA Install
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -1229,6 +1256,7 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
 load();
 checkAdminAccess();
 </script>
