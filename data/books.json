@@ -14,20 +14,6 @@
     "title_font": "ar"
   },
   {
-    "id": "b1778129583694",
-    "title": "توشۂ حجاج",
-    "author_id": "a1778129524966",
-    "category": "shafi-fiqh",
-    "subcategory": "fiqh-kutub",
-    "lang": "ur",
-    "title_font": "ur",
-    "has_arabic": false,
-    "has_arab_headings": false,
-    "content_file": "b003.html",
-    "description": "",
-    "added": "2026-05-07"
-  },
-  {
     "id": "b1778129769098",
     "title": "إعانة الطالب في أحكام الوراث",
     "author_id": "a1777995389546",
@@ -40,5 +26,61 @@
     "content_file": "b002.html",
     "description": "",
     "added": "2026-05-07"
+  },
+  {
+    "id": "b1778208222552",
+    "title": "تحفۃُ الباری جلد اول",
+    "author_id": "a1777946434472",
+    "category": "shafi-fiqh",
+    "subcategory": "fiqh-kutub",
+    "lang": "ur",
+    "title_font": "ur",
+    "has_arabic": false,
+    "has_arab_headings": false,
+    "content_file": "b004.html",
+    "description": "",
+    "added": "2026-05-08"
+  },
+  {
+    "id": "b1778208439016",
+    "title": "توشۂ حجاج",
+    "author_id": "a1778129524966",
+    "category": "shafi-fiqh",
+    "subcategory": "fiqh-kutub",
+    "lang": "ur",
+    "title_font": "ur",
+    "has_arabic": false,
+    "has_arab_headings": false,
+    "content_file": "b003.html",
+    "description": "",
+    "added": "2026-05-08"
+  },
+  {
+    "id": "b1778208474026",
+    "title": "تحفۃُ الباری جلد دوم",
+    "author_id": "a1777946434472",
+    "category": "shafi-fiqh",
+    "subcategory": "fiqh-kutub",
+    "lang": "ur",
+    "title_font": "ur",
+    "has_arabic": false,
+    "has_arab_headings": false,
+    "content_file": "b005.html",
+    "description": "",
+    "added": "2026-05-08"
+  },
+  {
+    "id": "b1778208501930",
+    "title": "تحفۃُ الباری جلد سوم",
+    "author_id": "a1777946434472",
+    "category": "shafi-fiqh",
+    "subcategory": "fiqh-kutub",
+    "lang": "ur",
+    "title_font": "ur",
+    "has_arabic": false,
+    "has_arab_headings": false,
+    "content_file": "b006.html",
+    "description": "",
+    "added": "2026-05-08"
   }
 ]
