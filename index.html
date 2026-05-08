@@ -46,7 +46,7 @@
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 
-/* 🔴 FAST SCROLLBAR 🔴 */
+/* 🔴 NATIVE SCROLLBAR (کمپیوٹر کے لیے) 🔴 */
 ::-webkit-scrollbar { width: 12px; }
 ::-webkit-scrollbar-track { background: var(--bg2); }
 ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; border: 2px solid var(--bg2); }
@@ -76,24 +76,25 @@ header{
 .hico{background:none;border:none;color:rgba(255,255,255,0.7);cursor:pointer;padding:6px;border-radius:7px;font-size:1.1rem;transition:color .2s;}
 .hico:hover{color:var(--glo)}
 
-/* ── BOTTOM NAV ── */
+/* 🔴 BOTTOM NAV (آئیکن کٹنے کا حل) 🔴 */
 .bnav{
   position:fixed;bottom:0;left:0;right:0;background:var(--gd);
   display:flex;border-top:1px solid rgba(255,255,255,0.1);z-index:300;
-  padding-bottom:env(safe-area-inset-bottom);
+  height: 60px; /* اونچائی فکس کر دی گئی ہے */
+  padding-bottom: 0;
 }
 .nbtn{
   flex:1;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:2px;padding:8px 4px;
+  justify-content:center;gap:4px;
   color:rgba(255,255,255,0.4);cursor:pointer;
-  border:none;background:none;font-family:var(--fur);font-size:0.68rem;
-  transition:color .2s;
+  border:none;background:none;font-family:var(--fur);font-size:0.75rem;
+  transition:color .2s; height: 100%;
 }
 .nbtn.active{color:var(--glo)}
 .nbtn svg{width:20px;height:20px}
 
 /* ── LAYOUT ── */
-.main{padding-bottom:68px}
+.main{padding-bottom:80px}
 .view{display:none}
 .view.active{display:block}
 
@@ -145,11 +146,10 @@ header{
 .ast-h{background:#e6f4ea;color:#2d6a35}
 .ast-w{background:var(--bg2);color:var(--tx2)}
 
-/* ── LOCAL SEARCH INPUTS ── */
+/* ── LOCAL SEARCH ── */
 .local-search-box { background: var(--bg2); padding: 8px 14px; border-bottom: 1px solid rgba(0,0,0,0.05); }
 .local-si { width: 100%; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--gold); background: var(--bg3); color: var(--tx); font-family: var(--fur); font-size: 0.9rem; outline: none; }
 
-/* ── ADVANCED SEARCH MULTI-SELECT LIST ── */
 .rad-list { max-height: 180px; overflow-y: auto; background: var(--bg3); border-radius: 6px; margin-top: 8px; border: 1px solid var(--bg2); }
 .rad-lbl { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--bg2); cursor: pointer; color: var(--tx); font-size: 0.85rem; font-family: var(--fur);}
 .rad-lbl:last-child { border-bottom: none; }
@@ -161,33 +161,37 @@ header{
 .rtitle.font-ur { font-family: var(--fur); }
 .rtitle.font-ar { font-family: var(--far) !important; font-size: 1.15rem; font-weight: normal; padding-top: 5px; }
 
-/* 🔴 TOC BUTTON 🔴 */
+/* TOC BUTTON */
 .toc-btn { background:none; border:none; color:var(--glo); font-size:1.4rem; padding:0 8px; cursor:pointer; }
 
 .rctrl{display:flex;gap:6px;padding:7px 14px;background:var(--bg2);border-bottom:1px solid rgba(0,0,0,0.08);align-items:center;}
 .fbtn{padding:4px 12px;border:1px solid var(--ga);border-radius:6px;background:none;cursor:pointer;font-family:var(--fur);color:var(--tx);font-size:1rem;font-weight:bold;}
 .rbody{padding:17px 16px 40px;max-width:720px;margin:0 auto;background:var(--bg3)}
 
-.rbody { font-size: var(--ur-fs) !important; }
-
-.rbody p { 
-    font-family: var(--fur); 
-    font-size: var(--ur-fs) !important; 
-    margin-bottom: 12px; 
-    text-align: justify; 
-    line-height: 2.2; 
+/* 🔴 READER FLOATING SLIDER (موبائل فاسٹ اسکرولر) 🔴 */
+.reader-slider-wrap {
+    position: fixed; bottom: 75px; left: 50%; transform: translateX(-50%);
+    width: 90%; max-width: 400px; background: rgba(15, 35, 24, 0.9);
+    backdrop-filter: blur(5px); padding: 8px 16px; border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4); z-index: 290; 
+    display: flex; align-items: center; gap: 12px;
+    border: 1px solid var(--gold);
 }
+.reader-slider-wrap span { color: var(--glo); font-size: 0.75rem; font-weight: bold; font-family: var(--fur); }
+.reader-slider { flex: 1; accent-color: var(--gold); }
 
+/* Body Forces */
+.rbody { font-size: var(--ur-fs) !important; }
+.rbody p { font-family: var(--fur); font-size: var(--ur-fs) !important; margin-bottom: 12px; text-align: justify; line-height: 2.2; }
 .rbody h1{font-family:var(--fur);color:var(--gd);border-bottom:2px solid var(--gold);padding-bottom:5px;margin:20px 0 11px;font-size:1.1rem; padding-top:10px; transition: background-color 0.8s;}
 .rbody h2{font-family:var(--fur);color:var(--gm);border-right:3px solid var(--gold);padding-right:8px;margin:16px 0 9px;font-size:1rem; padding-top:10px; transition: background-color 0.8s;}
 .rbody h3{font-family:var(--fur);color:var(--tx2);margin:13px 0 7px;font-size:0.93rem; padding-top:10px; transition: background-color 0.8s;}
 [data-theme="dark"] .rbody h1,[data-theme="night"] .rbody h1{color:var(--tx)}
 [data-theme="dark"] .rbody h2,[data-theme="night"] .rbody h2{color:var(--tx)}
 
-/* 🔴 1. MIX FORMAT (urdu+arabic) 🔴 */
+/* 1. MIX FORMAT */
 .mix-urdu-arabic ar, .mix-urdu-arabic .ar, .mix-urdu-arabic [lang="ar"] {
-  font-family: var(--far) !important; 
-  font-size: var(--ar-fs) !important;
+  font-family: var(--far) !important; font-size: var(--ar-fs) !important;
   line-height: 2.3; text-align: center; background: var(--bg2); 
   border-right: 4px solid var(--gold); padding: 12px 14px; 
   margin: 13px 0; border-radius: 0 var(--r) var(--r) 0;
@@ -198,50 +202,25 @@ header{
     border: none !important; margin: 0 !important; font-size: var(--ar-fs) !important; 
 }
 
-/* 🔴 2. PURE URDU FORMAT (عربی ٹیگ کی مکمل اصلاح) 🔴 */
+/* 2. PURE URDU FORMAT */
 .pure-urdu ar, .pure-urdu .ar, .pure-urdu [lang="ar"], .pure-urdu span.ar {
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    text-align: justify !important;
-    font-family: var(--far) !important; /* باقاعدہ عربی فونٹ */
-    font-size: var(--ar-fs) !important; /* عربی سلائیڈر والا سائز */
-    display: inline !important;
-    line-height: inherit !important;
+    background: transparent !important; border: none !important; padding: 0 !important; margin: 0 !important;
+    text-align: justify !important; font-family: var(--far) !important; font-size: var(--ar-fs) !important; 
+    display: inline !important; line-height: inherit !important;
 }
-.pure-urdu p.ar {
-    display: block !important;
-    margin: 0 0 12px 0 !important;
-    text-align: center !important;
-}
-/* اگر <ar> اکیلا پیراگراف کے طور پر استعمال ہو */
-.pure-urdu > ar {
-    display: block !important;
-    text-align: center !important;
-    margin-bottom: 12px !important;
-}
+.pure-urdu p.ar { display: block !important; margin: 0 0 12px 0 !important; text-align: center !important; }
+.pure-urdu > ar { display: block !important; text-align: center !important; margin-bottom: 12px !important; }
 
-/* 🔴 3. PURE ARABIC FORMAT 🔴 */
+/* 3. PURE ARABIC FORMAT */
 .pure-arabic, .pure-arabic p, .pure-arabic div, .pure-arabic span, .pure-arabic ar {
-    font-family: var(--far) !important;
-    font-size: var(--ar-fs) !important; 
-    text-align: justify !important;
-    line-height: 2.3;
+    font-family: var(--far) !important; font-size: var(--ar-fs) !important; text-align: justify !important; line-height: 2.3;
 }
 .pure-arabic ar, .pure-arabic .ar, .pure-arabic [lang="ar"] {
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    margin: 0 0 12px 0 !important;
+    background: transparent !important; border: none !important; padding: 0 !important; margin: 0 0 12px 0 !important;
 }
 
-/* 🔴 Headings Checkbox Control 🔴 */
-.arab-headings h1, .arab-headings h2, .arab-headings h3 { 
-    font-family: var(--fhd) !important; 
-    font-size: 1.45rem !important; 
-    font-weight: bold; 
-}
+/* Headings Checkbox Control */
+.arab-headings h1, .arab-headings h2, .arab-headings h3 { font-family: var(--fhd) !important; font-size: 1.45rem !important; font-weight: bold; }
 
 /* 🔴 TOC DRAWER (فہرست کا مینیو) 🔴 */
 .toc-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:400; backdrop-filter:blur(2px); }
@@ -255,11 +234,16 @@ header{
 .toc-item-wrap { border-bottom:1px solid var(--bg2); }
 .toc-item { display:flex; justify-content:space-between; align-items:center; padding:12px 15px; cursor:pointer; color:var(--tx); }
 .toc-item:active { background:var(--bg2); }
+
+/* TOC Fonts Support */
+.t-txt { flex:1; line-height:1.4; }
+.t-txt.font-ur { font-family: var(--fur); }
+.t-txt.font-ar { font-family: var(--far) !important; font-size: 1.15rem; }
+
 .toc-item.h1-item { font-weight:bold; color:var(--gd); font-size:0.95rem; }
 [data-theme="dark"] .toc-item.h1-item, [data-theme="night"] .toc-item.h1-item { color:var(--glo); }
 .toc-item.h2-item { padding-right:25px; font-size:0.85rem; color:var(--gm); border-bottom:1px solid rgba(0,0,0,0.03); }
 .toc-item.h3-item { padding-right:40px; font-size:0.8rem; color:var(--tx2); border-bottom:1px solid rgba(0,0,0,0.03); }
-.t-txt { flex:1; line-height:1.4; }
 .t-ico { padding:0 10px; font-size:0.75rem; transition:transform 0.3s; color:var(--ga); display:flex; align-items:center; }
 .t-ico.open { transform:rotate(180deg); }
 .toc-sub { background:var(--bg); overflow:hidden; }
@@ -268,18 +252,14 @@ header{
 .search-top{background:var(--gm);padding:10px 13px;display:flex;gap:8px;align-items:center}
 .si{flex:1;padding:9px 14px;border-radius:21px;border:none;background:rgba(255,255,255,0.13);color:#fff;font-family:var(--fur);font-size:0.97rem;direction:rtl;outline:none;}
 .si::placeholder{color:rgba(255,255,255,0.4)}
-
 .search-mode-row { display: flex; gap: 15px; padding: 8px 13px; background: var(--bg2); border-bottom: 1px solid rgba(0,0,0,0.07); align-items: center; }
 .search-mode-row label { font-size: 0.8rem; color: var(--tx); display: flex; align-items: center; gap: 5px; cursor: pointer; }
-
 .sscope{display:flex;gap:6px;padding:7px 13px;background:var(--bg);border-bottom:1px solid var(--bg2);overflow-x:auto;scrollbar-width:none;}
 .sscope::-webkit-scrollbar{display:none}
 .scope-chip{white-space:nowrap;padding:4px 11px;border-radius:15px;font-size:0.75rem;border:1px solid var(--bg2);background:var(--bg3);color:var(--tx2);cursor:pointer;font-family:var(--fur);transition:all .14s;}
 .scope-chip.active{background:var(--gl);color:#fff;border-color:var(--gl)}
-
 .rcount{font-size:0.78rem;color:var(--tx2);padding:8px 14px 3px}
 .nores{text-align:center;padding:36px 17px;color:var(--tx2);font-size:0.9rem}
-
 mark.highlight, mark { background-color: #ffeb3b !important; color: #000 !important; padding: 0 3px; border-radius: 4px; font-weight: bold; }
 
 /* ── SETTINGS & ADMIN ── */
@@ -287,20 +267,17 @@ mark.highlight, mark { background-color: #ffeb3b !important; color: #000 !import
 .sets-title{font-size:0.85rem;font-weight:700;color:var(--gd);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--gold)}
 [data-theme="dark"] .sets-title,[data-theme="night"] .sets-title{color:var(--tx)}
 .sets-card{background:var(--bg3);border-radius:var(--r);padding:13px;box-shadow:var(--sh)}
-
 .theme-row{display:flex;gap:8px;flex-wrap:wrap}
 .theme-btn{flex:1;min-width:80px;padding:10px 6px;border-radius:8px;border:2px solid transparent;cursor:pointer;font-family:var(--fur);font-size:0.82rem;font-weight:700;text-align:center;transition:all .2s;}
 .theme-btn.active{border-color:var(--gold)}
 .tb-light{background:#f5f0e8;color:#1a1a0f}
 .tb-dark{background:#23232e;color:#e8e0d0}
 .tb-night{background:#2e2200;color:#f5dfa0}
-
 .font-opts{display:flex;flex-direction:column;gap:7px;margin-top:4px}
 .font-opt{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:8px;border:1px solid var(--bg2);cursor:pointer;background:var(--bg);transition:all .15s;}
 .font-opt.active{border-color:var(--gold);background:var(--bg2)}
 .font-opt-name{font-size:0.82rem;color:var(--tx2)}
 .font-opt-preview{font-size:1rem;color:var(--tx)}
-
 .fsize-row{display:flex;align-items:center;gap:10px;margin-top:6px}
 .fsize-row span{font-size:0.8rem;color:var(--tx2);white-space:nowrap}
 input[type=range]{flex:1;accent-color:var(--ga)}
@@ -336,11 +313,9 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 .modal-btns button{flex:1;padding:9px;border-radius:7px;border:none;font-family:var(--fur);font-size:0.88rem;cursor:pointer}
 .mbtn-save{background:var(--gm);color:var(--glo)}
 .mbtn-cancel{background:var(--bg2);color:var(--tx)}
-
 .toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);background:var(--gd);color:var(--glo);padding:9px 18px;border-radius:20px;font-size:0.83rem;font-family:var(--fur);z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;box-shadow:var(--sh);}
 .toast.show{opacity:1}
 .loading{text-align:center;padding:36px;color:var(--tx2);font-size:0.86rem}
-
 .install-banner{display:none;background:var(--gm);padding:10px 14px;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.1);}
 .install-banner.show{display:flex}
 .install-banner p{flex:1;font-size:0.8rem;color:rgba(255,255,255,0.85)}
@@ -422,6 +397,12 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <span id="rmeta" style="font-size:0.73rem;color:var(--tx2)"></span>
   </div>
   <div class="rbody" id="rbody"></div>
+  
+  <div class="reader-slider-wrap" id="readerSliderWrap" style="display:none;">
+    <span>شروع</span>
+    <input type="range" id="bookScroller" class="reader-slider" min="0" max="100" value="0" oninput="scrollBookTo(this.value)">
+    <span>آخر</span>
+  </div>
 </div>
 
 <div class="view search-view" id="view-search">
@@ -524,7 +505,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
       </p>
     </div>
   </div>
-
 </div>
 
 <div class="view admin-view" id="view-admin">
@@ -571,8 +551,15 @@ input[type=range]{flex:1;accent-color:var(--ga)}
       <label>عنوان</label>
       <input id="nBTitle" placeholder="کتاب کا نام..." dir="rtl">
       
-      <label>عنوان کا فونٹ (کتاب کی فہرست کے لیے)</label>
+      <label>عنوان کا فونٹ (باہر فہرست کے لیے)</label>
       <select id="nBTitleFont" dir="rtl">
+        <option value="ur">اردو (جمیل نوری)</option>
+        <option value="ar">عربی (لوٹس)</option>
+      </select>
+
+      <label>فہرست کا فونٹ (TOC)</label>
+      <select id="nBTocFont" dir="rtl">
+        <option value="auto">خودکار (زبان کے لحاظ سے)</option>
         <option value="ur">اردو (جمیل نوری)</option>
         <option value="ar">عربی (لوٹس)</option>
       </select>
@@ -794,6 +781,11 @@ async function openBook(bid, searchPayload = null){
   document.getElementById('rmeta').textContent=a?.name||'';
   let rbody = document.getElementById('rbody');
   rbody.innerHTML='<div class="loading">لوڈ ہو رہا ہے...</div>';
+  
+  // Reset Slider Value
+  const scroller = document.getElementById('bookScroller');
+  if(scroller) scroller.value = 0;
+
   showView('reader');
   
   try{
@@ -807,8 +799,6 @@ async function openBook(bid, searchPayload = null){
     }
     
     rbody.innerHTML = htmlContent;
-    
-    // Reset Classes
     rbody.className = 'rbody'; 
     
     if (b.lang === 'ur') {
@@ -823,8 +813,13 @@ async function openBook(bid, searchPayload = null){
         rbody.classList.add('arab-headings');
     }
 
-    // 🔴 Generate TOC 🔴
-    generateTOC();
+    // 🔴 Generate TOC with Font Logic 🔴
+    let tocClass = 'font-ur';
+    if(b.lang === 'ar') { tocClass = 'font-ar'; }
+    else if (b.lang === 'ur') { tocClass = 'font-ur'; }
+    else { tocClass = b.toc_font === 'ar' ? 'font-ar' : 'font-ur'; }
+    
+    generateTOC(tocClass);
 
     if(searchPayload) {
        let parts = searchPayload.split('|');
@@ -842,7 +837,7 @@ async function openBook(bid, searchPayload = null){
 }
 
 // 🔴 TOC Generation Logic 🔴
-function generateTOC() {
+function generateTOC(tocClass) {
     const rbody = document.getElementById('rbody');
     const headings = rbody.querySelectorAll('h1, h2, h3');
     const tocList = document.getElementById('tocList');
@@ -874,7 +869,7 @@ function generateTOC() {
             if(hasChildren) {
                 html += `<div class="toc-item-wrap">
                             <div class="toc-item h1-item">
-                                <span class="t-txt" onclick="scrollToHeading('${id}')">${txt}</span>
+                                <span class="t-txt ${tocClass}" onclick="scrollToHeading('${id}')">${txt}</span>
                                 <span class="t-ico" onclick="toggleTocSub('sub-${i}', this)">▼</span>
                             </div>
                             <div class="toc-sub" id="sub-${i}" style="display:none;">`;
@@ -882,13 +877,13 @@ function generateTOC() {
             } else {
                 html += `<div class="toc-item-wrap">
                             <div class="toc-item h1-item" onclick="scrollToHeading('${id}')">
-                                <span class="t-txt">${txt}</span>
+                                <span class="t-txt ${tocClass}">${txt}</span>
                             </div>
                          </div>`;
             }
         } else {
             html += `<div class="toc-item ${lvl}-item" onclick="scrollToHeading('${id}')">
-                        <span class="t-txt">${txt}</span>
+                        <span class="t-txt ${tocClass}">${txt}</span>
                      </div>`;
         }
     });
@@ -931,6 +926,25 @@ function scrollToHeading(id) {
         setTimeout(() => { el.style.backgroundColor = originalBg || "transparent"; }, 1000);
     }
 }
+
+// 🔴 Reader Floating Slider Sync 🔴
+window.addEventListener('scroll', () => {
+    const scroller = document.getElementById('bookScroller');
+    const viewReader = document.getElementById('view-reader');
+    if(scroller && viewReader.classList.contains('active')) {
+        let st = window.scrollY;
+        let sh = document.documentElement.scrollHeight - window.innerHeight;
+        if(sh > 0) {
+            scroller.value = (st / sh) * 100;
+        }
+    }
+});
+
+function scrollBookTo(val) {
+    let sh = document.documentElement.scrollHeight - window.innerHeight;
+    window.scrollTo({top: (val / 100) * sh, behavior: 'instant'});
+}
+
 
 function highlightAndScroll(query, matchMode, occurrenceIndex) {
   let rbody = document.getElementById('rbody');
@@ -1288,10 +1302,17 @@ function openEdit(type,id){
     
     mb.innerHTML=`<label>عنوان</label><input id="eVal" value="${b.title}" dir="rtl">
     
-    <label style="margin-top:10px;">عنوان کا فونٹ (کتاب کی فہرست کے لیے)</label>
+    <label style="margin-top:10px;">عنوان کا فونٹ (باہر فہرست کے لیے)</label>
     <select id="eTitleFont" dir="rtl">
       <option value="ur" ${b.title_font !== 'ar' ? 'selected' : ''}>اردو (جمیل نوری)</option>
       <option value="ar" ${b.title_font === 'ar' ? 'selected' : ''}>عربی (لوٹس)</option>
+    </select>
+
+    <label style="margin-top:10px;">فہرست کا فونٹ (TOC)</label>
+    <select id="eTocFont" dir="rtl">
+      <option value="auto" ${!b.toc_font || b.toc_font === 'auto' ? 'selected' : ''}>خودکار (زبان کے لحاظ سے)</option>
+      <option value="ur" ${b.toc_font === 'ur' ? 'selected' : ''}>اردو (جمیل نوری)</option>
+      <option value="ar" ${b.toc_font === 'ar' ? 'selected' : ''}>عربی (لوٹس)</option>
     </select>
 
     <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:bold;cursor:pointer;background:var(--bg2);padding:8px;border-radius:6px;">
@@ -1314,6 +1335,7 @@ function saveEdit(){
     let b = books.find(x=>x.id===editId);
     b.title=document.getElementById('eVal').value.trim();
     b.title_font = document.getElementById('eTitleFont').value; 
+    b.toc_font = document.getElementById('eTocFont').value; 
     b.has_arab_headings = document.getElementById('eArbHead').checked;
   }
   buildIdx();renderHome();renderAuthors();renderAdminLists();fillSearchSelects();
@@ -1353,6 +1375,7 @@ function addBook(){
     subcategory:document.getElementById('nBSub').value||'',
     lang:document.getElementById('nBLang').value,
     title_font:document.getElementById('nBTitleFont').value, 
+    toc_font:document.getElementById('nBTocFont').value,
     has_arabic:document.getElementById('nBLang').value==='ur-ar',
     has_arab_headings: document.getElementById('nBArbHead').checked,
     content_file:f,description:document.getElementById('nBDesc').value.trim(),
@@ -1365,7 +1388,7 @@ function addBook(){
 
 function delCat(id){if(!confirm('فن حذف کریں؟'))return;cats=cats.filter(c=>c.id!==id);renderHome();renderAdminLists();fillAdminSelects();fillSearchSelects();toast('فن حذف ہوگیا')}
 function delAuth(id){if(!confirm('مصنف حذف کریں؟'))return;auths=auths.filter(a=>a.id!==id);renderAuthors();renderAdminLists();fillAdminSelects();toast('مصنف حذف ہوگیا')}
-function delBook(id){if(!confirm('کتاب حذف کریں؟'))return;books=books.filter(b=>b.id!==id);buildIdx();renderHome();renderAdminLists();fillSearchSelects();toast('کتاب حذف ہوگئی')}
+function delBook(id){if(!confirm('کتاب حذف کریں؟'))return;books=books.filter(b=>b.id!==id);buildIdx();renderHome();renderAdminLists();fillSearchSelects();toast('کتاب ہوگئی')}
 
 function dlJSON(type){
   const data=type==='categories'?cats:type==='authors'?auths:books;
@@ -1380,7 +1403,14 @@ function showView(n, pushState = true){
   document.getElementById('view-'+n)?.classList.add('active');
   document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
   document.getElementById('nav-'+n)?.classList.add('active');
-  window.scrollTo(0,0);
+  
+  // Manage Floating Slider Visibility
+  if(n === 'reader') {
+      document.getElementById('readerSliderWrap').style.display = 'flex';
+  } else {
+      document.getElementById('readerSliderWrap').style.display = 'none';
+      window.scrollTo(0,0);
+  }
   
   if(pushState) {
     history.pushState({view: n}, '', '#' + n);
@@ -1404,7 +1434,7 @@ function toast(msg){
 // Service Worker Registration for PWA Install
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').then(reg => {
+    navigator.serviceWorker.register('sw.js').then(reg => {
       console.log('Service Worker Registered!', reg);
     }).catch(err => {
       console.log('Service Worker registration failed: ', err);
