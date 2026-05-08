@@ -35,5 +35,10 @@
     "id": "Seminar",
     "name": "فقہی سیمینار",
     "subcategories": []
+  },
+  {
+    "id": "fatawa",
+    "name": "فتاوی",
+    "subcategories": []
   }
 ]
