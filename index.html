@@ -46,7 +46,7 @@
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 
-/* 🔴 FAST SCROLLBAR (فاسٹ اسکرولر) 🔴 */
+/* 🔴 FAST SCROLLBAR 🔴 */
 ::-webkit-scrollbar { width: 12px; }
 ::-webkit-scrollbar-track { background: var(--bg2); }
 ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; border: 2px solid var(--bg2); }
@@ -161,14 +161,13 @@ header{
 .rtitle.font-ur { font-family: var(--fur); }
 .rtitle.font-ar { font-family: var(--far) !important; font-size: 1.15rem; font-weight: normal; padding-top: 5px; }
 
-/* 🔴 TOC BUTTON (فہرست کا بٹن) 🔴 */
+/* 🔴 TOC BUTTON 🔴 */
 .toc-btn { background:none; border:none; color:var(--glo); font-size:1.4rem; padding:0 8px; cursor:pointer; }
 
 .rctrl{display:flex;gap:6px;padding:7px 14px;background:var(--bg2);border-bottom:1px solid rgba(0,0,0,0.08);align-items:center;}
 .fbtn{padding:4px 12px;border:1px solid var(--ga);border-radius:6px;background:none;cursor:pointer;font-family:var(--fur);color:var(--tx);font-size:1rem;font-weight:bold;}
 .rbody{padding:17px 16px 40px;max-width:720px;margin:0 auto;background:var(--bg3)}
 
-/* 🔴 Reader Body Force Font Sizing (Urdu Bug Fix) 🔴 */
 .rbody { font-size: var(--ur-fs) !important; }
 
 .rbody p { 
@@ -186,7 +185,7 @@ header{
 [data-theme="dark"] .rbody h2,[data-theme="night"] .rbody h2{color:var(--tx)}
 
 /* 🔴 1. MIX FORMAT (urdu+arabic) 🔴 */
-.mix-urdu-arabic .ar, .mix-urdu-arabic [lang="ar"] {
+.mix-urdu-arabic ar, .mix-urdu-arabic .ar, .mix-urdu-arabic [lang="ar"] {
   font-family: var(--far) !important; 
   font-size: var(--ar-fs) !important;
   line-height: 2.3; text-align: center; background: var(--bg2); 
@@ -194,36 +193,43 @@ header{
   margin: 13px 0; border-radius: 0 var(--r) var(--r) 0;
   direction: rtl; color: var(--tx); display: block;
 }
-.mix-urdu-arabic span.ar { 
+.mix-urdu-arabic span.ar, .mix-urdu-arabic p ar { 
     display: inline !important; background: transparent !important; padding: 0 !important; 
     border: none !important; margin: 0 !important; font-size: var(--ar-fs) !important; 
 }
 
-/* 🔴 2. PURE URDU FORMAT (No Arabic slider interference) 🔴 */
-.pure-urdu .ar, .pure-urdu [lang="ar"] {
+/* 🔴 2. PURE URDU FORMAT (عربی ٹیگ کی مکمل اصلاح) 🔴 */
+.pure-urdu ar, .pure-urdu .ar, .pure-urdu [lang="ar"], .pure-urdu span.ar {
     background: transparent !important;
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
     text-align: justify !important;
-    font-family: var(--far) !important; 
-    font-size: 1.1em !important; 
-    display: inline;
+    font-family: var(--far) !important; /* باقاعدہ عربی فونٹ */
+    font-size: var(--ar-fs) !important; /* عربی سلائیڈر والا سائز */
+    display: inline !important;
     line-height: inherit !important;
 }
 .pure-urdu p.ar {
     display: block !important;
     margin: 0 0 12px 0 !important;
+    text-align: center !important;
+}
+/* اگر <ar> اکیلا پیراگراف کے طور پر استعمال ہو */
+.pure-urdu > ar {
+    display: block !important;
+    text-align: center !important;
+    margin-bottom: 12px !important;
 }
 
 /* 🔴 3. PURE ARABIC FORMAT 🔴 */
-.pure-arabic, .pure-arabic p, .pure-arabic div, .pure-arabic span {
+.pure-arabic, .pure-arabic p, .pure-arabic div, .pure-arabic span, .pure-arabic ar {
     font-family: var(--far) !important;
     font-size: var(--ar-fs) !important; 
     text-align: justify !important;
     line-height: 2.3;
 }
-.pure-arabic .ar, .pure-arabic [lang="ar"] {
+.pure-arabic ar, .pure-arabic .ar, .pure-arabic [lang="ar"] {
     background: transparent !important;
     border: none !important;
     padding: 0 !important;
@@ -817,7 +823,7 @@ async function openBook(bid, searchPayload = null){
         rbody.classList.add('arab-headings');
     }
 
-    // 🔴 1. Generate TOC (فہرست تیار کریں) 🔴
+    // 🔴 Generate TOC 🔴
     generateTOC();
 
     if(searchPayload) {
@@ -835,7 +841,7 @@ async function openBook(bid, searchPayload = null){
   }
 }
 
-// 🔴 2. TOC Generation Logic (فہرست بنانے والا جاوا اسکرپٹ) 🔴
+// 🔴 TOC Generation Logic 🔴
 function generateTOC() {
     const rbody = document.getElementById('rbody');
     const headings = rbody.querySelectorAll('h1, h2, h3');
@@ -857,9 +863,8 @@ function generateTOC() {
         let txt = h.innerText.trim();
 
         if(lvl === 'h1') {
-            if(inSub) { html += `</div></div>`; inSub = false; } // close previous sub container
+            if(inSub) { html += `</div></div>`; inSub = false; } 
             
-            // Check if next elements are h2/h3 before next h1
             let hasChildren = false;
             for(let j = i+1; j < headings.length; j++){
                 if(headings[j].tagName.toLowerCase() === 'h1') break;
@@ -882,14 +887,13 @@ function generateTOC() {
                          </div>`;
             }
         } else {
-            // h2 or h3
             html += `<div class="toc-item ${lvl}-item" onclick="scrollToHeading('${id}')">
                         <span class="t-txt">${txt}</span>
                      </div>`;
         }
     });
     
-    if(inSub) html += `</div></div>`; // close last sub container
+    if(inSub) html += `</div></div>`; 
     tocList.innerHTML = html;
 }
 
@@ -922,7 +926,6 @@ function scrollToHeading(id) {
         let top = el.getBoundingClientRect().top + window.scrollY - offset;
         window.scrollTo({top: top, behavior: 'smooth'});
         
-        // Highlight Effect
         let originalBg = el.style.backgroundColor;
         el.style.backgroundColor = "var(--glo)";
         setTimeout(() => { el.style.backgroundColor = originalBg || "transparent"; }, 1000);
@@ -1116,7 +1119,7 @@ async function doSearch(){
   }
 
   rc.textContent=searched.length+' نتائج ملے';
-  if(!searched.length){sr.innerHTML='<div class="nores">کوئی नतीजा نہیں ملا</div>';return;}
+  if(!searched.length){sr.innerHTML='<div class="nores">کوئی نتیجہ نہیں ملا</div>';return;}
 
   sr.innerHTML=searched.map(b=>{
     let hl=b.title;
