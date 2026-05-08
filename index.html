@@ -1219,7 +1219,16 @@ function toast(msg){
   t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
 }
-
+// Service Worker Registration for PWA Install
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      console.log('Service Worker Registered!', reg);
+    }).catch(err => {
+      console.log('Service Worker registration failed: ', err);
+    });
+  });
+}
 load();
 checkAdminAccess();
 </script>
