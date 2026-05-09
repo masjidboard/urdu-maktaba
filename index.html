@@ -1070,45 +1070,71 @@ function highlightAndScroll(query, matchMode, occurrenceIndex) {
   let rbody = document.getElementById('rbody');
   let content = rbody.innerHTML;
   
-  let words = matchMode === 'exact' ? [query.trim()] : query.trim().split(/\s+/).filter(Boolean);
-  words.sort((a,b) => b.length - a.length);
-  
-  let pattern = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
-  if (pattern) {
-      let regex = new RegExp(`(?![^<]+>)(${pattern})`, 'gi');
+  // 1. الفاظ کو ہائیلائٹ کرنے کا عمل
+  if (matchMode === 'exact') {
+      let regex = new RegExp(`(?![^<]+>)(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
       rbody.innerHTML = content.replace(regex, `<mark class="highlight">$1</mark>`);
+  } else {
+      let words = query.trim().split(/\s+/).filter(Boolean);
+      words.sort((a,b) => b.length - a.length);
+      let pattern = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+      if (pattern) {
+          let regex = new RegExp(`(?![^<]+>)(${pattern})`, 'gi');
+          rbody.innerHTML = content.replace(regex, `<mark class="highlight">$1</mark>`);
+      }
   }
   
+  // 2. اصل اور درست پیراگراف ڈھونڈ کر وہاں اسکرول کرنے کا اسمارٹ طریقہ
   setTimeout(() => {
-      let targetMark = null;
+      let blocks = rbody.querySelectorAll('p, h1, h2, h3, div, td, li');
+      let matchingBlocks = [];
+      let qLower = query.toLowerCase();
+      let ts = qLower.split(/\s+/).filter(Boolean);
 
-      if (matchMode === 'all' || matchMode === 'exact') {
-          let blocks = rbody.querySelectorAll('p, h1, h2, h3, div, td, li');
-          let matchingBlocks = [];
-          for (let p of blocks) {
-              let pText = p.innerText.toLowerCase();
-              if (matchMode === 'all' && words.every(w => pText.includes(w.toLowerCase()))) {
-                  matchingBlocks.push(p);
-              } else if (matchMode === 'exact' && pText.includes(query.toLowerCase())) {
-                  matchingBlocks.push(p);
-              }
+      // بالکل سرچ انجن کی طرح پیراگراف کو فلٹر کریں
+      for (let p of blocks) {
+          let pText = p.innerText.toLowerCase();
+          if (pText.replace(/\s+/g, '').length < 3) continue;
+
+          let isMatch = false;
+          if (matchMode === 'exact') {
+              isMatch = pText.includes(qLower);
+          } else if (matchMode === 'all') {
+              isMatch = ts.every(t => pText.includes(t));
+          } else if (matchMode === 'any') {
+              isMatch = ts.some(t => pText.includes(t));
           }
-          if(matchingBlocks[occurrenceIndex]) {
-              targetMark = matchingBlocks[occurrenceIndex].querySelector('mark.highlight');
+
+          if (isMatch) {
+              matchingBlocks.push(p);
           }
       }
 
-      if (!targetMark) {
-          let marks = document.querySelectorAll('mark.highlight');
-          targetMark = marks[occurrenceIndex] || marks[0];
-      }
+      // سرچ کے رزلٹ نمبر (occurrenceIndex) کے حساب سے درست پیراگراف پکڑیں
+      let targetBlock = matchingBlocks[occurrenceIndex];
 
-      if (targetMark) {
+      if (targetBlock) {
+          // چپکنے والے ہیڈر (Sticky Header) کی جگہ چھوڑ کر اسکرول کریں
           let offset = 120;
-          let top = targetMark.getBoundingClientRect().top + window.scrollY - offset;
+          let top = targetBlock.getBoundingClientRect().top + window.scrollY - offset;
           window.scrollTo({top: top, behavior: 'smooth'});
-          targetMark.style.borderBottom = "3px solid red";
-          setTimeout(() => { targetMark.style.borderBottom = "none"; }, 3000);
+
+          // 3. یوزر کی آسانی کے لیے اس مخصوص پیراگراف پر سنہری رنگ کا ایفیکٹ دیں
+          let originalBg = targetBlock.style.backgroundColor;
+          let originalBorder = targetBlock.style.borderRight;
+          let originalPadding = targetBlock.style.paddingRight;
+
+          targetBlock.style.backgroundColor = "rgba(232, 201, 122, 0.25)";
+          targetBlock.style.borderRight = "4px solid var(--gold)";
+          targetBlock.style.paddingRight = "10px";
+          targetBlock.style.borderRadius = "4px";
+
+          // 3 سیکنڈ بعد ایفیکٹ ختم کر دیں
+          setTimeout(() => { 
+              targetBlock.style.backgroundColor = originalBg || "transparent"; 
+              targetBlock.style.borderRight = originalBorder || "none";
+              targetBlock.style.paddingRight = originalPadding || "0";
+          }, 3500);
       }
   }, 400);
 }
