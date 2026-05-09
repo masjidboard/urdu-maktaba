@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="مکتبہ شافعیہ">
-<meta name="description" content="مکتبہ شافعیہ — شعبۂ تحقیق دار العلوم اسلامیہ عربیہ تلوجہ">
+<meta name="description" content="مکتبہ شافعیہ — شعبۂ تحقیق دار العلوم اسلامیہ عربیہ">
 <title>مکتبہ شافعیہ</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -60,7 +60,7 @@ body{
   overflow-x:hidden;transition:background .3s,color .3s;
 }
 
-/* 🔴 SPLASH SCREEN (آٹھ سیکنڈ والا ہوم پیج) 🔴 */
+/* 🔴 SPLASH SCREEN 🔴 */
 #splashScreen {
   position: fixed; inset: 0; z-index: 9999;
   background: #0a1a10; display: flex; align-items: center; justify-content: center;
@@ -116,9 +116,10 @@ body{
 .spl-text:nth-child(2) { animation: splSlideUp 0.7s ease 1.4s forwards; }
 .spl-text:nth-child(3) { animation: splSlideUp 0.7s ease 1.6s forwards; }
 .spl-inst { font-size: 1.15rem; font-weight: 700; color: #e8c97a; opacity: 0; animation: splSlideUp 0.7s ease 2s forwards; }
-.spl-loader-wrap { margin-top: 36px; opacity: 0; animation: splFadeIn 0.5s ease 2.2s forwards; }
+.spl-dev { font-size: 0.85rem; color: rgba(201,168,76,0.6); margin-top: 15px; opacity: 0; animation: splSlideUp 0.7s ease 2.2s forwards; }
+.spl-loader-wrap { margin-top: 36px; opacity: 0; animation: splFadeIn 0.5s ease 2.5s forwards; }
 .spl-loader-bar { width: 180px; height: 2px; background: rgba(201,168,76,0.15); border-radius: 2px; margin: 0 auto; overflow: hidden; }
-.spl-loader-fill { height: 100%; background: linear-gradient(90deg, #c9a84c, #e8c97a, #c9a84c); border-radius: 2px; width: 0%; animation: splLoad 3.5s ease 2.3s forwards; }
+.spl-loader-fill { height: 100%; background: linear-gradient(90deg, #c9a84c, #e8c97a, #c9a84c); border-radius: 2px; width: 0%; animation: splLoad 3.5s ease 2.6s forwards; }
 .spl-loader-text { font-size: 0.68rem; color: rgba(201,168,76,0.4); margin-top: 8px; letter-spacing: 0.08em; }
 
 @keyframes splFadeIn { to { opacity: 1; } }
@@ -130,14 +131,14 @@ body{
 @keyframes splLoad { 0% { width: 0%; } 100% { width: 100%; } }
 @keyframes splFloat { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 10% { opacity: 0.6; } 90% { opacity: 0.3; } 100% { transform: translateY(-10vh) scale(1); opacity: 0; } }
 
-/* ── HEADER (سرچ اور سیٹنگ ہٹا دی گئی) ── */
+/* ── HEADER ── */
 header{
   background:var(--gd);padding:0 12px;
   display:flex;align-items:center;gap:9px;
   height:56px;position:sticky;top:0;z-index:300;
   box-shadow:0 2px 8px rgba(0,0,0,0.4);
   padding-top:env(safe-area-inset-top);
-  justify-content: center; /* لوگو کو درمیان میں لانے کے لیے */
+  justify-content: center;
 }
 .hlogo{display:flex;align-items:center;gap:8px;cursor:pointer;}
 .hlogo-img{width:34px;height:34px;border-radius:8px;object-fit:cover;border:1px solid var(--gold)}
@@ -217,7 +218,7 @@ header{
 .rad-lbl:last-child { border-bottom: none; }
 .rad-lbl input[type="checkbox"] { accent-color: var(--ga); width: 18px; height: 18px; cursor: pointer; }
 
-/* 🔴 READER HEAD (STICKY - اب یہ اسکرول کرنے پر اوپر نہیں جائے گا) 🔴 */
+/* 🔴 READER HEAD (STICKY) 🔴 */
 .rhead{
   background:var(--gd); padding:11px 14px; display:flex; align-items:center; gap:8px;
   position: sticky; top: calc(56px + env(safe-area-inset-top)); z-index: 280;
@@ -230,9 +231,14 @@ header{
 
 .rctrl{display:flex;gap:6px;padding:7px 14px;background:var(--bg2);border-bottom:1px solid rgba(0,0,0,0.08);align-items:center;}
 .fbtn{padding:4px 12px;border:1px solid var(--ga);border-radius:6px;background:none;cursor:pointer;font-family:var(--fur);color:var(--tx);font-size:1rem;font-weight:bold;}
-.rbody{padding:17px 16px 40px;max-width:720px;margin:0 auto;background:var(--bg3)}
 
-/* 🔴 READER FLOATING SLIDER 🔴 */
+/* 🔴 READER BODY (اسکرین کٹنے کا حل) 🔴 */
+.rbody{padding:17px 16px 80px; max-width:100vw; overflow-x:hidden; margin:0 auto; background:var(--bg3); word-wrap:break-word; overflow-wrap:break-word;}
+.rbody * { max-width: 100% !important; box-sizing: border-box !important; }
+.rbody img { height: auto !important; }
+.rbody table { display: block; overflow-x: auto; width: 100% !important; }
+
+/* READER FLOATING SLIDER */
 .reader-slider-wrap {
     position: fixed; bottom: 75px; left: 50%; transform: translateX(-50%);
     width: 90%; max-width: 400px; background: rgba(15, 35, 24, 0.9);
@@ -283,11 +289,10 @@ header{
     background: transparent !important; border: none !important; padding: 0 !important; margin: 0 0 12px 0 !important;
 }
 
-/* 🔴 4. ENGLISH FORMAT (انگریزی کا نیا سیٹ اپ) 🔴 */
+/* 4. ENGLISH FORMAT */
 .lang-en { direction: ltr !important; text-align: left !important; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important; }
 .lang-en p { direction: ltr !important; text-align: justify !important; font-family: inherit !important; font-size: 1.05em !important; line-height: 1.8; }
 .lang-en h1, .lang-en h2, .lang-en h3 { text-align: left !important; font-family: inherit !important; direction: ltr !important; }
-/* انگریزی کے بیچ میں عربی */
 .lang-en ar, .lang-en .ar, .lang-en [lang="ar"], .lang-en span.ar {
     direction: rtl !important; font-family: var(--far) !important; font-size: var(--ar-fs) !important;
     text-align: right !important; display: inline !important; line-height: inherit !important;
@@ -416,6 +421,7 @@ input[type=range]{flex:1;accent-color:var(--ga)}
       <div class="spl-label">─── زیر نگرانی ───</div>
       <div class="spl-text">شعبۂ تحقیق</div>
       <div class="spl-inst">دار العلوم اسلامیہ عربیہ تلوجہ</div>
+      <div class="spl-dev">ڈیولپر: مفتی اظہر محمد امین پٹیل</div>
     </div>
     <div class="spl-loader-wrap">
       <div class="spl-loader-bar"><div class="spl-loader-fill"></div></div>
@@ -451,7 +457,7 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 <div class="view active" id="view-home">
   <div class="banner">
     <h1>مکتبہ شافعیہ</h1>
-    <p>شعبۂ تحقیق — دار العلوم اسلامیہ عربیہ تلوجہ</p>
+    <p>شعبۂ تحقیق — دار العلوم اسلامیہ عربیہ</p>
     <div class="stats">
       <div class="stat"><div class="n" id="sB">0</div><div class="l">کتابیں</div></div>
       <div class="stat"><div class="n" id="sA">0</div><div class="l">مصنفین</div></div>
@@ -729,7 +735,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 <div class="toast" id="toast"></div>
 
 <script>
-// 🔴 SPLASH SCREEN LOGIC 🔴
 document.addEventListener("DOMContentLoaded", () => {
     const splContainer = document.getElementById('spl-particles');
     if(splContainer) {
@@ -751,7 +756,7 @@ document.addEventListener("DOMContentLoaded", () => {
             sp.style.pointerEvents = 'none';
             setTimeout(() => sp.remove(), 800);
         }
-    }, 8000); // 8 سیکنڈ کا ٹائمر
+    }, 8000); 
 });
 
 const SECRET_KEY = 'taloja786';
@@ -799,7 +804,6 @@ async function load(){
     renderAdminLists();fillAdminSelects();fillSearchSelects();
     loadSettings();
     
-    // Initial History State
     history.replaceState({view: 'home'}, '', '#home');
   }catch(e){
     document.getElementById('fgrid').innerHTML='<div class="loading">ڈیٹا لوڈ نہیں ہوا</div>';
@@ -918,7 +922,6 @@ async function openBook(bid, searchPayload = null){
     rbody.innerHTML = htmlContent;
     rbody.className = 'rbody'; 
     
-    // 🔴 Language Format Assignment 🔴
     if (b.lang === 'ur') {
         rbody.classList.add('pure-urdu');
     } else if (b.lang === 'ar') {
@@ -1036,7 +1039,7 @@ function scrollToHeading(id) {
     closeToc();
     let el = document.getElementById(id);
     if(el) {
-        let offset = 120; // Adjusted for sticky header
+        let offset = 120; 
         let top = el.getBoundingClientRect().top + window.scrollY - offset;
         window.scrollTo({top: top, behavior: 'smooth'});
         
@@ -1527,10 +1530,9 @@ function dlJSON(type){
   toast(fname+' ڈاؤن لوڈ ہوگئی');
 }
 
-// 🔴 SMART HISTORY LOGIC 🔴
 function goHome() {
     if (history.state && history.state.view !== 'home') {
-        history.back(); // اس سے popstate ٹریگر ہوگا اور ایپ ہوم پر آ جائے گی
+        history.back(); 
     } else {
         showView('home');
     }
@@ -1576,7 +1578,6 @@ function toast(msg){
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-// Service Worker Registration
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').then(reg => {
