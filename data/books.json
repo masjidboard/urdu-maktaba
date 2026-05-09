@@ -83,5 +83,20 @@
     "content_file": "b003.html",
     "description": "",
     "added": "2026-05-08"
+  },
+  {
+    "id": "b1778318598792",
+    "title": "توشۂ حجاج (انگریزی)",
+    "author_id": "a1778129524966",
+    "category": "shafi-fiqh",
+    "subcategory": "fiqh-kutub",
+    "lang": "en-ar",
+    "title_font": "ur",
+    "toc_font": "auto",
+    "has_arabic": true,
+    "has_arab_headings": false,
+    "content_file": "b007.html",
+    "description": "",
+    "added": "2026-05-09"
   }
 ]
