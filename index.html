@@ -137,7 +137,8 @@ header{
   display:flex;align-items:center;gap:9px;
   height:56px;position:sticky;top:0;z-index:300;
   box-shadow:0 2px 8px rgba(0,0,0,0.4);
-  padding-top:env(safe-area-inset-top);
+  /* ✅ بگ فکس: padding-top:0 — Android WebView میں env() غلط space بناتا تھا */
+  padding-top: 0;
   justify-content: center;
 }
 .hlogo{display:flex;align-items:center;gap:8px;cursor:pointer;}
@@ -221,7 +222,8 @@ header{
 /* 🔴 READER HEAD (STICKY) 🔴 */
 .rhead{
   background:var(--gd); padding:11px 14px; display:flex; align-items:center; gap:8px;
-  position: sticky; top: calc(56px + env(safe-area-inset-top)); z-index: 280;
+  /* ✅ بگ فکس: top:56px — env(safe-area-inset-top) Android پر extra space بناتا تھا */
+  position: sticky; top: 56px; z-index: 280;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 .rtitle{font-size:0.92rem;font-weight:700;color:var(--glo);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -1073,7 +1075,6 @@ function highlightAndScroll(query, matchMode, occurrenceIndex) {
   let qLower = query.trim().toLowerCase();
   let ts = qLower.split(/\s+/).filter(Boolean);
 
-  // 1. الفاظ کو ہائیلائٹ کرنے کا عمل
   if (matchMode === 'exact') {
       let exactQ = query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       let regex = new RegExp(`(?![^<]+>)(${exactQ})`, 'gi');
@@ -1087,13 +1088,10 @@ function highlightAndScroll(query, matchMode, occurrenceIndex) {
       }
   }
   
-  // 2. اصل اور درست پیراگراف ڈھونڈ کر وہاں اسکرول کرنے کا اسمارٹ طریقہ
   setTimeout(() => {
-      // بالکل doSearch والے انجن کی طرح تمام ٹیگز کو پکڑیں
       let blocks = rbody.querySelectorAll('p, h1, h2, h3, h4, h5, h6, tr, li');
       let matchingBlocks = [];
 
-      // پیراگراف کو فلٹر کریں
       for (let i = 0; i < blocks.length; i++) {
           let p = blocks[i];
           let pText = p.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
@@ -1113,26 +1111,22 @@ function highlightAndScroll(query, matchMode, occurrenceIndex) {
           }
       }
 
-      // سرچ کے رزلٹ نمبر کے حساب سے بالکل درست پیراگراف پکڑیں
       let targetBlock = matchingBlocks[occurrenceIndex];
 
       if (targetBlock) {
-          let offset = 70; // ہیڈر کی جگہ
+          let offset = 70;
           let top = targetBlock.getBoundingClientRect().top + window.scrollY - offset;
           window.scrollTo({top: top, behavior: 'smooth'});
 
-          // یوزر کی آسانی کے لیے اس مخصوص پیراگراف پر سنہری رنگ کا ایفیکٹ دیں
           let originalBg = targetBlock.style.backgroundColor;
           targetBlock.style.backgroundColor = "rgba(232, 201, 122, 0.4)";
           targetBlock.style.borderRadius = "5px";
           targetBlock.style.transition = "background-color 0.5s";
 
-          // 3.5 سیکنڈ بعد ایفیکٹ ختم کر دیں
           setTimeout(() => { 
               targetBlock.style.backgroundColor = originalBg || "transparent"; 
           }, 3500);
       } else {
-          // اگر کوئی مسلہ ہو تو کم از کم پہلے پیلے لفظ پر چلا جائے
           let firstMark = rbody.querySelector('mark.highlight');
           if(firstMark) {
               let top = firstMark.getBoundingClientRect().top + window.scrollY - 70;
