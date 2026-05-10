@@ -98,5 +98,20 @@
     "content_file": "b007.html",
     "description": "",
     "added": "2026-05-09"
+  },
+  {
+    "id": "b1778378828727",
+    "title": "منتخب شافعی مسائل اور علمی باتیں",
+    "author_id": "a1778378765314",
+    "category": "shafi-fiqh",
+    "subcategory": "fiqh-kutub",
+    "lang": "en-ar",
+    "title_font": "ur",
+    "toc_font": "auto",
+    "has_arabic": true,
+    "has_arab_headings": false,
+    "content_file": "b008.html",
+    "description": "",
+    "added": "2026-05-10"
   }
 ]
