@@ -1070,13 +1070,16 @@ function highlightAndScroll(query, matchMode, occurrenceIndex) {
   let rbody = document.getElementById('rbody');
   let content = rbody.innerHTML;
   
+  let qLower = query.trim().toLowerCase();
+  let ts = qLower.split(/\s+/).filter(Boolean);
+
   // 1. الفاظ کو ہائیلائٹ کرنے کا عمل
   if (matchMode === 'exact') {
-      let regex = new RegExp(`(?![^<]+>)(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      let exactQ = query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      let regex = new RegExp(`(?![^<]+>)(${exactQ})`, 'gi');
       rbody.innerHTML = content.replace(regex, `<mark class="highlight">$1</mark>`);
   } else {
-      let words = query.trim().split(/\s+/).filter(Boolean);
-      words.sort((a,b) => b.length - a.length);
+      let words = [...ts].sort((a,b) => b.length - a.length);
       let pattern = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
       if (pattern) {
           let regex = new RegExp(`(?![^<]+>)(${pattern})`, 'gi');
@@ -1086,15 +1089,15 @@ function highlightAndScroll(query, matchMode, occurrenceIndex) {
   
   // 2. اصل اور درست پیراگراف ڈھونڈ کر وہاں اسکرول کرنے کا اسمارٹ طریقہ
   setTimeout(() => {
-      let blocks = rbody.querySelectorAll('p, h1, h2, h3, div, td, li');
+      // بالکل doSearch والے انجن کی طرح تمام ٹیگز کو پکڑیں
+      let blocks = rbody.querySelectorAll('p, h1, h2, h3, h4, h5, h6, tr, li');
       let matchingBlocks = [];
-      let qLower = query.toLowerCase();
-      let ts = qLower.split(/\s+/).filter(Boolean);
 
-      // بالکل سرچ انجن کی طرح پیراگراف کو فلٹر کریں
-      for (let p of blocks) {
-          let pText = p.innerText.toLowerCase();
-          if (pText.replace(/\s+/g, '').length < 3) continue;
+      // پیراگراف کو فلٹر کریں
+      for (let i = 0; i < blocks.length; i++) {
+          let p = blocks[i];
+          let pText = p.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+          if (pText.length < 3) continue;
 
           let isMatch = false;
           if (matchMode === 'exact') {
@@ -1110,31 +1113,31 @@ function highlightAndScroll(query, matchMode, occurrenceIndex) {
           }
       }
 
-      // سرچ کے رزلٹ نمبر (occurrenceIndex) کے حساب سے درست پیراگراف پکڑیں
+      // سرچ کے رزلٹ نمبر کے حساب سے بالکل درست پیراگراف پکڑیں
       let targetBlock = matchingBlocks[occurrenceIndex];
 
       if (targetBlock) {
-          // چپکنے والے ہیڈر (Sticky Header) کی جگہ چھوڑ کر اسکرول کریں
-          let offset = 120;
+          let offset = 70; // ہیڈر کی جگہ
           let top = targetBlock.getBoundingClientRect().top + window.scrollY - offset;
           window.scrollTo({top: top, behavior: 'smooth'});
 
-          // 3. یوزر کی آسانی کے لیے اس مخصوص پیراگراف پر سنہری رنگ کا ایفیکٹ دیں
+          // یوزر کی آسانی کے لیے اس مخصوص پیراگراف پر سنہری رنگ کا ایفیکٹ دیں
           let originalBg = targetBlock.style.backgroundColor;
-          let originalBorder = targetBlock.style.borderRight;
-          let originalPadding = targetBlock.style.paddingRight;
+          targetBlock.style.backgroundColor = "rgba(232, 201, 122, 0.4)";
+          targetBlock.style.borderRadius = "5px";
+          targetBlock.style.transition = "background-color 0.5s";
 
-          targetBlock.style.backgroundColor = "rgba(232, 201, 122, 0.25)";
-          targetBlock.style.borderRight = "4px solid var(--gold)";
-          targetBlock.style.paddingRight = "10px";
-          targetBlock.style.borderRadius = "4px";
-
-          // 3 سیکنڈ بعد ایفیکٹ ختم کر دیں
+          // 3.5 سیکنڈ بعد ایفیکٹ ختم کر دیں
           setTimeout(() => { 
               targetBlock.style.backgroundColor = originalBg || "transparent"; 
-              targetBlock.style.borderRight = originalBorder || "none";
-              targetBlock.style.paddingRight = originalPadding || "0";
           }, 3500);
+      } else {
+          // اگر کوئی مسلہ ہو تو کم از کم پہلے پیلے لفظ پر چلا جائے
+          let firstMark = rbody.querySelector('mark.highlight');
+          if(firstMark) {
+              let top = firstMark.getBoundingClientRect().top + window.scrollY - 70;
+              window.scrollTo({top: top, behavior: 'smooth'});
+          }
       }
   }, 400);
 }
