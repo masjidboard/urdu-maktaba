@@ -120,7 +120,7 @@
     "author_id": "a1778423705120",
     "category": "usoolefiqh",
     "subcategory": "",
-    "lang": "ur",
+    "lang": "ur-ar",
     "title_font": "ur",
     "toc_font": "auto",
     "has_arabic": true,
@@ -128,5 +128,20 @@
     "content_file": "b009.html",
     "description": "",
     "added": "2026-05-10"
+  },
+  {
+    "id": "b1778466697624",
+    "title": "مبادیات فقہ",
+    "author_id": "a1778423705120",
+    "category": "shafi-fiqh",
+    "subcategory": "fiqh-kutub",
+    "lang": "ur",
+    "title_font": "ur",
+    "toc_font": "auto",
+    "has_arabic": false,
+    "has_arab_headings": false,
+    "content_file": "b010.html",
+    "description": "",
+    "added": "2026-05-11"
   }
 ]
