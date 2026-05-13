@@ -159,7 +159,7 @@ header{
   transition:color .2s; height: 100%;
 }
 .nbtn.active{color:var(--glo)}
-.nbtn svg{width:20px;height:20px;overflow:visible}
+.nbtn svg{width:20px;height:20px}
 
 /* ── LAYOUT ── */
 .main{padding-bottom:80px}
@@ -1443,19 +1443,9 @@ function openEdit(type,id){
       <label>سن وفات</label><input id="eDy" type="number" value="${a.death_year||''}" dir="ltr">`;
   }else{
     const b=books.find(x=>x.id===id);
-    document.getElementById('modalTitle').textContent='کتاب کی ترمیم کریں';
+    document.getElementById('modalTitle').textContent='کتاب کا عنوان تبدیل کریں';
     
-    // Build options
-    const authOpts = auths.map(a=>`<option value="${a.id}" ${b.author_id===a.id?'selected':''}>${a.name}</option>`).join('');
-    const catOpts = cats.map(c=>`<option value="${c.id}" ${b.category===c.id?'selected':''}>${c.name}</option>`).join('');
-    const curCat = cats.find(c=>c.id===b.category);
-    const subOpts = (curCat?.subcategories?.length
-      ? '<option value="">-- کوئی نہیں --</option>' + curCat.subcategories.map(s=>`<option value="${s.id}" ${b.subcategory===s.id?'selected':''}>${s.name}</option>`).join('')
-      : '<option value="">-- کوئی ذیلی فن نہیں --</option>');
-
-    mb.innerHTML=`
-    <label>عنوان</label>
-    <input id="eVal" value="${b.title.replace(/"/g,'&quot;')}" dir="rtl">
+    mb.innerHTML=`<label>عنوان</label><input id="eVal" value="${b.title}" dir="rtl">
     
     <label style="margin-top:10px;">عنوان کا فونٹ (باہر فہرست کے لیے)</label>
     <select id="eTitleFont" dir="rtl">
@@ -1470,15 +1460,6 @@ function openEdit(type,id){
       <option value="ar" ${b.toc_font === 'ar' ? 'selected' : ''}>عربی (لوٹس)</option>
     </select>
 
-    <label style="margin-top:10px;">مصنف</label>
-    <select id="eBAuth" dir="rtl">${authOpts}</select>
-
-    <label style="margin-top:10px;">فن</label>
-    <select id="eBCat" dir="rtl" onchange="updateEditSubcats()">${catOpts}</select>
-
-    <label style="margin-top:10px;">ذیلی فن</label>
-    <select id="eBSub" dir="rtl">${subOpts}</select>
-
     <label style="margin-top:10px;">زبان (اہم فارمیٹنگ)</label>
     <select id="eBLang" dir="rtl">
       <option value="ur" ${b.lang === 'ur' ? 'selected' : ''}>اردو (خالص)</option>
@@ -1488,15 +1469,9 @@ function openEdit(type,id){
       <option value="en-ar" ${b.lang === 'en-ar' ? 'selected' : ''}>انگریزی + عربی (Eng+Arb)</option>
     </select>
 
-    <label style="margin-top:10px;">متن فائل (content/ فولڈر میں)</label>
-    <input id="eBFile" value="${b.content_file||''}" placeholder="b001.html" dir="ltr">
-
-    <label style="margin-top:10px;">تعارف</label>
-    <textarea id="eBDesc" placeholder="مختصر تعارف..." dir="rtl" style="min-height:80px">${b.description||''}</textarea>
-
     <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:bold;cursor:pointer;background:var(--bg2);padding:8px;border-radius:6px;">
         <input type="checkbox" id="eArbHead" ${b.has_arab_headings ? 'checked' : ''} style="width:18px;height:18px;margin:0;">
-        کتاب کے اندر کی ہیڈنگز کے لیے 'Traditional Arabic' استعمال کریں
+        عنوانات کے لیے 'Traditional Arabic' استعمال کریں
     </label>`;
   }
   m.classList.add('open');
@@ -1515,13 +1490,7 @@ function saveEdit(){
     b.title=document.getElementById('eVal').value.trim();
     b.title_font = document.getElementById('eTitleFont').value; 
     b.toc_font = document.getElementById('eTocFont').value;
-    b.author_id = document.getElementById('eBAuth').value;
-    b.category = document.getElementById('eBCat').value;
-    b.subcategory = document.getElementById('eBSub').value||'';
     b.lang = document.getElementById('eBLang').value; 
-    b.has_arabic = document.getElementById('eBLang').value.includes('ar');
-    b.content_file = document.getElementById('eBFile').value.trim();
-    b.description = document.getElementById('eBDesc').value.trim();
     b.has_arab_headings = document.getElementById('eArbHead').checked;
   }
   buildIdx();renderHome();renderAuthors();renderAdminLists();fillSearchSelects();
@@ -1529,19 +1498,6 @@ function saveEdit(){
 }
 
 function closeModal(){document.getElementById('editModal').classList.remove('open')}
-
-function updateEditSubcats(){
-  const catId = document.getElementById('eBCat')?.value;
-  const subSel = document.getElementById('eBSub');
-  if(!subSel) return;
-  const cat = cats.find(c=>c.id===catId);
-  if(cat?.subcategories?.length){
-    subSel.innerHTML = '<option value="">-- کوئی نہیں --</option>' +
-      cat.subcategories.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
-  } else {
-    subSel.innerHTML = '<option value="">-- کوئی ذیلی فن نہیں --</option>';
-  }
-}
 
 function addCat(){
   const n=document.getElementById('nCatName').value.trim();
