@@ -40,5 +40,10 @@
     "id": "fatawa",
     "name": "فتاوی",
     "subcategories": []
+  },
+  {
+    "id": "khutbaat",
+    "name": "خطبات",
+    "subcategories": []
   }
 ]
