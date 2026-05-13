@@ -18,6 +18,7 @@
 @font-face{font-family:'AlQalam';src:url('alqalam.ttf') format('truetype');font-display:swap}
 @font-face{font-family:'Lotus';src:url('lotus.ttf') format('truetype');font-display:swap}
 @font-face{font-family:'TradArab';src:url('tradarab.ttf') format('truetype');font-display:swap}
+@font-face{font-family:'NoorehIra';src:url('noorehira.ttf') format('truetype');font-display:swap}
 
 /* ── THEMES & VARIABLES ── */
 :root{
@@ -572,6 +573,10 @@ input[type=range]{flex:1;accent-color:var(--ga)}
         <div class="font-opt" onclick="setArFont('AlQalam',this)">
           <span class="font-opt-name">القلم قرآن مجید</span>
           <span class="font-opt-preview" style="font-family:'AlQalam'">بِسْمِ اللهِ</span>
+        </div>
+        <div class="font-opt" onclick="setArFont('NoorehIra',this)">
+          <span class="font-opt-name">نورِ ہرا (NoorehIra)</span>
+          <span class="font-opt-preview" style="font-family:'NoorehIra'">بِسْمِ اللهِ</span>
         </div>
       </div>
     </div>
@@ -1197,21 +1202,42 @@ function getSnippetFromBlock(text, terms, mode, exactQuery){
     let snip = text;
     if(snip.length > 200) {
         let firstTerm = mode === 'exact' ? exactQuery : terms[0];
+        // Try normal search first, then Arabic-normalized search
         let i = snip.toLowerCase().indexOf(firstTerm.toLowerCase());
+        if(i === -1) i = normalizeAr(snip).indexOf(normalizeAr(firstTerm.toLowerCase()));
         if(i > -1) {
             let s = Math.max(0, i - 60);
             let e = Math.min(snip.length, i + 140);
             snip = (s > 0 ? '...' : '') + snip.slice(s, e) + (e < snip.length ? '...' : '');
         }
     }
+    // Try to highlight - use try/catch for special regex chars
     if(mode === 'exact') {
-        snip = snip.replace(new RegExp(exactQuery, 'gi'), m => `<mark class="highlight">${m}</mark>`);
+        try { snip = snip.replace(new RegExp(exactQuery.replace(/[.*+?^${}()|[\]\]/g,'\$&'), 'gi'), m => `<mark class="highlight">${m}</mark>`); } catch(e){}
     } else {
         terms.forEach(t => {
-            snip = snip.replace(new RegExp(t, 'gi'), m => `<mark class="highlight">${m}</mark>`);
+            try { snip = snip.replace(new RegExp(t.replace(/[.*+?^${}()|[\]\]/g,'\$&'), 'gi'), m => `<mark class="highlight">${m}</mark>`); } catch(e){}
         });
     }
     return snip;
+}
+
+function normalizeAr(str){
+  // Remove Arabic/Urdu diacritics (harakat, tanwin, shadda, sukun, maddah etc.)
+  str = str.replace(/[ؐ-ًؚ-ٰٟۖ-ۜ۟-۪ۤۧۨ-ۭ]/g, '');
+  // Normalize alef variants آأإٱ → ا
+  str = str.replace(/[آأإٱ]/g, 'ا');
+  // Normalize kaf: Arabic ك + Urdu ک → ك
+  str = str.replace(/[كک]/g, 'ك');
+  // Normalize yeh: Arabic ي + Urdu ی + alef maqsura ى → ي
+  str = str.replace(/[يیى]/g, 'ي');
+  // Normalize heh: Arabic ه + Urdu ہ + do chashmi ھ + teh marbuta ة → ه
+  str = str.replace(/[هہھة]/g, 'ه');
+  // Normalize noon: ن + noon ghunna ں → ن
+  str = str.replace(/[نں]/g, 'ن');
+  // Normalize reh: ر + ڑ → ر
+  str = str.replace(/[رڑ]/g, 'ر');
+  return str;
 }
 
 async function doSearch(){
@@ -1255,14 +1281,18 @@ async function doSearch(){
         if(plainText.length < 3) continue;
 
         let lowerText = plainText.toLowerCase();
+        // Normalized versions for Arabic-aware matching
+        let normText = normalizeAr(lowerText);
+        let normQ = normalizeAr(q.toLowerCase());
+        let normTs = ts.map(t => normalizeAr(t));
         let isMatch = false;
 
         if(matchMode === 'exact') {
-            isMatch = lowerText.includes(q.toLowerCase());
+            isMatch = lowerText.includes(q.toLowerCase()) || normText.includes(normQ);
         } else if(matchMode === 'all') {
-            isMatch = ts.every(t => lowerText.includes(t)); 
+            isMatch = ts.every(t => lowerText.includes(t)) || normTs.every(t => normText.includes(t));
         } else if(matchMode === 'any') {
-            isMatch = ts.some(t => lowerText.includes(t));
+            isMatch = ts.some(t => lowerText.includes(t)) || normTs.some(t => normText.includes(t));
         }
 
         if(isMatch) {
