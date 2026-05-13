@@ -756,17 +756,20 @@ document.addEventListener("DOMContentLoaded", () => {
           splContainer.appendChild(p);
         }
     }
-    setTimeout(() => {
-        const sp = document.getElementById('splashScreen');
-        if(sp) {
-            sp.style.opacity = '0';
-            sp.style.pointerEvents = 'none';
-            setTimeout(() => sp.remove(), 800);
-        }
-    }, 5000); 
+    // Fallback: force-remove splash after 15s if data never loads
+    setTimeout(() => { hideSplash(); }, 15000); 
 });
 
 const SECRET_KEY = 'taloja786';
+
+function hideSplash(){
+  const sp = document.getElementById('splashScreen');
+  if(sp){
+    sp.style.opacity = '0';
+    sp.style.pointerEvents = 'none';
+    setTimeout(() => { if(sp.parentNode) sp.parentNode.removeChild(sp); }, 800);
+  }
+}
 let adminUnlocked = false;
 
 function checkAdminAccess() {
@@ -810,10 +813,11 @@ async function load(){
     buildIdx();renderHome();renderAuthors();
     renderAdminLists();fillAdminSelects();fillSearchSelects();
     loadSettings();
-    
+    hideSplash(); // ✅ data لوڈ ہوتے ہی splash ہٹائیں
     history.replaceState({view: 'home'}, '', '#home');
   }catch(e){
-    document.getElementById('fgrid').innerHTML='<div class="loading">ڈیٹا لوڈ نہیں ہوا</div>';
+    hideSplash(); // ✅ error پر بھی splash ہٹائیں
+    document.getElementById('fgrid').innerHTML='<div class="loading">ڈیٹا لوڈ نہیں ہوا — انٹرنیٹ چیک کریں</div>';
   }
 }
 
