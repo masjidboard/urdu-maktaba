@@ -18,7 +18,6 @@
 @font-face{font-family:'AlQalam';src:url('alqalam.ttf') format('truetype');font-display:swap}
 @font-face{font-family:'Lotus';src:url('lotus.ttf') format('truetype');font-display:swap}
 @font-face{font-family:'TradArab';src:url('tradarab.ttf') format('truetype');font-display:swap}
-@font-face{font-family:'NoorehIra';src:url('noorehira.ttf') format('truetype');font-display:swap}
 
 /* ── THEMES & VARIABLES ── */
 :root{
@@ -160,7 +159,7 @@ header{
   transition:color .2s; height: 100%;
 }
 .nbtn.active{color:var(--glo)}
-.nbtn svg{width:20px;height:20px}
+.nbtn svg{width:20px;height:20px;overflow:visible}
 
 /* ── LAYOUT ── */
 .main{padding-bottom:80px}
@@ -574,10 +573,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
           <span class="font-opt-name">القلم قرآن مجید</span>
           <span class="font-opt-preview" style="font-family:'AlQalam'">بِسْمِ اللهِ</span>
         </div>
-        <div class="font-opt" onclick="setArFont('NoorehIra',this)">
-          <span class="font-opt-name">نورِ ہرا (NoorehIra)</span>
-          <span class="font-opt-preview" style="font-family:'NoorehIra'">بِسْمِ اللهِ</span>
-        </div>
       </div>
     </div>
   </div>
@@ -756,20 +751,17 @@ document.addEventListener("DOMContentLoaded", () => {
           splContainer.appendChild(p);
         }
     }
-    // Fallback: force-remove splash after 15s if data never loads
-    setTimeout(() => { hideSplash(); }, 15000); 
+    setTimeout(() => {
+        const sp = document.getElementById('splashScreen');
+        if(sp) {
+            sp.style.opacity = '0';
+            sp.style.pointerEvents = 'none';
+            setTimeout(() => sp.remove(), 800);
+        }
+    }, 5000); 
 });
 
 const SECRET_KEY = 'taloja786';
-
-function hideSplash(){
-  const sp = document.getElementById('splashScreen');
-  if(sp){
-    sp.style.opacity = '0';
-    sp.style.pointerEvents = 'none';
-    setTimeout(() => { if(sp.parentNode) sp.parentNode.removeChild(sp); }, 800);
-  }
-}
 let adminUnlocked = false;
 
 function checkAdminAccess() {
@@ -813,11 +805,10 @@ async function load(){
     buildIdx();renderHome();renderAuthors();
     renderAdminLists();fillAdminSelects();fillSearchSelects();
     loadSettings();
-    hideSplash(); // ✅ data لوڈ ہوتے ہی splash ہٹائیں
+    
     history.replaceState({view: 'home'}, '', '#home');
   }catch(e){
-    hideSplash(); // ✅ error پر بھی splash ہٹائیں
-    document.getElementById('fgrid').innerHTML='<div class="loading">ڈیٹا لوڈ نہیں ہوا — انٹرنیٹ چیک کریں</div>';
+    document.getElementById('fgrid').innerHTML='<div class="loading">ڈیٹا لوڈ نہیں ہوا</div>';
   }
 }
 
@@ -1206,42 +1197,21 @@ function getSnippetFromBlock(text, terms, mode, exactQuery){
     let snip = text;
     if(snip.length > 200) {
         let firstTerm = mode === 'exact' ? exactQuery : terms[0];
-        // Try normal search first, then Arabic-normalized search
         let i = snip.toLowerCase().indexOf(firstTerm.toLowerCase());
-        if(i === -1) i = normalizeAr(snip).indexOf(normalizeAr(firstTerm.toLowerCase()));
         if(i > -1) {
             let s = Math.max(0, i - 60);
             let e = Math.min(snip.length, i + 140);
             snip = (s > 0 ? '...' : '') + snip.slice(s, e) + (e < snip.length ? '...' : '');
         }
     }
-    // Try to highlight - use try/catch for special regex chars
     if(mode === 'exact') {
-        try { snip = snip.replace(new RegExp(exactQuery.replace(/[.*+?^${}()|[\]\]/g,'\$&'), 'gi'), m => `<mark class="highlight">${m}</mark>`); } catch(e){}
+        snip = snip.replace(new RegExp(exactQuery, 'gi'), m => `<mark class="highlight">${m}</mark>`);
     } else {
         terms.forEach(t => {
-            try { snip = snip.replace(new RegExp(t.replace(/[.*+?^${}()|[\]\]/g,'\$&'), 'gi'), m => `<mark class="highlight">${m}</mark>`); } catch(e){}
+            snip = snip.replace(new RegExp(t, 'gi'), m => `<mark class="highlight">${m}</mark>`);
         });
     }
     return snip;
-}
-
-function normalizeAr(str){
-  // Remove Arabic/Urdu diacritics (harakat, tanwin, shadda, sukun, maddah etc.)
-  str = str.replace(/[ؐ-ًؚ-ٰٟۖ-ۜ۟-۪ۤۧۨ-ۭ]/g, '');
-  // Normalize alef variants آأإٱ → ا
-  str = str.replace(/[آأإٱ]/g, 'ا');
-  // Normalize kaf: Arabic ك + Urdu ک → ك
-  str = str.replace(/[كک]/g, 'ك');
-  // Normalize yeh: Arabic ي + Urdu ی + alef maqsura ى → ي
-  str = str.replace(/[يیى]/g, 'ي');
-  // Normalize heh: Arabic ه + Urdu ہ + do chashmi ھ + teh marbuta ة → ه
-  str = str.replace(/[هہھة]/g, 'ه');
-  // Normalize noon: ن + noon ghunna ں → ن
-  str = str.replace(/[نں]/g, 'ن');
-  // Normalize reh: ر + ڑ → ر
-  str = str.replace(/[رڑ]/g, 'ر');
-  return str;
 }
 
 async function doSearch(){
@@ -1285,18 +1255,14 @@ async function doSearch(){
         if(plainText.length < 3) continue;
 
         let lowerText = plainText.toLowerCase();
-        // Normalized versions for Arabic-aware matching
-        let normText = normalizeAr(lowerText);
-        let normQ = normalizeAr(q.toLowerCase());
-        let normTs = ts.map(t => normalizeAr(t));
         let isMatch = false;
 
         if(matchMode === 'exact') {
-            isMatch = lowerText.includes(q.toLowerCase()) || normText.includes(normQ);
+            isMatch = lowerText.includes(q.toLowerCase());
         } else if(matchMode === 'all') {
-            isMatch = ts.every(t => lowerText.includes(t)) || normTs.every(t => normText.includes(t));
+            isMatch = ts.every(t => lowerText.includes(t)); 
         } else if(matchMode === 'any') {
-            isMatch = ts.some(t => lowerText.includes(t)) || normTs.some(t => normText.includes(t));
+            isMatch = ts.some(t => lowerText.includes(t));
         }
 
         if(isMatch) {
@@ -1477,9 +1443,19 @@ function openEdit(type,id){
       <label>سن وفات</label><input id="eDy" type="number" value="${a.death_year||''}" dir="ltr">`;
   }else{
     const b=books.find(x=>x.id===id);
-    document.getElementById('modalTitle').textContent='کتاب کا عنوان تبدیل کریں';
+    document.getElementById('modalTitle').textContent='کتاب کی ترمیم کریں';
     
-    mb.innerHTML=`<label>عنوان</label><input id="eVal" value="${b.title}" dir="rtl">
+    // Build options
+    const authOpts = auths.map(a=>`<option value="${a.id}" ${b.author_id===a.id?'selected':''}>${a.name}</option>`).join('');
+    const catOpts = cats.map(c=>`<option value="${c.id}" ${b.category===c.id?'selected':''}>${c.name}</option>`).join('');
+    const curCat = cats.find(c=>c.id===b.category);
+    const subOpts = (curCat?.subcategories?.length
+      ? '<option value="">-- کوئی نہیں --</option>' + curCat.subcategories.map(s=>`<option value="${s.id}" ${b.subcategory===s.id?'selected':''}>${s.name}</option>`).join('')
+      : '<option value="">-- کوئی ذیلی فن نہیں --</option>');
+
+    mb.innerHTML=`
+    <label>عنوان</label>
+    <input id="eVal" value="${b.title.replace(/"/g,'&quot;')}" dir="rtl">
     
     <label style="margin-top:10px;">عنوان کا فونٹ (باہر فہرست کے لیے)</label>
     <select id="eTitleFont" dir="rtl">
@@ -1494,6 +1470,15 @@ function openEdit(type,id){
       <option value="ar" ${b.toc_font === 'ar' ? 'selected' : ''}>عربی (لوٹس)</option>
     </select>
 
+    <label style="margin-top:10px;">مصنف</label>
+    <select id="eBAuth" dir="rtl">${authOpts}</select>
+
+    <label style="margin-top:10px;">فن</label>
+    <select id="eBCat" dir="rtl" onchange="updateEditSubcats()">${catOpts}</select>
+
+    <label style="margin-top:10px;">ذیلی فن</label>
+    <select id="eBSub" dir="rtl">${subOpts}</select>
+
     <label style="margin-top:10px;">زبان (اہم فارمیٹنگ)</label>
     <select id="eBLang" dir="rtl">
       <option value="ur" ${b.lang === 'ur' ? 'selected' : ''}>اردو (خالص)</option>
@@ -1503,9 +1488,15 @@ function openEdit(type,id){
       <option value="en-ar" ${b.lang === 'en-ar' ? 'selected' : ''}>انگریزی + عربی (Eng+Arb)</option>
     </select>
 
+    <label style="margin-top:10px;">متن فائل (content/ فولڈر میں)</label>
+    <input id="eBFile" value="${b.content_file||''}" placeholder="b001.html" dir="ltr">
+
+    <label style="margin-top:10px;">تعارف</label>
+    <textarea id="eBDesc" placeholder="مختصر تعارف..." dir="rtl" style="min-height:80px">${b.description||''}</textarea>
+
     <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:bold;cursor:pointer;background:var(--bg2);padding:8px;border-radius:6px;">
         <input type="checkbox" id="eArbHead" ${b.has_arab_headings ? 'checked' : ''} style="width:18px;height:18px;margin:0;">
-        عنوانات کے لیے 'Traditional Arabic' استعمال کریں
+        کتاب کے اندر کی ہیڈنگز کے لیے 'Traditional Arabic' استعمال کریں
     </label>`;
   }
   m.classList.add('open');
@@ -1524,7 +1515,13 @@ function saveEdit(){
     b.title=document.getElementById('eVal').value.trim();
     b.title_font = document.getElementById('eTitleFont').value; 
     b.toc_font = document.getElementById('eTocFont').value;
+    b.author_id = document.getElementById('eBAuth').value;
+    b.category = document.getElementById('eBCat').value;
+    b.subcategory = document.getElementById('eBSub').value||'';
     b.lang = document.getElementById('eBLang').value; 
+    b.has_arabic = document.getElementById('eBLang').value.includes('ar');
+    b.content_file = document.getElementById('eBFile').value.trim();
+    b.description = document.getElementById('eBDesc').value.trim();
     b.has_arab_headings = document.getElementById('eArbHead').checked;
   }
   buildIdx();renderHome();renderAuthors();renderAdminLists();fillSearchSelects();
@@ -1532,6 +1529,19 @@ function saveEdit(){
 }
 
 function closeModal(){document.getElementById('editModal').classList.remove('open')}
+
+function updateEditSubcats(){
+  const catId = document.getElementById('eBCat')?.value;
+  const subSel = document.getElementById('eBSub');
+  if(!subSel) return;
+  const cat = cats.find(c=>c.id===catId);
+  if(cat?.subcategories?.length){
+    subSel.innerHTML = '<option value="">-- کوئی نہیں --</option>' +
+      cat.subcategories.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+  } else {
+    subSel.innerHTML = '<option value="">-- کوئی ذیلی فن نہیں --</option>';
+  }
+}
 
 function addCat(){
   const n=document.getElementById('nCatName').value.trim();
