@@ -477,7 +477,7 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 <div class="view active" id="view-home">
   <div class="banner">
     <h1>مکتبہ شافعیہ</h1>
-    <p>شعبۂ تحقیق — دار العلوم اسلامیہ عربیہ</p>
+    <p>شعبۂ تحقیق — دار العلوم تلوجہ</p>
     <div class="stats">
       <div class="stat"><div class="n" id="sB">0</div><div class="l">کتابیں</div></div>
       <div class="stat"><div class="n" id="sA">0</div><div class="l">مصنفین</div></div>
@@ -692,7 +692,12 @@ input[type=range]{flex:1;accent-color:var(--ga)}
       <input id="nAName" placeholder="مولانا..." dir="rtl">
       <div class="arow">
         <div><label>حیات/وفات</label>
-          <select id="nASt"><option value="حیات">حیات</option><option value="وفات">وفات</option></select>
+          <select id="nASt">
+  <option value="حیات">حیات</option>
+  <option value="وفات">وفات</option>
+  <option value="ادارہ">ادارہ</option>
+  <option value="-">-</option>
+</select>
         </div>
         <div><label>سن وفات</label>
           <input id="nADy" type="number" placeholder="1943" dir="ltr">
@@ -1401,8 +1406,8 @@ function renderAuthors(query = ''){
 
   document.getElementById('alist').innerHTML = filtered.length ? filtered.map(a=>{
     const n=books.filter(b=>b.author_id===a.id).length;
-    const sc=a.status==='حیات'?'ast-h':'ast-w';
-    const st=a.status==='حیات'?'حیات':`م: ${a.death_year||''}`;
+    const sc = (a.status==='حیات' || a.status==='ادارہ') ? 'ast-h' : 'ast-w';
+const st = a.status === 'حیات' ? 'حیات' : (a.status === 'وفات' ? `م: ${a.death_year||''}` : (a.status === '-' ? '' : a.status));
     return`<div class="aitem" onclick="openAuthor('${a.id}')">
       <div class="aava">👤</div>
       <div>
@@ -1534,11 +1539,17 @@ function openEdit(type,id){
   }else if(type==='auth'){
     const a=auths.find(x=>x.id===id);
     document.getElementById('modalTitle').textContent='مصنف کی معلومات تبدیل کریں';
-    mb.innerHTML=`
+    mb.innerHTML = `
       <label>نام</label><input id="eVal" value="${a.name}" dir="rtl">
-      <label>حیات/وفات</label>
-      <select id="eSt"><option ${a.status==='حیات'?'selected':''}>حیات</option><option ${a.status==='وفات'?'selected':''}>وفات</option></select>
-      <label>سن وفات</label><input id="eDy" type="number" value="${a.death_year||''}" dir="ltr">`;
+      <label>حیات / وفات / ادارہ</label>
+      <select id="eSt">
+        <option value="حیات" ${a.status==='حیات'?'selected':''}>حیات</option>
+        <option value="وفات" ${a.status==='وفات'?'selected':''}>وفات</option>
+        <option value="ادارہ" ${a.status==='ادارہ'?'selected':''}>ادارہ</option>
+        <option value="-" ${a.status==='-'?'selected':''}>-</option>
+      </select>
+      <label>سن وفات (اگر ہو)</label>
+      <input id="eDy" type="number" value="${a.death_year||''}" dir="ltr">`;
   }else{
     const b=books.find(x=>x.id===id);
     document.getElementById('modalTitle').textContent='کتاب میں ترمیم کریں';
