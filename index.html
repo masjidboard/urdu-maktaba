@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="مکتبہ شافعیہ">
-<meta name="description" content="مکتبہ شافعیہ — شعبۂ تحقیق دار العلوم تلوجہ">
+<meta name="description" content="مکتبہ شافعیہ — شعبۂ تحقیق دار العلوم اسلامیہ عربیہ">
 <title>مکتبہ شافعیہ</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -18,6 +18,7 @@
 @font-face{font-family:'AlQalam';src:url('alqalam.ttf') format('truetype');font-display:swap}
 @font-face{font-family:'Lotus';src:url('lotus.ttf') format('truetype');font-display:swap}
 @font-face{font-family:'TradArab';src:url('tradarab.ttf') format('truetype');font-display:swap}
+@font-face{font-family:'NoorEHira';src:url('noorehira.ttf') format('truetype');font-display:swap}
 
 /* ── THEMES & VARIABLES ── */
 :root{
@@ -133,36 +134,35 @@ body{
 
 /* ── HEADER ── */
 header{
-  background:var(--gd);padding:0 12px;
-  display:flex;align-items:center;gap:9px;
-  height:56px;position:sticky;top:0;z-index:300;
-  box-shadow:0 2px 8px rgba(0,0,0,0.4);
-  /* ✅ بگ فکس: padding-top:0 — Android WebView میں env() غلط space بناتا تھا */
-  padding-top: 0;
+  background:var(--gd); padding:0 12px;
+  display:flex; align-items:center; gap:9px;
+  height: 56px; position: sticky; top: 0; z-index: 300;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
   justify-content: center;
 }
 .hlogo{display:flex;align-items:center;gap:8px;cursor:pointer;}
 .hlogo-img{width:34px;height:34px;border-radius:8px;object-fit:cover;border:1px solid var(--gold)}
 .hlogo-text{font-size:1.1rem;font-weight:700;color:var(--glo);white-space:nowrap}
 
-/* ── BOTTOM NAV ── */
+/* ── BOTTOM NAV (آئیکن کٹنے کا مستقل حل) ── */
 .bnav{
-  position:fixed;bottom:0;left:0;right:0;background:var(--gd);
-  display:flex;border-top:1px solid rgba(255,255,255,0.1);z-index:300;
-  height: 60px; padding-bottom: 0;
+  position:fixed; bottom:0; left:0; right:0; background:var(--gd);
+  display:flex; border-top:1px solid rgba(255,255,255,0.1); z-index:300;
+  min-height: 65px; height: auto;
+  padding-bottom: calc(5px + env(safe-area-inset-bottom));
 }
 .nbtn{
   flex:1;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:4px;
+  justify-content:center;gap:4px; padding: 8px 0;
   color:rgba(255,255,255,0.4);cursor:pointer;
   border:none;background:none;font-family:var(--fur);font-size:0.75rem;
-  transition:color .2s; height: 100%;
+  transition:color .2s;
 }
 .nbtn.active{color:var(--glo)}
 .nbtn svg{width:20px;height:20px}
 
 /* ── LAYOUT ── */
-.main{padding-bottom:80px}
+.main{padding-bottom:90px} /* نیچے جگہ بڑھا دی تاکہ بینو کٹے نہیں */
 .view{display:none}
 .view.active{display:block}
 
@@ -219,10 +219,9 @@ header{
 .rad-lbl:last-child { border-bottom: none; }
 .rad-lbl input[type="checkbox"] { accent-color: var(--ga); width: 18px; height: 18px; cursor: pointer; }
 
-/* 🔴 READER HEAD (STICKY) 🔴 */
-.rhead{
-  background:var(--gd); padding:11px 14px; display:flex; align-items:center; gap:8px;
-  /* ✅ بگ فکس: top:56px — env(safe-area-inset-top) Android پر extra space بناتا تھا */
+/* 🔴 READER HEAD (STICKY - اب 56px پر چپکے گا) 🔴 */
+.rhead {
+  background: var(--gd); padding: 11px 14px; display: flex; align-items: center; gap: 8px;
   position: sticky; top: 56px; z-index: 280;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
@@ -234,15 +233,15 @@ header{
 .rctrl{display:flex;gap:6px;padding:7px 14px;background:var(--bg2);border-bottom:1px solid rgba(0,0,0,0.08);align-items:center;}
 .fbtn{padding:4px 12px;border:1px solid var(--ga);border-radius:6px;background:none;cursor:pointer;font-family:var(--fur);color:var(--tx);font-size:1rem;font-weight:bold;}
 
-/* 🔴 READER BODY (اسکرین کٹنے کا حل) 🔴 */
-.rbody{padding:17px 16px 80px; max-width:100vw; overflow-x:hidden; margin:0 auto; background:var(--bg3); word-wrap:break-word; overflow-wrap:break-word;}
+/* 🔴 READER BODY 🔴 */
+.rbody{padding:17px 16px 140px; max-width:100vw; overflow-x:hidden; margin:0 auto; background:var(--bg3); word-wrap:break-word; overflow-wrap:break-word;}
 .rbody * { max-width: 100% !important; box-sizing: border-box !important; }
 .rbody img { height: auto !important; }
 .rbody table { display: block; overflow-x: auto; width: 100% !important; }
 
 /* READER FLOATING SLIDER */
 .reader-slider-wrap {
-    position: fixed; bottom: 75px; left: 50%; transform: translateX(-50%);
+    position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%);
     width: 90%; max-width: 400px; background: rgba(15, 35, 24, 0.9);
     backdrop-filter: blur(5px); padding: 8px 16px; border-radius: 30px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.4); z-index: 290; 
@@ -382,16 +381,19 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 .aitm-actions{display:flex;gap:5px;flex-shrink:0}
 .abtn-edit{background:none;border:1px solid var(--ga);color:var(--ga);width:auto;padding:4px 10px;font-size:0.75rem;margin-top:0;border-radius:6px;font-family:var(--fur);cursor:pointer}
 
+/* ترمیم پینل کے لیے اسکرول کا اضافہ */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:500;align-items:center;justify-content:center;padding:20px;}
 .modal-bg.open{display:flex}
-.modal{background:var(--bg3);border-radius:var(--r);padding:18px;width:100%;max-width:420px;box-shadow:0 4px 24px rgba(0,0,0,0.3);}
+.modal{background:var(--bg3);border-radius:var(--r);padding:18px;width:100%;max-width:420px;box-shadow:0 4px 24px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto;}
 .modal h3{font-size:0.97rem;color:var(--tx);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bg2)}
 .modal label{display:block;font-size:0.77rem;color:var(--tx2);margin-bottom:3px;margin-top:9px}
-.modal input,.modal select{width:100%;padding:8px 11px;border:1px solid var(--bg2);border-radius:7px;font-family:var(--fur);font-size:0.88rem;color:var(--tx);direction:rtl;background:var(--bg);outline:none;}
+.modal input,.modal select,.modal textarea{width:100%;padding:8px 11px;border:1px solid var(--bg2);border-radius:7px;font-family:var(--fur);font-size:0.88rem;color:var(--tx);direction:rtl;background:var(--bg);outline:none;}
+.modal textarea{min-height:70px;resize:vertical;}
 .modal-btns{display:flex;gap:8px;margin-top:13px}
 .modal-btns button{flex:1;padding:9px;border-radius:7px;border:none;font-family:var(--fur);font-size:0.88rem;cursor:pointer}
 .mbtn-save{background:var(--gm);color:var(--glo)}
 .mbtn-cancel{background:var(--bg2);color:var(--tx)}
+
 .toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);background:var(--gd);color:var(--glo);padding:9px 18px;border-radius:20px;font-size:0.83rem;font-family:var(--fur);z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;box-shadow:var(--sh);}
 .toast.show{opacity:1}
 .loading{text-align:center;padding:36px;color:var(--tx2);font-size:0.86rem}
@@ -459,7 +461,7 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 <div class="view active" id="view-home">
   <div class="banner">
     <h1>مکتبہ شافعیہ</h1>
-    <p>شعبۂ تحقیق — دار العلوم تلوجہ</p>
+    <p>شعبۂ تحقیق — دار العلوم اسلامیہ عربیہ</p>
     <div class="stats">
       <div class="stat"><div class="n" id="sB">0</div><div class="l">کتابیں</div></div>
       <div class="stat"><div class="n" id="sA">0</div><div class="l">مصنفین</div></div>
@@ -572,6 +574,10 @@ input[type=range]{flex:1;accent-color:var(--ga)}
         <div class="font-opt" onclick="setArFont('AlQalam',this)">
           <span class="font-opt-name">القلم قرآن مجید</span>
           <span class="font-opt-preview" style="font-family:'AlQalam'">بِسْمِ اللهِ</span>
+        </div>
+        <div class="font-opt" onclick="setArFont('NoorEHira',this)">
+          <span class="font-opt-name">نورِ حرا (Noor e Hira)</span>
+          <span class="font-opt-preview" style="font-family:'NoorEHira'">بِسْمِ اللهِ</span>
         </div>
       </div>
     </div>
@@ -758,7 +764,7 @@ document.addEventListener("DOMContentLoaded", () => {
             sp.style.pointerEvents = 'none';
             setTimeout(() => sp.remove(), 800);
         }
-    }, 5000); 
+    }, 6000); // 🔴 آپ کی مرضی کے مطابق ٹائم 6 سیکنڈ کر دیا گیا ہے
 });
 
 const SECRET_KEY = 'taloja786';
@@ -1041,7 +1047,7 @@ function scrollToHeading(id) {
     closeToc();
     let el = document.getElementById(id);
     if(el) {
-        let offset = 120; 
+        let offset = 70; 
         let top = el.getBoundingClientRect().top + window.scrollY - offset;
         window.scrollTo({top: top, behavior: 'smooth'});
         
@@ -1066,74 +1072,6 @@ window.addEventListener('scroll', () => {
 function scrollBookTo(val) {
     let sh = document.documentElement.scrollHeight - window.innerHeight;
     window.scrollTo({top: (val / 100) * sh, behavior: 'instant'});
-}
-
-function highlightAndScroll(query, matchMode, occurrenceIndex) {
-  let rbody = document.getElementById('rbody');
-  let content = rbody.innerHTML;
-  
-  let qLower = query.trim().toLowerCase();
-  let ts = qLower.split(/\s+/).filter(Boolean);
-
-  if (matchMode === 'exact') {
-      let exactQ = query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      let regex = new RegExp(`(?![^<]+>)(${exactQ})`, 'gi');
-      rbody.innerHTML = content.replace(regex, `<mark class="highlight">$1</mark>`);
-  } else {
-      let words = [...ts].sort((a,b) => b.length - a.length);
-      let pattern = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
-      if (pattern) {
-          let regex = new RegExp(`(?![^<]+>)(${pattern})`, 'gi');
-          rbody.innerHTML = content.replace(regex, `<mark class="highlight">$1</mark>`);
-      }
-  }
-  
-  setTimeout(() => {
-      let blocks = rbody.querySelectorAll('p, h1, h2, h3, h4, h5, h6, tr, li');
-      let matchingBlocks = [];
-
-      for (let i = 0; i < blocks.length; i++) {
-          let p = blocks[i];
-          let pText = p.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
-          if (pText.length < 3) continue;
-
-          let isMatch = false;
-          if (matchMode === 'exact') {
-              isMatch = pText.includes(qLower);
-          } else if (matchMode === 'all') {
-              isMatch = ts.every(t => pText.includes(t));
-          } else if (matchMode === 'any') {
-              isMatch = ts.some(t => pText.includes(t));
-          }
-
-          if (isMatch) {
-              matchingBlocks.push(p);
-          }
-      }
-
-      let targetBlock = matchingBlocks[occurrenceIndex];
-
-      if (targetBlock) {
-          let offset = 70;
-          let top = targetBlock.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({top: top, behavior: 'smooth'});
-
-          let originalBg = targetBlock.style.backgroundColor;
-          targetBlock.style.backgroundColor = "rgba(232, 201, 122, 0.4)";
-          targetBlock.style.borderRadius = "5px";
-          targetBlock.style.transition = "background-color 0.5s";
-
-          setTimeout(() => { 
-              targetBlock.style.backgroundColor = originalBg || "transparent"; 
-          }, 3500);
-      } else {
-          let firstMark = rbody.querySelector('mark.highlight');
-          if(firstMark) {
-              let top = firstMark.getBoundingClientRect().top + window.scrollY - 70;
-              window.scrollTo({top: top, behavior: 'smooth'});
-          }
-      }
-  }, 400);
 }
 
 function setScope(btn,scope){
@@ -1193,23 +1131,47 @@ function renderAdvBookList(query = '') {
 function filterAdvFans(val) { renderAdvFanList(val); }
 function filterAdvBooks(val) { renderAdvBookList(val); }
 
+// 🔴 نیا عربی سرچ انجن 🔴
+function norm(t) {
+    return t.replace(/[\u0610-\u061A\u064B-\u065F\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED]/g, '')
+            .replace(/[يى]/g, 'ی')
+            .replace(/ك/g, 'ک')
+            .replace(/[ةه]/g, 'ہ')
+            .replace(/[أإآ]/g, 'ا')
+            .toLowerCase();
+}
+
+function makeArRegex(word) {
+    let clean = word.replace(/[\u0610-\u061A\u064B-\u065F\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED]/g, '');
+    let chars = Array.from(clean).map(c => {
+        if('یيى'.includes(c)) return '[يىی]';
+        if('کك'.includes(c)) return '[كک]';
+        if('ہةهھ'.includes(c)) return '[ةهہھ]';
+        if('اأإآ'.includes(c)) return '[اأإآ]';
+        return c.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    });
+    return chars.join('[\\u0610-\\u061A\\u064B-\\u065F\\u06D6-\\u06DC\\u06DF-\\u06E8\\u06EA-\\u06ED]*');
+}
+
 function getSnippetFromBlock(text, terms, mode, exactQuery){
     let snip = text;
     if(snip.length > 200) {
-        let firstTerm = mode === 'exact' ? exactQuery : terms[0];
-        let i = snip.toLowerCase().indexOf(firstTerm.toLowerCase());
-        if(i > -1) {
+        let rx = new RegExp(makeArRegex(mode === 'exact' ? exactQuery : terms[0]), 'i');
+        let match = snip.match(rx);
+        if(match) {
+            let i = match.index;
             let s = Math.max(0, i - 60);
             let e = Math.min(snip.length, i + 140);
             snip = (s > 0 ? '...' : '') + snip.slice(s, e) + (e < snip.length ? '...' : '');
+        } else {
+            snip = snip.slice(0, 200) + '...';
         }
     }
-    if(mode === 'exact') {
-        snip = snip.replace(new RegExp(exactQuery, 'gi'), m => `<mark class="highlight">${m}</mark>`);
-    } else {
-        terms.forEach(t => {
-            snip = snip.replace(new RegExp(t, 'gi'), m => `<mark class="highlight">${m}</mark>`);
-        });
+    
+    let regexStr = mode === 'exact' ? makeArRegex(exactQuery) : terms.map(w => makeArRegex(w)).join('|');
+    if(regexStr) {
+        let regex = new RegExp(`(${regexStr})`, 'gi');
+        snip = snip.replace(regex, `<mark class="highlight">$1</mark>`);
     }
     return snip;
 }
@@ -1219,7 +1181,9 @@ async function doSearch(){
   const sr=document.getElementById('sr'),rc=document.getElementById('rc');
   if(!q){sr.innerHTML='';rc.textContent='';return;}
   
-  const ts=q.toLowerCase().split(' ').filter(Boolean);
+  const qNorm = norm(q);
+  const ts = qNorm.split(' ').filter(Boolean); 
+  const originalTs = q.split(' ').filter(Boolean); 
   const matchMode = document.querySelector('input[name="searchMode"]:checked').value;
 
   let pool=[...idx];
@@ -1254,11 +1218,11 @@ async function doSearch(){
         let plainText = blocks[i].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
         if(plainText.length < 3) continue;
 
-        let lowerText = plainText.toLowerCase();
+        let lowerText = norm(plainText);
         let isMatch = false;
 
         if(matchMode === 'exact') {
-            isMatch = lowerText.includes(q.toLowerCase());
+            isMatch = lowerText.includes(qNorm);
         } else if(matchMode === 'all') {
             isMatch = ts.every(t => lowerText.includes(t)); 
         } else if(matchMode === 'any') {
@@ -1266,7 +1230,7 @@ async function doSearch(){
         }
 
         if(isMatch) {
-            let snippetText = getSnippetFromBlock(plainText, ts, matchMode, q);
+            let snippetText = getSnippetFromBlock(plainText, originalTs, matchMode, q);
             searched.push({
                 ...b,
                 snippet: snippetText,
@@ -1299,6 +1263,77 @@ async function doSearch(){
       ${snippet}
     </div>`;
   }).join('');
+}
+
+function highlightAndScroll(query, matchMode, occurrenceIndex) {
+  let rbody = document.getElementById('rbody');
+  let content = rbody.innerHTML;
+  
+  let qNorm = norm(query);
+  let ts = qNorm.split(/\s+/).filter(Boolean);
+  let originalTs = query.split(/\s+/).filter(Boolean);
+
+  let regexStr = "";
+  if (matchMode === 'exact') {
+      regexStr = makeArRegex(query);
+  } else {
+      let words = [...originalTs].sort((a,b) => b.length - a.length);
+      regexStr = words.map(w => makeArRegex(w)).join('|');
+  }
+  
+  if(regexStr) {
+      let regex = new RegExp(`(?![^<]+>)(${regexStr})`, 'gi');
+      rbody.innerHTML = content.replace(regex, `<mark class="highlight">$1</mark>`);
+  }
+  
+  setTimeout(() => {
+      let blocks = rbody.querySelectorAll('p, h1, h2, h3, h4, h5, h6, tr, li');
+      let matchingBlocks = [];
+
+      for (let i = 0; i < blocks.length; i++) {
+          let p = blocks[i];
+          let pText = p.textContent.replace(/\s+/g, ' ').trim();
+          if (pText.length < 3) continue;
+          
+          let lowerText = norm(pText); 
+          let isMatch = false;
+          
+          if (matchMode === 'exact') {
+              isMatch = lowerText.includes(qNorm);
+          } else if (matchMode === 'all') {
+              isMatch = ts.every(t => lowerText.includes(t));
+          } else if (matchMode === 'any') {
+              isMatch = ts.some(t => lowerText.includes(t));
+          }
+
+          if (isMatch) {
+              matchingBlocks.push(p);
+          }
+      }
+
+      let targetBlock = matchingBlocks[occurrenceIndex];
+
+      if (targetBlock) {
+          let offset = 70;
+          let top = targetBlock.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({top: top, behavior: 'smooth'});
+
+          let originalBg = targetBlock.style.backgroundColor;
+          targetBlock.style.backgroundColor = "rgba(232, 201, 122, 0.4)";
+          targetBlock.style.borderRadius = "5px";
+          targetBlock.style.transition = "background-color 0.5s";
+
+          setTimeout(() => { 
+              targetBlock.style.backgroundColor = originalBg || "transparent"; 
+          }, 3500);
+      } else {
+          let firstMark = rbody.querySelector('mark.highlight');
+          if(firstMark) {
+              let top = firstMark.getBoundingClientRect().top + window.scrollY - 70;
+              window.scrollTo({top: top, behavior: 'smooth'});
+          }
+      }
+  }, 400);
 }
 
 function renderAuthors(query = ''){
@@ -1393,6 +1428,14 @@ function fillSub(){
   ss.innerHTML=c?.subcategories?.length?c.subcategories.map(s=>`<option value="${s.id}">${s.name}</option>`).join(''):'<option value="">— نہیں —</option>';
 }
 
+// 🔴 ایڈمن پینل کے ڈراپ ڈاؤن کے لیے 🔴
+function fillEditSub(){
+  const cid=document.getElementById('eBCat').value;
+  const c=cats.find(x=>x.id===cid);
+  const ss=document.getElementById('eBSub');
+  ss.innerHTML=c?.subcategories?.length?c.subcategories.map(s=>`<option value="${s.id}">${s.name}</option>`).join(''):'<option value="">— نہیں —</option>';
+}
+
 function renderAdminLists(){
   document.getElementById('catList').innerHTML=cats.map(c=>`
     <div class="aitm">
@@ -1425,6 +1468,7 @@ function renderAdminLists(){
     </div>`).join('');
 }
 
+// 🔴 ترمیم (Edit) کا مکمل پینل 🔴
 function openEdit(type,id){
   editType=type;editId=id;
   const m=document.getElementById('editModal');
@@ -1443,9 +1487,16 @@ function openEdit(type,id){
       <label>سن وفات</label><input id="eDy" type="number" value="${a.death_year||''}" dir="ltr">`;
   }else{
     const b=books.find(x=>x.id===id);
-    document.getElementById('modalTitle').textContent='کتاب کا عنوان تبدیل کریں';
+    document.getElementById('modalTitle').textContent='کتاب میں ترمیم کریں';
     
-    mb.innerHTML=`<label>عنوان</label><input id="eVal" value="${b.title}" dir="rtl">
+    let authOpts = auths.map(a => `<option value="${a.id}" ${a.id===b.author_id?'selected':''}>${a.name}</option>`).join('');
+    let catOpts = cats.map(c => `<option value="${c.id}" ${c.id===b.category?'selected':''}>${c.name}</option>`).join('');
+    let selectedCat = cats.find(c => c.id === b.category);
+    let subOpts = selectedCat?.subcategories?.length ? selectedCat.subcategories.map(s => `<option value="${s.id}" ${s.id===b.subcategory?'selected':''}>${s.name}</option>`).join('') : '<option value="">— نہیں —</option>';
+
+    mb.innerHTML=`
+    <label>عنوان</label>
+    <input id="eVal" value="${b.title}" dir="rtl">
     
     <label style="margin-top:10px;">عنوان کا فونٹ (باہر فہرست کے لیے)</label>
     <select id="eTitleFont" dir="rtl">
@@ -1459,6 +1510,15 @@ function openEdit(type,id){
       <option value="ur" ${b.toc_font === 'ur' ? 'selected' : ''}>اردو (جمیل نوری)</option>
       <option value="ar" ${b.toc_font === 'ar' ? 'selected' : ''}>عربی (لوٹس)</option>
     </select>
+    
+    <label style="margin-top:10px;">مصنف</label>
+    <select id="eBAuth" dir="rtl">${authOpts}</select>
+
+    <label style="margin-top:10px;">فن</label>
+    <select id="eBCat" dir="rtl" onchange="fillEditSub()">${catOpts}</select>
+
+    <label style="margin-top:10px;">ذیلی فن</label>
+    <select id="eBSub" dir="rtl">${subOpts}</select>
 
     <label style="margin-top:10px;">زبان (اہم فارمیٹنگ)</label>
     <select id="eBLang" dir="rtl">
@@ -1469,6 +1529,12 @@ function openEdit(type,id){
       <option value="en-ar" ${b.lang === 'en-ar' ? 'selected' : ''}>انگریزی + عربی (Eng+Arb)</option>
     </select>
 
+    <label style="margin-top:10px;">متن فائل (content/ فولڈر میں)</label>
+    <input id="eBFile" value="${b.content_file}" dir="ltr">
+
+    <label style="margin-top:10px;">تعارف</label>
+    <textarea id="eBDesc" dir="rtl">${b.description || ''}</textarea>
+
     <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:bold;cursor:pointer;background:var(--bg2);padding:8px;border-radius:6px;">
         <input type="checkbox" id="eArbHead" ${b.has_arab_headings ? 'checked' : ''} style="width:18px;height:18px;margin:0;">
         عنوانات کے لیے 'Traditional Arabic' استعمال کریں
@@ -1477,6 +1543,7 @@ function openEdit(type,id){
   m.classList.add('open');
 }
 
+// 🔴 محفوظ کرنے کا فنکشن 🔴
 function saveEdit(){
   if(editType==='cat'){
     cats.find(x=>x.id===editId).name=document.getElementById('eVal').value.trim();
@@ -1490,8 +1557,13 @@ function saveEdit(){
     b.title=document.getElementById('eVal').value.trim();
     b.title_font = document.getElementById('eTitleFont').value; 
     b.toc_font = document.getElementById('eTocFont').value;
+    b.author_id = document.getElementById('eBAuth').value;
+    b.category = document.getElementById('eBCat').value;
+    b.subcategory = document.getElementById('eBSub').value || '';
     b.lang = document.getElementById('eBLang').value; 
     b.has_arab_headings = document.getElementById('eArbHead').checked;
+    b.content_file = document.getElementById('eBFile').value.trim();
+    b.description = document.getElementById('eBDesc').value.trim();
   }
   buildIdx();renderHome();renderAuthors();renderAdminLists();fillSearchSelects();
   closeModal();toast('تبدیلی محفوظ ہوگئی');
