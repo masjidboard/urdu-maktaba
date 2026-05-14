@@ -424,7 +424,7 @@
     "title_font": "ar",
     "toc_font": "ar",
     "has_arabic": true,
-    "has_arab_headings": false,
+    "has_arab_headings": true,
     "content_file": "b029.html",
     "description": "",
     "added": "2026-05-12"
