@@ -1,8 +1,25 @@
-const CACHE_NAME = 'maktaba-cache-v2';
+const CACHE_NAME = 'maktaba-cache-v3';
 
-// 1. Install Event: نیا سروس ورکر فوراً لاگو کرنے کے لیے
+// وہ فائلیں جو ایپ کھلتے ہی لازمی ڈاؤنلوڈ اور محفوظ ہونی چاہئیں
+const ASSETS_TO_CACHE = [
+    './',
+    './index.html',
+    './noorehira.ttf',
+    './lotus.otf',
+    './alqalam.ttf',
+    './jameel.ttf',
+    './tradarab.ttf',
+    './traditionalarabic.ttf'
+];
+
+// 1. Install Event: نیا سروس ورکر اور فائلیں محفوظ کرنے کے لیے
 self.addEventListener('install', (event) => {
     self.skipWaiting();
+    event.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => {
+            return cache.addAll(ASSETS_TO_CACHE);
+        })
+    );
 });
 
 // 2. Activate Event: پرانی کیشے (Cache) کو صاف کرنے کے لیے
