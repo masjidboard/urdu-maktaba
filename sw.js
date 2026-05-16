@@ -4,7 +4,7 @@ const CACHE_NAME = 'maktaba-cache-v3';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
-    './noorehira.ttf',
+    './noorehira.ttf?v=2',
     './lotus.otf',
     './alqalam.ttf',
     './jameel.ttf',
