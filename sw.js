@@ -1,9 +1,10 @@
-const CACHE_NAME = 'maktaba-cache-v3';
+const CACHE_NAME = 'maktaba-cache-v4';
 
 // وہ فائلیں جو ایپ کھلتے ہی لازمی ڈاؤنلوڈ اور محفوظ ہونی چاہئیں
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
+    './noorehira.woff2',
     './noorehira.ttf',
     './lotus.otf',
     './alqalam.ttf',
