@@ -219,6 +219,8 @@ header {
 .rad-lbl { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--bg2); cursor: pointer; color: var(--tx); font-size: 0.85rem; font-family: var(--fur);}
 .rad-lbl:last-child { border-bottom: none; }
 .rad-lbl input[type="checkbox"] { accent-color: var(--ga); width: 18px; height: 18px; cursor: pointer; }
+.rad-lbl span.font-ur { font-family: var(--fur); }
+.rad-lbl span.font-ar { font-family: var(--far) !important; font-size: 1.05rem; font-weight: normal; }
 
 /* 🔴 READER HEAD (STICKY - 56px) 🔴 */
 .rhead {
@@ -1204,7 +1206,7 @@ function renderAdvBookList(query = '') {
     document.getElementById('advBookList').innerHTML = filtered.map(b=>`
       <label class="rad-lbl">
         <input type="checkbox" value="${b.id}" ${selectedAdvBooks.has(b.id)?'checked':''} onchange="toggleBookCheck('${b.id}', this.checked)"> 
-        <span>${b.title}</span>
+        <span class="${b.title_font === 'ar' ? 'font-ar' : 'font-ur'}">${b.title}</span>
       </label>`).join('');
 }
 
