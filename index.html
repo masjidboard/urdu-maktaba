@@ -409,6 +409,41 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 .about-email { display: inline-block; background: var(--bg2); padding: 8px 16px; border-radius: 20px; color: var(--ga); text-decoration: none; font-family: sans-serif; letter-spacing: 0.5px; margin-top: 5px; font-size: 0.9rem; border: 1px solid var(--gold); transition: transform 0.2s; }
 .about-email:active { transform: scale(0.95); }
 
+/* ── BOOK INFO POPUP ── */
+.binfo-popup {
+  display: none; position: fixed; top: 112px; left: 50%; transform: translateX(-50%);
+  width: calc(100% - 28px); max-width: 420px;
+  background: var(--bg3); border-radius: var(--r); padding: 16px 18px;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.35); z-index: 450;
+  border: 1px solid var(--gold); border-top: 3px solid var(--gold);
+  animation: popFadeIn 0.2s ease;
+}
+.binfo-popup.open { display: block; }
+@keyframes popFadeIn { from { opacity:0; transform:translateX(-50%) translateY(-8px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+.binfo-popup-title { font-size: 1rem; font-weight: bold; color: var(--gd); margin-bottom: 6px; line-height: 1.5; }
+[data-theme="dark"] .binfo-popup-title, [data-theme="night"] .binfo-popup-title { color: var(--glo); }
+.binfo-popup-author { font-size: 0.82rem; color: var(--ga); margin-bottom: 10px; }
+.binfo-popup-desc { font-size: 0.88rem; color: var(--tx); line-height: 2; border-top: 1px dashed var(--bg2); padding-top: 10px; }
+.binfo-popup-close { position: absolute; top: 8px; left: 12px; background: none; border: none; color: var(--tx2); font-size: 1rem; cursor: pointer; line-height: 1; }
+.binfo-popup-overlay { display:none; position:fixed; inset:0; z-index:449; }
+.binfo-popup-overlay.open { display:block; }
+
+/* ── APP INFO POPUP (ہوم پیج) ── */
+.app-info-popup {
+  display: none; position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
+  width: calc(100% - 28px); max-width: 400px;
+  background: var(--bg3); border-radius: var(--r); padding: 16px 18px;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.35); z-index: 450;
+  border: 1px solid var(--gold); border-top: 3px solid var(--gold);
+  animation: popFadeIn 0.2s ease;
+}
+.app-info-popup.open { display: block; }
+.app-info-popup-title { font-size: 1.05rem; font-weight: bold; color: var(--gd); margin-bottom: 8px; text-align: center; }
+[data-theme="dark"] .app-info-popup-title, [data-theme="night"] .app-info-popup-title { color: var(--glo); }
+.app-info-popup-body { font-size: 0.88rem; color: var(--tx); line-height: 2; text-align: center; }
+.app-info-popup-close { position: absolute; top: 8px; left: 12px; background: none; border: none; color: var(--tx2); font-size: 1rem; cursor: pointer; line-height: 1; }
+.app-info-more { display: inline-block; margin-top: 10px; font-size: 0.8rem; color: var(--ga); text-decoration: underline; cursor: pointer; }
+
 .toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);background:var(--gd);color:var(--glo);padding:9px 18px;border-radius:20px;font-size:0.83rem;font-family:var(--fur);z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;box-shadow:var(--sh);}
 .toast.show{opacity:1}
 .loading{text-align:center;padding:36px;color:var(--tx2);font-size:0.86rem}
@@ -470,10 +505,22 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <img class="hlogo-img" src="icons/icon-192.png" alt="لوگو" onerror="this.style.display='none'">
     <span class="hlogo-text">مکتبہ شافعیہ</span>
   </div>
-  <button class="info-btn" onclick="showView('about')">
+  <button class="info-btn" onclick="toggleAppInfoPopup()">
     <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--glo)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
   </button>
 </header>
+
+<!-- App Info Popup -->
+<div class="binfo-popup-overlay" id="appInfoOverlay" onclick="closeAppInfoPopup()"></div>
+<div class="app-info-popup" id="appInfoPopup">
+  <button class="app-info-popup-close" onclick="closeAppInfoPopup()">✕</button>
+  <div class="app-info-popup-title">مکتبہ شافعیہ</div>
+  <div class="app-info-popup-body">
+    <div style="font-size:0.82rem; color:var(--tx2); margin-bottom:6px;">شعبۂ تحقیق — دار العلوم اسلامیہ عربیہ تلوجہ</div>
+    <div style="font-size:0.83rem; color:var(--tx); margin-bottom:4px;">ڈیولپر: مفتی اظہر محمد امین پٹیل</div>
+    <span class="app-info-more" onclick="closeAppInfoPopup(); showView('about');">مکمل تعارف دیکھیں ←</span>
+  </div>
+</div>
 
 <main class="main">
 
@@ -561,10 +608,19 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 </div>
 
 <div class="view" id="view-reader">
+  <!-- Book Info Popup -->
+  <div class="binfo-popup-overlay" id="bookInfoOverlay" onclick="closeBookInfoPopup()"></div>
+  <div class="binfo-popup" id="bookInfoPopup">
+    <button class="binfo-popup-close" onclick="closeBookInfoPopup()">✕</button>
+    <div class="binfo-popup-title" id="bip-title"></div>
+    <div class="binfo-popup-author" id="bip-author"></div>
+    <div class="binfo-popup-desc" id="bip-desc"></div>
+  </div>
   <div class="rhead">
     <button class="back" onclick="history.back()">←</button>
     <button class="toc-btn" onclick="openToc()">☰</button>
     <div class="rtitle font-ur" id="rtitle">کتاب</div>
+    <button class="toc-btn" onclick="toggleBookInfoPopup()" id="bookInfoToggle" title="کتاب کا تعارف" style="font-size:1.15rem; line-height:1;">ℹ</button>
   </div>
   <div class="rctrl">
     <button class="fbtn" onclick="adjFont(-1)">− ا</button>
@@ -984,6 +1040,8 @@ function setArFontSize(v){
 
 async function openBook(bid, searchPayload = null){
   const b=books.find(x=>x.id===bid);if(!b)return;
+  _currentBookId = bid;
+  closeBookInfoPopup();
   const a=auths.find(x=>x.id===b.author_id);
   
   const rtitleEl = document.getElementById('rtitle');
@@ -1047,6 +1105,52 @@ async function openBook(bid, searchPayload = null){
   }catch{
     rbody.innerHTML='<div class="nores">متن لوڈ نہیں ہوا۔</div>';
   }
+}
+
+// ── کتاب کی معلومات پاپ اپ ──
+let _currentBookId = null;
+function toggleBookInfoPopup(){
+  const popup = document.getElementById('bookInfoPopup');
+  const overlay = document.getElementById('bookInfoOverlay');
+  if(popup.classList.contains('open')){
+    closeBookInfoPopup(); return;
+  }
+  const b = books.find(x => x.id === _currentBookId);
+  if(!b) return;
+  const a = auths.find(x => x.id === b.author_id);
+  const titleEl = document.getElementById('bip-title');
+  titleEl.textContent = b.title;
+  titleEl.className = 'binfo-popup-title ' + (b.title_font === 'ar' ? 'font-ar' : 'font-ur');
+  document.getElementById('bip-author').textContent = a ? '✍ ' + a.name : '';
+  const desc = b.description || '';
+  const descEl = document.getElementById('bip-desc');
+  if(desc){
+    descEl.textContent = desc;
+    descEl.style.display = 'block';
+  } else {
+    descEl.style.display = 'none';
+  }
+  popup.classList.add('open');
+  overlay.classList.add('open');
+}
+function closeBookInfoPopup(){
+  document.getElementById('bookInfoPopup').classList.remove('open');
+  document.getElementById('bookInfoOverlay').classList.remove('open');
+}
+
+// ── ایپ کی معلومات پاپ اپ ──
+function toggleAppInfoPopup(){
+  const popup = document.getElementById('appInfoPopup');
+  const overlay = document.getElementById('appInfoOverlay');
+  if(popup.classList.contains('open')){
+    closeAppInfoPopup(); return;
+  }
+  popup.classList.add('open');
+  overlay.classList.add('open');
+}
+function closeAppInfoPopup(){
+  document.getElementById('appInfoPopup').classList.remove('open');
+  document.getElementById('appInfoOverlay').classList.remove('open');
 }
 
 function generateTOC(tocClass) {
