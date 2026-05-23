@@ -797,6 +797,9 @@ input[type=range]{flex:1;accent-color:var(--ga)}
         <input type="range" min="13" max="36" value="17" id="fsizeRange" oninput="setFontSize(this.value)">
         <span style="font-size:0.8rem">بڑا</span>
       </div>
+      <div style="text-align:center;margin-top:4px">
+        <span id="fsizePx" style="display:inline-block;background:var(--bg2);color:var(--gd);font-size:0.78rem;padding:2px 10px;border-radius:10px;border:1px solid var(--gold);font-family:monospace;letter-spacing:0.03em;">17px</span>
+      </div>
       <p style="text-align:center;margin-top:8px;font-size:0.8rem;color:var(--tx2)">نمونہ: <span id="fsPreview" style="font-family:var(--fur)">یہ اردو کا نمونہ ہے</span></p>
     </div>
   </div>
@@ -808,6 +811,9 @@ input[type=range]{flex:1;accent-color:var(--ga)}
         <span style="font-size:0.8rem">چھوٹا</span>
         <input type="range" min="8" max="25" value="13" id="arFsizeRange" oninput="setArFontSize(this.value)">
         <span style="font-size:0.8rem">بڑا</span>
+      </div>
+      <div style="text-align:center;margin-top:4px">
+        <span id="arFsizePx" style="display:inline-block;background:var(--bg2);color:var(--gd);font-size:0.78rem;padding:2px 10px;border-radius:10px;border:1px solid var(--gold);font-family:monospace;letter-spacing:0.03em;">13px</span>
       </div>
       <p style="text-align:center;margin-top:8px;font-size:0.8rem;color:var(--tx2)">
         نمونہ: <span id="arFsPreview" class="ar" style="display:inline; background:none; padding:0; border:none; margin:0;">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</span>
@@ -1102,6 +1108,7 @@ function setFontSize(v){
   document.documentElement.style.setProperty('--ur-fs', v + 'px');
   document.body.style.setProperty('--ur-fs', v + 'px');
   if(document.getElementById('fsPreview')) document.getElementById('fsPreview').style.fontSize=v+'px';
+  const lbl=document.getElementById('fsizePx'); if(lbl) lbl.textContent=v+'px';
   localStorage.setItem('fsize',v);
 }
 
@@ -1110,6 +1117,8 @@ function setArFontSize(v){
   let emValue = (v / 10) + 'em'; 
   document.documentElement.style.setProperty('--ar-fs', emValue);
   document.body.style.setProperty('--ar-fs', emValue);
+  const lbl=document.getElementById('arFsizePx'); if(lbl) lbl.textContent=Math.round(v)+'px';
+  const prev=document.getElementById('arFsPreview'); if(prev) prev.style.fontSize=Math.round(v)+'px';
   localStorage.setItem('arFsize', v);
 }
 
@@ -1711,9 +1720,11 @@ function loadSettings(){
   document.body.style.setProperty('--ur-fs', fs2 + 'px');
   if(document.getElementById('fsizeRange')) document.getElementById('fsizeRange').value=fs2;
   if(document.getElementById('fsPreview')) document.getElementById('fsPreview').style.fontSize=fs2+'px';
+  const lbl1=document.getElementById('fsizePx'); if(lbl1) lbl1.textContent=fs2+'px';
   
   setArFontSize(arFs2);
   if(document.getElementById('arFsizeRange')) document.getElementById('arFsizeRange').value = arFs2;
+  const lbl2=document.getElementById('arFsizePx'); if(lbl2) lbl2.textContent=Math.round(arFs2)+'px';
 }
 
 function setTheme(t,btn){
