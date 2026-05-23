@@ -713,7 +713,7 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 <div class="view search-view" id="view-search">
   <div class="search-top">
     <button class="back" onclick="history.back()" style="color:var(--glo)">←</button>
-    <input class="si" id="si" type="text" placeholder="متن میں تلاش کریں..." oninput="autoSiDir(this);doSearch()" onfocus="hideSearchDropdowns()">
+    <input class="si" id="si" type="text" placeholder="متن میں تلاش کریں..." oninput="autoSiDir(this);debouncedSearch()" onfocus="hideSearchDropdowns()">
   </div>
 
   <div class="search-mode-row">
@@ -1421,6 +1421,12 @@ function autoSiDir(el){
   el.style.direction = isEn ? 'ltr' : 'rtl';
   el.style.textAlign = isEn ? 'left' : 'right';
   el.style.fontFamily = isEn ? "'Segoe UI',Tahoma,Verdana,sans-serif" : "var(--fur)";
+}
+
+let _searchTimer = null;
+function debouncedSearch(){
+  clearTimeout(_searchTimer);
+  _searchTimer = setTimeout(doSearch, 400);
 }
 
 function norm(t) {
