@@ -1089,11 +1089,13 @@ function bHTML(b){
   const a=auths.find(x=>x.id===b.author_id);
   const ai=a?`${a.name}${(a.status==='وفات'||a.status==='Deceased')?' (م '+a.death_year+')':' ('+(a.status||'حیات')+')'}`:' ';
   const titleClass = b.title_font === 'ar' ? 'font-ar' : b.title_font === 'en' ? 'font-en' : 'font-ur';
+  const isEn = b.title_font === 'en' || b.lang === 'en' || b.lang === 'en-ar';
+  const authorDir = isEn ? 'dir="ltr" style="text-align:left"' : '';
   return`<div class="bitem" onclick="openBook('${b.id}')">
     <div class="bicon">📖</div>
     <div class="binfo">
       <div class="btitle ${titleClass}">${b.title}</div>
-      <div class="bauthor">${ai}</div>
+      <div class="bauthor" ${authorDir}>${ai}</div>
     </div>
   </div>`;
 }
