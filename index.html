@@ -412,37 +412,87 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 /* ── BOOK INFO POPUP ── */
 .binfo-popup {
   display: none; position: fixed; top: 112px; left: 50%; transform: translateX(-50%);
-  width: calc(100% - 28px); max-width: 420px;
-  background: var(--bg3); border-radius: var(--r); padding: 16px 18px;
-  box-shadow: 0 6px 28px rgba(0,0,0,0.35); z-index: 450;
-  border: 1px solid var(--gold); border-top: 3px solid var(--gold);
-  animation: popFadeIn 0.2s ease;
+  width: calc(100% - 24px); max-width: 440px;
+  background: var(--bg3); border-radius: 14px; padding: 0;
+  box-shadow: 0 8px 36px rgba(0,0,0,0.4); z-index: 450;
+  border: 1px solid rgba(201,168,76,0.4);
+  overflow: hidden;
+  animation: popFadeIn 0.22s ease;
 }
 .binfo-popup.open { display: block; }
-@keyframes popFadeIn { from { opacity:0; transform:translateX(-50%) translateY(-8px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
-.binfo-popup-title { font-size: 1rem; font-weight: bold; color: var(--gd); margin-bottom: 6px; line-height: 1.5; }
-[data-theme="dark"] .binfo-popup-title, [data-theme="night"] .binfo-popup-title { color: var(--glo); }
-.binfo-popup-author { font-size: 0.82rem; color: var(--ga); margin-bottom: 10px; }
-.binfo-popup-desc { font-size: 0.88rem; color: var(--tx); line-height: 2; border-top: 1px dashed var(--bg2); padding-top: 10px; }
-.binfo-popup-close { position: absolute; top: 8px; left: 12px; background: none; border: none; color: var(--tx2); font-size: 1rem; cursor: pointer; line-height: 1; }
-.binfo-popup-overlay { display:none; position:fixed; inset:0; z-index:449; }
+@keyframes popFadeIn { from { opacity:0; transform:translateX(-50%) translateY(-10px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+.binfo-popup-head {
+  background: linear-gradient(135deg, var(--gd), var(--gm));
+  padding: 14px 42px 14px 16px;
+  border-bottom: 2px solid var(--gold);
+}
+.binfo-popup-title {
+  font-size: 1.05rem; font-weight: bold; color: var(--glo);
+  line-height: 1.6; margin-bottom: 4px;
+}
+.binfo-popup-author {
+  font-size: 0.82rem; color: rgba(232,201,122,0.75);
+  display: flex; align-items: center; gap: 5px;
+}
+.binfo-popup-body { padding: 14px 16px 16px; }
+.binfo-popup-desc {
+  font-size: 0.92rem; color: var(--tx); line-height: 2.1;
+  text-align: justify;
+}
+.binfo-popup-nodesc {
+  font-size: 0.85rem; color: var(--tx2); text-align: center;
+  padding: 6px 0; font-style: italic;
+}
+.binfo-popup-close {
+  position: absolute; top: 10px; left: 12px;
+  background: rgba(255,255,255,0.1); border: none; color: var(--glo);
+  width: 26px; height: 26px; border-radius: 50%;
+  font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.binfo-popup-close:active { background: rgba(255,255,255,0.25); }
+.binfo-popup-overlay { display:none; position:fixed; inset:0; z-index:449; background: rgba(0,0,0,0.15); }
 .binfo-popup-overlay.open { display:block; }
 
 /* ── APP INFO POPUP (ہوم پیج) ── */
 .app-info-popup {
   display: none; position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
-  width: calc(100% - 28px); max-width: 400px;
-  background: var(--bg3); border-radius: var(--r); padding: 16px 18px;
-  box-shadow: 0 6px 28px rgba(0,0,0,0.35); z-index: 450;
-  border: 1px solid var(--gold); border-top: 3px solid var(--gold);
-  animation: popFadeIn 0.2s ease;
+  width: calc(100% - 24px); max-width: 400px;
+  background: var(--bg3); border-radius: 14px; padding: 0;
+  box-shadow: 0 8px 36px rgba(0,0,0,0.4); z-index: 450;
+  border: 1px solid rgba(201,168,76,0.4);
+  overflow: hidden;
+  animation: popFadeIn 0.22s ease;
 }
 .app-info-popup.open { display: block; }
-.app-info-popup-title { font-size: 1.05rem; font-weight: bold; color: var(--gd); margin-bottom: 8px; text-align: center; }
-[data-theme="dark"] .app-info-popup-title, [data-theme="night"] .app-info-popup-title { color: var(--glo); }
-.app-info-popup-body { font-size: 0.88rem; color: var(--tx); line-height: 2; text-align: center; }
-.app-info-popup-close { position: absolute; top: 8px; left: 12px; background: none; border: none; color: var(--tx2); font-size: 1rem; cursor: pointer; line-height: 1; }
-.app-info-more { display: inline-block; margin-top: 10px; font-size: 0.8rem; color: var(--ga); text-decoration: underline; cursor: pointer; }
+.app-info-popup-head {
+  background: linear-gradient(135deg, var(--gd), var(--gm));
+  padding: 16px 42px 14px 16px; border-bottom: 2px solid var(--gold);
+  display: flex; align-items: center; gap: 12px;
+}
+.app-info-popup-logo {
+  width: 44px; height: 44px; border-radius: 10px;
+  border: 1px solid var(--gold); flex-shrink: 0; object-fit: cover;
+}
+.app-info-popup-head-text { flex: 1; }
+.app-info-popup-title { font-size: 1.1rem; font-weight: bold; color: var(--glo); line-height: 1.4; }
+.app-info-popup-sub { font-size: 0.78rem; color: rgba(232,201,122,0.7); margin-top: 2px; }
+.app-info-popup-body { padding: 14px 16px 16px; }
+.app-info-popup-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 10px; font-size: 0.88rem; color: var(--tx); line-height: 1.8; }
+.app-info-popup-row span:first-child { color: var(--gold); flex-shrink: 0; font-size: 1rem; }
+.app-info-popup-close {
+  position: absolute; top: 10px; left: 12px;
+  background: rgba(255,255,255,0.1); border: none; color: var(--glo);
+  width: 26px; height: 26px; border-radius: 50%;
+  font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.app-info-more {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  margin-top: 4px; padding: 9px; border-radius: 8px;
+  background: var(--bg2); color: var(--ga); font-size: 0.85rem;
+  cursor: pointer; border: 1px solid var(--bg2); transition: background 0.2s;
+}
+.app-info-more:active { background: var(--gl); color: #fff; }
 
 .toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);background:var(--gd);color:var(--glo);padding:9px 18px;border-radius:20px;font-size:0.83rem;font-family:var(--fur);z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;box-shadow:var(--sh);}
 .toast.show{opacity:1}
@@ -514,11 +564,26 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 <div class="binfo-popup-overlay" id="appInfoOverlay" onclick="closeAppInfoPopup()"></div>
 <div class="app-info-popup" id="appInfoPopup">
   <button class="app-info-popup-close" onclick="closeAppInfoPopup()">✕</button>
-  <div class="app-info-popup-title">مکتبہ شافعیہ</div>
+  <div class="app-info-popup-head">
+    <img src="icons/icon-192.png" alt="لوگو" class="app-info-popup-logo" onerror="this.style.display='none'">
+    <div class="app-info-popup-head-text">
+      <div class="app-info-popup-title">مکتبہ شافعیہ</div>
+      <div class="app-info-popup-sub">شعبۂ تحقیق — دار العلوم اسلامیہ عربیہ تلوجہ</div>
+    </div>
+  </div>
   <div class="app-info-popup-body">
-    <div style="font-size:0.82rem; color:var(--tx2); margin-bottom:6px;">شعبۂ تحقیق — دار العلوم اسلامیہ عربیہ تلوجہ</div>
-    <div style="font-size:0.83rem; color:var(--tx); margin-bottom:4px;">ڈیولپر: مفتی اظہر محمد امین پٹیل</div>
-    <span class="app-info-more" onclick="closeAppInfoPopup(); showView('about');">مکمل تعارف دیکھیں ←</span>
+    <div class="app-info-popup-row">
+      <span>🖊️</span>
+      <span>ڈیولپر: <strong>مفتی اظہر محمد امین پٹیل</strong><br>
+      <span style="font-size:0.78rem;color:var(--tx2);">مدرس دار العلوم اسلامیہ عربیہ تلوجہ</span></span>
+    </div>
+    <div class="app-info-popup-row">
+      <span>📚</span>
+      <span>علمی و تحقیقی کتب کا آف لائن ڈیجیٹل مکتبہ</span>
+    </div>
+    <div class="app-info-more" onclick="closeAppInfoPopup(); showView('about');">
+      مکمل تعارف دیکھیں &larr;
+    </div>
   </div>
 </div>
 
@@ -612,9 +677,13 @@ input[type=range]{flex:1;accent-color:var(--ga)}
   <div class="binfo-popup-overlay" id="bookInfoOverlay" onclick="closeBookInfoPopup()"></div>
   <div class="binfo-popup" id="bookInfoPopup">
     <button class="binfo-popup-close" onclick="closeBookInfoPopup()">✕</button>
-    <div class="binfo-popup-title" id="bip-title"></div>
-    <div class="binfo-popup-author" id="bip-author"></div>
-    <div class="binfo-popup-desc" id="bip-desc"></div>
+    <div class="binfo-popup-head">
+      <div class="binfo-popup-title" id="bip-title"></div>
+      <div class="binfo-popup-author" id="bip-author"></div>
+    </div>
+    <div class="binfo-popup-body">
+      <div class="binfo-popup-desc" id="bip-desc"></div>
+    </div>
   </div>
   <div class="rhead">
     <button class="back" onclick="history.back()">←</button>
@@ -1121,14 +1190,14 @@ function toggleBookInfoPopup(){
   const titleEl = document.getElementById('bip-title');
   titleEl.textContent = b.title;
   titleEl.className = 'binfo-popup-title ' + (b.title_font === 'ar' ? 'font-ar' : 'font-ur');
-  document.getElementById('bip-author').textContent = a ? '✍ ' + a.name : '';
+  const authorEl = document.getElementById('bip-author');
+  authorEl.innerHTML = a ? '<span>✍</span> ' + a.name : '';
   const desc = b.description || '';
   const descEl = document.getElementById('bip-desc');
   if(desc){
-    descEl.textContent = desc;
-    descEl.style.display = 'block';
+    descEl.innerHTML = '<p class="binfo-popup-desc">' + desc + '</p>';
   } else {
-    descEl.style.display = 'none';
+    descEl.innerHTML = '<p class="binfo-popup-nodesc">تعارف دستیاب نہیں</p>';
   }
   popup.classList.add('open');
   overlay.classList.add('open');
@@ -1833,6 +1902,11 @@ function showView(n, fromPopState = false){
       document.getElementById('readerSliderWrap').style.display = 'none';
       window.scrollTo(0,0);
   }
+
+  // ایپ انفو آئیکن صرف ہوم پر دکھائیں
+  const infoBtnEl = document.querySelector('.info-btn');
+  if(infoBtnEl) infoBtnEl.style.display = (n === 'home') ? 'flex' : 'none';
+  if(n !== 'home') closeAppInfoPopup();
   
   if(!fromPopState) {
       if (n === 'home') {
