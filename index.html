@@ -713,7 +713,7 @@ input[type=range]{flex:1;accent-color:var(--ga)}
 <div class="view search-view" id="view-search">
   <div class="search-top">
     <button class="back" onclick="history.back()" style="color:var(--glo)">←</button>
-    <input class="si" id="si" type="text" placeholder="متن میں تلاش کریں..." oninput="doSearch()" onfocus="hideSearchDropdowns()">
+    <input class="si" id="si" type="text" placeholder="متن میں تلاش کریں..." oninput="autoSiDir(this);doSearch()" onfocus="hideSearchDropdowns()">
   </div>
 
   <div class="search-mode-row">
@@ -1414,6 +1414,14 @@ function renderAdvBookList(query = '') {
 
 function filterAdvFans(val) { renderAdvFanList(val); }
 function filterAdvBooks(val) { renderAdvBookList(val); }
+
+function autoSiDir(el){
+  const v = el.value;
+  const isEn = v.length > 0 && /^[a-zA-Z0-9\s\-']+$/.test(v);
+  el.style.direction = isEn ? 'ltr' : 'rtl';
+  el.style.textAlign = isEn ? 'left' : 'right';
+  el.style.fontFamily = isEn ? "'Segoe UI',Tahoma,Verdana,sans-serif" : "var(--fur)";
+}
 
 function norm(t) {
     return t.replace(/[\u0610-\u061A\u064B-\u065F\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED]/g, '')
