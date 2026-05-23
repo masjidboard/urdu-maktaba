@@ -1424,6 +1424,11 @@ function norm(t) {
             .toLowerCase();
 }
 
+// انگریزی: ڈبل حروف کو single کریں (Qurbaani → qurbani, marhoom → marhom)
+function normEn(t) {
+    return t.toLowerCase().replace(/([a-z])\1+/g, '$1');
+}
+
 function makeArRegex(word) {
     let clean = word.replace(/[\u0610-\u061A\u064B-\u065F\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED]/g, '');
     let chars = Array.from(clean).map(c => {
@@ -1507,9 +1512,18 @@ async function doSearch(){
         if(matchMode === 'exact') {
             isMatch = lowerText.includes(qNorm);
         } else if(matchMode === 'all') {
-            isMatch = ts.every(t => lowerText.includes(t)); 
+            isMatch = ts.every(t => {
+                if(lowerText.includes(t)) return true;
+                // انگریزی fuzzy: ڈبل حروف normalize کر کے چیک کریں
+                if(/[a-z]/.test(t)) return normEn(lowerText).includes(normEn(t));
+                return false;
+            });
         } else if(matchMode === 'any') {
-            isMatch = ts.some(t => lowerText.includes(t));
+            isMatch = ts.some(t => {
+                if(lowerText.includes(t)) return true;
+                if(/[a-z]/.test(t)) return normEn(lowerText).includes(normEn(t));
+                return false;
+            });
         }
 
         if(isMatch) {
@@ -1584,9 +1598,17 @@ function highlightAndScroll(query, matchMode, occurrenceIndex) {
           if (matchMode === 'exact') {
               isMatch = lowerText.includes(qNorm);
           } else if (matchMode === 'all') {
-              isMatch = ts.every(t => lowerText.includes(t));
+              isMatch = ts.every(t => {
+                  if(lowerText.includes(t)) return true;
+                  if(/[a-z]/.test(t)) return normEn(lowerText).includes(normEn(t));
+                  return false;
+              });
           } else if (matchMode === 'any') {
-              isMatch = ts.some(t => lowerText.includes(t));
+              isMatch = ts.some(t => {
+                  if(lowerText.includes(t)) return true;
+                  if(/[a-z]/.test(t)) return normEn(lowerText).includes(normEn(t));
+                  return false;
+              });
           }
 
           if (isMatch) {
