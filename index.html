@@ -1176,6 +1176,21 @@ async function openBook(bid, searchPayload = null){
   }
 }
 
+// ── کتاب تعارف کو HTML میں بدلنا (پیراگراف + [a] عربی ٹیگ) ──
+function renderBookDesc(text){
+  if(!text) return '';
+  // \n\n سے الگ الگ پیراگراف
+  const paras = text.split(/\n\n+/);
+  return paras.map(para => {
+    // [a]...[/a] کو عربی span میں بدلیں
+    let html = para.replace(/\[a\]([\s\S]*?)\[\/a\]/gi,
+      '<span class="font-ar" lang="ar" style="font-size:1rem;line-height:2;">$1</span>');
+    // سنگل \n کو <br> بنائیں
+    html = html.replace(/\n/g, '<br>');
+    return '<p class="binfo-popup-desc" style="margin-bottom:10px">' + html + '</p>';
+  }).join('');
+}
+
 // ── کتاب کی معلومات پاپ اپ ──
 let _currentBookId = null;
 function toggleBookInfoPopup(){
@@ -1195,9 +1210,11 @@ function toggleBookInfoPopup(){
   const desc = b.description || '';
   const descEl = document.getElementById('bip-desc');
   if(desc){
-    descEl.innerHTML = '<p class="binfo-popup-desc">' + desc + '</p>';
+    descEl.innerHTML = renderBookDesc(desc);
+    descEl.style.display = 'block';
   } else {
     descEl.innerHTML = '<p class="binfo-popup-nodesc">تعارف دستیاب نہیں</p>';
+    descEl.style.display = 'block';
   }
   popup.classList.add('open');
   overlay.classList.add('open');
