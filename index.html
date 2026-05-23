@@ -844,13 +844,16 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <div class="admin-st">مصنفین (شامل / ترمیم / حذف)</div>
     <div class="aform">
       <label>نام</label>
-      <input id="nAName" placeholder="مولانا..." dir="rtl">
+      <input id="nAName" placeholder="مولانا..." dir="rtl" oninput="this.dir=/^[a-zA-Z]/.test(this.value.trim())?'ltr':'rtl'">
       <div class="arow">
         <div><label>حیات/وفات</label>
           <select id="nASt">
   <option value="حیات">حیات</option>
   <option value="وفات">وفات</option>
   <option value="ادارہ">ادارہ</option>
+  <option value="Alive">Alive (زندہ)</option>
+  <option value="Deceased">Deceased (وفات)</option>
+  <option value="Institute">Institute (ادارہ)</option>
   <option value="-">-</option>
 </select>
         </div>
@@ -1084,7 +1087,7 @@ function renderBList(fid, sid, query = ''){
 
 function bHTML(b){
   const a=auths.find(x=>x.id===b.author_id);
-  const ai=a?`${a.name}${a.status==='وفات'?' (م '+a.death_year+')':' (حیات)'}`:' ';
+  const ai=a?`${a.name}${(a.status==='وفات'||a.status==='Deceased')?' (م '+a.death_year+')':' ('+(a.status||'حیات')+')'}`:' ';
   const titleClass = b.title_font === 'ar' ? 'font-ar' : b.title_font === 'en' ? 'font-en' : 'font-ur';
   return`<div class="bitem" onclick="openBook('${b.id}')">
     <div class="bicon">📖</div>
@@ -1685,8 +1688,8 @@ function renderAuthors(query = ''){
 
   document.getElementById('alist').innerHTML = filtered.length ? filtered.map(a=>{
     const n=books.filter(b=>b.author_id===a.id).length;
-    const sc = (a.status==='حیات' || a.status==='ادارہ') ? 'ast-h' : 'ast-w';
-const st = a.status === 'حیات' ? 'حیات' : (a.status === 'وفات' ? `م: ${a.death_year||''}` : (a.status === '-' ? '' : a.status));
+    const sc = (a.status==='حیات' || a.status==='ادارہ' || a.status==='Alive' || a.status==='Institute') ? 'ast-h' : 'ast-w';
+const st = (a.status==='حیات'||a.status==='Alive') ? (a.status==='Alive'?'Alive':'حیات') : (a.status==='وفات'||a.status==='Deceased') ? (a.status==='Deceased'?`Deceased: ${a.death_year||''}`:`م: ${a.death_year||''}`) : (a.status==='-' ? '' : a.status);
     return`<div class="aitem" onclick="openAuthor('${a.id}')">
       <div class="aava">👤</div>
       <div>
@@ -1821,12 +1824,15 @@ function openEdit(type,id){
     const a=auths.find(x=>x.id===id);
     document.getElementById('modalTitle').textContent='مصنف کی معلومات تبدیل کریں';
     mb.innerHTML = `
-      <label>نام</label><input id="eVal" value="${a.name}" dir="rtl">
+      <label>نام</label><input id="eVal" value="${a.name}" dir="${/^[a-zA-Z]/.test(a.name)?'ltr':'rtl'}" oninput="this.dir=/^[a-zA-Z]/.test(this.value.trim())?'ltr':'rtl'">
       <label>حیات / وفات / ادارہ</label>
       <select id="eSt">
         <option value="حیات" ${a.status==='حیات'?'selected':''}>حیات</option>
         <option value="وفات" ${a.status==='وفات'?'selected':''}>وفات</option>
         <option value="ادارہ" ${a.status==='ادارہ'?'selected':''}>ادارہ</option>
+        <option value="Alive" ${a.status==='Alive'?'selected':''}>Alive (زندہ)</option>
+        <option value="Deceased" ${a.status==='Deceased'?'selected':''}>Deceased (وفات)</option>
+        <option value="Institute" ${a.status==='Institute'?'selected':''}>Institute (ادارہ)</option>
         <option value="-" ${a.status==='-'?'selected':''}>-</option>
       </select>
       <label>سن وفات (اگر ہو)</label>
