@@ -877,6 +877,7 @@ input[type=range]{flex:1;accent-color:var(--ga)}
         <option value="auto">خودکار (زبان کے لحاظ سے)</option>
         <option value="ur">اردو (جمیل نوری)</option>
         <option value="ar">عربی (لوٹس)</option>
+        <option value="en">انگریزی (English)</option>
       </select>
 
       <label>مصنف</label>
@@ -1161,8 +1162,8 @@ async function openBook(bid, searchPayload = null){
     let tocClass = 'font-ur';
     if(b.lang === 'ar') { tocClass = 'font-ar'; }
     else if (b.lang === 'ur') { tocClass = 'font-ur'; }
-    else if (b.lang === 'en' || b.lang === 'en-ar') { tocClass = 'font-ur'; }
-    else { tocClass = b.toc_font === 'ar' ? 'font-ar' : 'font-ur'; }
+    else if (b.lang === 'en' || b.lang === 'en-ar') { tocClass = 'font-en'; }
+    else { tocClass = b.toc_font === 'ar' ? 'font-ar' : b.toc_font === 'en' ? 'font-en' : 'font-ur'; }
     
     generateTOC(tocClass);
 
@@ -1253,6 +1254,8 @@ function generateTOC(tocClass) {
     const headings = rbody.querySelectorAll('h1, h2, h3');
     const tocList = document.getElementById('tocList');
     tocList.innerHTML = '';
+    // انگریزی کتاب کے لیے TOC کا dir بدلیں
+    tocList.setAttribute('dir', tocClass === 'font-en' ? 'ltr' : 'rtl');
 
     if(headings.length === 0) {
         tocList.innerHTML = '<div style="padding:20px;text-align:center;color:var(--tx2);font-size:0.85rem;">اس کتاب میں کوئی فہرست موجود نہیں ہے۔</div>';
@@ -1794,6 +1797,7 @@ function openEdit(type,id){
       <option value="auto" ${!b.toc_font || b.toc_font === 'auto' ? 'selected' : ''}>خودکار (زبان کے لحاظ سے)</option>
       <option value="ur" ${b.toc_font === 'ur' ? 'selected' : ''}>اردو (جمیل نوری)</option>
       <option value="ar" ${b.toc_font === 'ar' ? 'selected' : ''}>عربی (لوٹس)</option>
+      <option value="en" ${b.toc_font === 'en' ? 'selected' : ''}>انگریزی (English)</option>
     </select>
     
     <label style="margin-top:10px;">مصنف</label>
