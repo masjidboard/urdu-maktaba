@@ -1441,10 +1441,22 @@ function makeArRegex(word) {
     return chars.join('[\\u0610-\\u061A\\u064B-\\u065F\\u06D6-\\u06DC\\u06DF-\\u06E8\\u06EA-\\u06ED]*');
 }
 
+// انگریزی: ہر حرف کے بعد اپنے جیسا حرف optional کریں (marhom → marho+m, qurbani → qurba+ni)
+function makeEnRegex(word) {
+    let clean = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').toLowerCase();
+    // ہر حرف کو `aa?` style بنائیں — یعنی ایک یا دو بار آ سکتا ہے
+    return clean.replace(/([a-z])/g, '$1$1?');
+}
+
+function makeWordRegex(word) {
+    // انگریزی لفظ ہو تو makeEnRegex، ورنہ makeArRegex
+    return /^[a-zA-Z]/.test(word) ? makeEnRegex(word) : makeArRegex(word);
+}
+
 function getSnippetFromBlock(text, terms, mode, exactQuery){
     let snip = text;
     if(snip.length > 200) {
-        let rx = new RegExp(makeArRegex(mode === 'exact' ? exactQuery : terms[0]), 'i');
+        let rx = new RegExp(makeWordRegex(mode === 'exact' ? exactQuery : terms[0]), 'i');
         let match = snip.match(rx);
         if(match) {
             let i = match.index;
@@ -1456,7 +1468,7 @@ function getSnippetFromBlock(text, terms, mode, exactQuery){
         }
     }
     
-    let regexStr = mode === 'exact' ? makeArRegex(exactQuery) : terms.map(w => makeArRegex(w)).join('|');
+    let regexStr = mode === 'exact' ? makeWordRegex(exactQuery) : terms.map(w => makeWordRegex(w)).join('|');
     if(regexStr) {
         let regex = new RegExp(`(${regexStr})`, 'gi');
         snip = snip.replace(regex, `<mark class="highlight">$1</mark>`);
@@ -1572,10 +1584,10 @@ function highlightAndScroll(query, matchMode, occurrenceIndex) {
 
   let regexStr = "";
   if (matchMode === 'exact') {
-      regexStr = makeArRegex(query);
+      regexStr = makeWordRegex(query);
   } else {
       let words = [...originalTs].sort((a,b) => b.length - a.length);
-      regexStr = words.map(w => makeArRegex(w)).join('|');
+      regexStr = words.map(w => makeWordRegex(w)).join('|');
   }
   
   if(regexStr) {
