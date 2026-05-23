@@ -46,5 +46,21 @@
     "death_year": null,
     "institution": "",
     "lang": "ur"
+  },
+  {
+    "id": "a1779547380145",
+    "name": "Mufti Faiz Mulla Aur Doosre 'Ulama-E-Kiraam",
+    "status": "Alive",
+    "death_year": null,
+    "institution": "",
+    "lang": "ur"
+  },
+  {
+    "id": "a1779547459799",
+    "name": "Mufti ishaq Abdul Razzaq Patel",
+    "status": "Alive",
+    "death_year": null,
+    "institution": "Darul Uloom Islamia Arabia Taloja",
+    "lang": "ur"
   }
 ]
