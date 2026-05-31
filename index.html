@@ -1711,9 +1711,9 @@ function renderAuthors(query = ''){
     const isEn=/^[a-zA-Z]/.test((a.name||'').trim());
     const dir=isEn?'ltr':'rtl';
     const ta=isEn?'left':'right';
-    return`<div class="aitem" dir="${dir}" onclick="openAuthor('${a.id}')">
+    return`<div class="aitem" onclick="openAuthor('${a.id}')">
       <div class="aava">👤</div>
-      <div style="flex:1;min-width:0;text-align:${ta}">
+      <div dir="${dir}" style="flex:1;min-width:0;text-align:${ta}">
         <div class="aname">${a.name}</div>
         ${inst?`<span class="ast ast-h">${inst}</span>`:''}
         <div class="bauthor">${n} کتاب</div>
@@ -1817,8 +1817,8 @@ function renderAdminLists(){
     const dir=isEn?'ltr':'rtl';
     const ta=isEn?'left':'right';
     return`
-    <div class="aitm" dir="${dir}">
-      <div style="flex:1;min-width:0;text-align:${ta}"><div class="aitm-name">${a.name}</div>
+    <div class="aitm">
+      <div dir="${dir}" style="flex:1;min-width:0;text-align:${ta}"><div class="aitm-name">${a.name}</div>
       <div class="aitm-sub">${(a.institution||'').trim()||'—'}</div></div>
       <div class="aitm-actions">
         <button class="abtn-edit" onclick="openEdit('auth','${a.id}')">ترمیم</button>
