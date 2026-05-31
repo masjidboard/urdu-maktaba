@@ -1711,12 +1711,13 @@ function renderAuthors(query = ''){
     const isEn=/^[a-zA-Z]/.test((a.name||'').trim());
     const dir=isEn?'ltr':'rtl';
     const ta=isEn?'left':'right';
+    const cnt=isEn?`${n} ${n===1?'Book':'Books'}`:`${n} ${n===1?'کتاب':'کتابیں'}`;
     return`<div class="aitem" onclick="openAuthor('${a.id}')">
       <div class="aava">👤</div>
       <div dir="${dir}" style="flex:1;min-width:0;text-align:${ta}">
         <div class="aname">${a.name}</div>
         ${inst?`<span class="ast ast-h">${inst}</span>`:''}
-        <div class="bauthor">${n} کتاب</div>
+        <div class="bauthor">${cnt}</div>
       </div>
     </div>`;
   }).join('') : '<div class="nores">کوئی مصنف نہیں ملا</div>';
