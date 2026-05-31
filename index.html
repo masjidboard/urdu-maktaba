@@ -1708,9 +1708,12 @@ function renderAuthors(query = ''){
   document.getElementById('alist').innerHTML = filtered.length ? filtered.map(a=>{
     const n=books.filter(b=>b.author_id===a.id).length;
     const inst=(a.institution||'').trim();
-    return`<div class="aitem" onclick="openAuthor('${a.id}')">
+    const isEn=/^[a-zA-Z]/.test((a.name||'').trim());
+    const dir=isEn?'ltr':'rtl';
+    const ta=isEn?'left':'right';
+    return`<div class="aitem" dir="${dir}" onclick="openAuthor('${a.id}')">
       <div class="aava">👤</div>
-      <div>
+      <div style="flex:1;min-width:0;text-align:${ta}">
         <div class="aname">${a.name}</div>
         ${inst?`<span class="ast ast-h">${inst}</span>`:''}
         <div class="bauthor">${n} کتاب</div>
@@ -1809,15 +1812,19 @@ function renderAdminLists(){
       </div>
     </div>`).join('');
 
-  document.getElementById('authList').innerHTML=auths.map(a=>`
-    <div class="aitm">
-      <div><div class="aitm-name">${a.name}</div>
+  document.getElementById('authList').innerHTML=auths.map(a=>{
+    const isEn=/^[a-zA-Z]/.test((a.name||'').trim());
+    const dir=isEn?'ltr':'rtl';
+    const ta=isEn?'left':'right';
+    return`
+    <div class="aitm" dir="${dir}">
+      <div style="flex:1;min-width:0;text-align:${ta}"><div class="aitm-name">${a.name}</div>
       <div class="aitm-sub">${(a.institution||'').trim()||'—'}</div></div>
       <div class="aitm-actions">
         <button class="abtn-edit" onclick="openEdit('auth','${a.id}')">ترمیم</button>
         <button class="abtn abtn-del" onclick="delAuth('${a.id}')">حذف</button>
       </div>
-    </div>`).join('');
+    </div>`;}).join('');
 
   document.getElementById('bookList2').innerHTML=books.map(b=>`
     <div class="aitm">
