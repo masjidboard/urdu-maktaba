@@ -227,7 +227,7 @@ header {
 .aava{width:40px;height:40px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;color:var(--glo);font-size:0.95rem;flex-shrink:0;}
 .aname{font-size:0.9rem;font-weight:700;color:var(--tx)}
 .ast{font-size:0.7rem;padding:2px 6px;border-radius:8px;margin-top:2px;display:inline-block}
-.ast-h{background:#e6f4ea;color:#2d6a35}
+.ast-h{background:rgba(46,134,180,0.12);color:var(--gl);border:1px solid rgba(46,134,180,0.3)}
 .ast-w{background:var(--bg2);color:var(--tx2)}
 
 /* ── LOCAL SEARCH INPUTS ── */
@@ -878,22 +878,6 @@ input[type=range]{flex:1;accent-color:var(--ga)}
     <div class="aform">
       <label>نام</label>
       <input id="nAName" placeholder="مولانا..." dir="rtl" oninput="this.dir=/^[a-zA-Z]/.test(this.value.trim())?'ltr':'rtl'">
-      <div class="arow">
-        <div><label>حیات/وفات</label>
-          <select id="nASt">
-  <option value="حیات">حیات</option>
-  <option value="وفات">وفات</option>
-  <option value="ادارہ">ادارہ</option>
-  <option value="Alive">Alive (حیات)</option>
-  <option value="Deceased">Deceased (وفات)</option>
-  <option value="Institute">Institute (ادارہ)</option>
-  <option value="-">-</option>
-</select>
-        </div>
-        <div><label>سن وفات</label>
-          <input id="nADy" type="number" placeholder="1943" dir="ltr">
-        </div>
-      </div>
       <label>ادارہ</label>
       <input id="nAIns" placeholder="دار العلوم..." dir="rtl">
       <button class="abtn" onclick="addAuth()">مصنف شامل کریں</button>
@@ -1120,7 +1104,7 @@ function renderBList(fid, sid, query = ''){
 
 function bHTML(b){
   const a=auths.find(x=>x.id===b.author_id);
-  const ai=a?`${a.name}${(a.status==='وفات'||a.status==='Deceased')?' (م '+a.death_year+')':' ('+(a.status||'حیات')+')'}`:' ';
+  const ai=a?`${a.name}${(a.institution||'').trim()?' — '+a.institution.trim():''}`:' ';
   const titleClass = b.title_font === 'ar' ? 'font-ar' : b.title_font === 'en' ? 'font-en' : 'font-ur';
   const isEn = b.title_font === 'en' || b.lang === 'en' || b.lang === 'en-ar';
   const authorDir = isEn ? 'dir="ltr" style="text-align:left"' : '';
@@ -1723,13 +1707,12 @@ function renderAuthors(query = ''){
 
   document.getElementById('alist').innerHTML = filtered.length ? filtered.map(a=>{
     const n=books.filter(b=>b.author_id===a.id).length;
-    const sc = (a.status==='حیات' || a.status==='ادارہ' || a.status==='Alive' || a.status==='Institute') ? 'ast-h' : 'ast-w';
-const st = (a.status==='حیات'||a.status==='Alive') ? (a.status==='Alive'?'Alive':'حیات') : (a.status==='وفات'||a.status==='Deceased') ? (a.status==='Deceased'?`Deceased: ${a.death_year||''}`:`م: ${a.death_year||''}`) : (a.status==='-' ? '' : a.status);
+    const inst=(a.institution||'').trim();
     return`<div class="aitem" onclick="openAuthor('${a.id}')">
       <div class="aava">👤</div>
       <div>
         <div class="aname">${a.name}</div>
-        <span class="ast ${sc}">${st}</span>
+        ${inst?`<span class="ast ast-h">${inst}</span>`:''}
         <div class="bauthor">${n} کتاب</div>
       </div>
     </div>`;
@@ -1829,7 +1812,7 @@ function renderAdminLists(){
   document.getElementById('authList').innerHTML=auths.map(a=>`
     <div class="aitm">
       <div><div class="aitm-name">${a.name}</div>
-      <div class="aitm-sub">${a.status==='وفات'?'م: '+a.death_year:'حیات'}</div></div>
+      <div class="aitm-sub">${(a.institution||'').trim()||'—'}</div></div>
       <div class="aitm-actions">
         <button class="abtn-edit" onclick="openEdit('auth','${a.id}')">ترمیم</button>
         <button class="abtn abtn-del" onclick="delAuth('${a.id}')">حذف</button>
@@ -1860,18 +1843,8 @@ function openEdit(type,id){
     document.getElementById('modalTitle').textContent='مصنف کی معلومات تبدیل کریں';
     mb.innerHTML = `
       <label>نام</label><input id="eVal" value="${a.name}" dir="${/^[a-zA-Z]/.test(a.name)?'ltr':'rtl'}" oninput="this.dir=/^[a-zA-Z]/.test(this.value.trim())?'ltr':'rtl'">
-      <label>حیات / وفات / ادارہ</label>
-      <select id="eSt">
-        <option value="حیات" ${a.status==='حیات'?'selected':''}>حیات</option>
-        <option value="وفات" ${a.status==='وفات'?'selected':''}>وفات</option>
-        <option value="ادارہ" ${a.status==='ادارہ'?'selected':''}>ادارہ</option>
-        <option value="Alive" ${a.status==='Alive'?'selected':''}>Alive (حیات)</option>
-        <option value="Deceased" ${a.status==='Deceased'?'selected':''}>Deceased (وفات)</option>
-        <option value="Institute" ${a.status==='Institute'?'selected':''}>Institute (ادارہ)</option>
-        <option value="-" ${a.status==='-'?'selected':''}>-</option>
-      </select>
-      <label>سن وفات (اگر ہو)</label>
-      <input id="eDy" type="number" value="${a.death_year||''}" dir="ltr">`;
+      <label>ادارہ</label>
+      <input id="eIns" value="${a.institution||''}" placeholder="دار العلوم..." dir="rtl">`;
   }else{
     const b=books.find(x=>x.id===id);
     document.getElementById('modalTitle').textContent='کتاب میں ترمیم کریں';
@@ -1938,8 +1911,7 @@ function saveEdit(){
   }else if(editType==='auth'){
     const a=auths.find(x=>x.id===editId);
     a.name=document.getElementById('eVal').value.trim();
-    a.status=document.getElementById('eSt').value;
-    a.death_year=parseInt(document.getElementById('eDy').value)||null;
+    a.institution=document.getElementById('eIns').value.trim();
   }else{
     let b = books.find(x=>x.id===editId);
     b.title=document.getElementById('eVal').value.trim();
@@ -1973,10 +1945,9 @@ function addAuth(){
   const n=document.getElementById('nAName').value.trim();
   if(!n){toast('نام ضروری ہے');return;}
   const id='a'+Date.now();
-  auths.push({id,name:n,status:document.getElementById('nASt').value,
-    death_year:parseInt(document.getElementById('nADy').value)||null,
+  auths.push({id,name:n,
     institution:document.getElementById('nAIns').value.trim(),lang:'ur'});
-  document.getElementById('nAName').value='';document.getElementById('nADy').value='';document.getElementById('nAIns').value='';
+  document.getElementById('nAName').value='';document.getElementById('nAIns').value='';
   renderAuthors();renderAdminLists();fillAdminSelects();toast('مصنف شامل ہوگیا ✓');
 }
 
